@@ -1,0 +1,41 @@
+{
+  "name": "udcshare/php-client",
+  "description": "Client PHP professionnel pour l'API UDCShare",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "udcshare",
+    "file-upload",
+    "api-client",
+    "file-sharing"
+  ],
+  "authors": [
+    {
+      "name": "UDCShare Team",
+      "email": "support@udcshare.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "guzzlehttp/guzzle": "^7.8",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "phpstan/phpstan": "^1.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "UDCShare\\": "src/UDCShare/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "UDCShare\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "analyze": "phpstan analyse src"
+  }
+}
