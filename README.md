@@ -115,13 +115,35 @@ Ces valeurs viennent directement du catalogue de formules du produit.
 | Plan | Prix | Taille max par fichier web | Quota total par jour (UTC) | Limite par semaine (lundi 0 h, Kinshasa) | Quota web/mois | Envois/mois | Stockage | Drives | Uploads simultanés | Expiration lien (défaut; maximum) | Téléchargements/jour | Quotas API (taille/fichier; req/min/IP; fichiers/jour) |
 |---|---:|---:|---:|---|---:|---:|---|---:|---:|---|---|---|
 | Free | Gratuit | 2 Go | Non plafonné | 3 envois; 5 Go | 15 Go | 10 | Fourni par le Drive connecté | 1 | 1 | 1 jour (max. 7 jours) | Aucun plafond par plan | Non incluse |
-| Essentials | 8 500 CDF | 10 Go | Non plafonné | 15 envois; 25 Go | 75 Go | 50 | Fourni par le Drive connecté | 3 | 1 | 7 jours (max. 30 jours) | Aucun plafond par plan | 5 Go; 100 req/min/IP; 50 fichiers/jour |
-| Pro | 20 000 CDF | 100 Go | 100 Go | 30 envois; 250 Go | 750 Go | 100 | Fourni par le Drive connecté | 10 | 10 | 7 jours (max. 30 jours) | Aucun plafond par plan | 25 Go; 300 req/min/IP; 200 fichiers/jour |
-| Business | 57 000 CDF | 1 To | Illimité | Aucune | 5 To | 1000 | Fourni par le Drive connecté | Selon configuration | 50 | Aucune expiration automatique (max. sans plafond) | Aucun plafond par plan | 1 To; 1000 req/min/IP; 1000 fichiers/jour |
+| Essentials | 8 500 CDF | 10 Go | Non plafonné | 15 envois; 25 Go | 75 Go | 50 | Fourni par le Drive connecté | 3 | 1 | 7 jours (max. 30 jours) | Aucun plafond par plan | 5 Go; 100 req/min/IP; 50 fichiers/jour |
+| Pro | 20 000 CDF | 100 Go | 100 Go | 30 envois; 250 Go | 750 Go | 100 | Fourni par le Drive connecté | 10 | 10 | 7 jours (max. 30 jours) | Aucun plafond par plan | 25 Go; 300 req/min/IP; 200 fichiers/jour |
+| Business | 57 000 CDF | 1 To | Illimité | Aucune | 5 To | 1000 | Fourni par le Drive connecté | Selon configuration | 50 | Aucune expiration automatique (max. sans plafond) | Aucun plafond par plan | 1 To; 1000 req/min/IP; 1000 fichiers/jour |
 <!-- PLAN_LIMITS:END -->
 
 Les quotas API REST sont comptés par clé : taille par fichier, nombre de fichiers enregistrés
 par jour UTC et débit par minute. Un dépassement renvoie un code `429`.
+<details>
+<summary>Politique détaillée par canal (web et API REST)</summary>
+
+<!-- PLAN_CHANNEL_POLICIES:START -->
+| Plan | Canal | Accès | Max par fichier | Quota total en octets/jour | Quota total en octets/mois | Transferts/mois | Uploads simultanés | Fichiers/jour | Requêtes/minute |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Guest | Web | Oui | 500 Mo | Aucun plafond | 500 Mo | 5 | 1 | — | — |
+| Guest | API REST par clé | Non incluse | — | — | — | — | — | — | — |
+| Free | Web | Oui | 2 Go | Aucun plafond | 15 Go | 10 | 1 | — | — |
+| Free | API REST par clé | Non incluse | — | — | — | — | — | — | — |
+| Essentials | Web | Oui | 10 Go | Aucun plafond | 75 Go | 50 | 1 | — | — |
+| Essentials | API REST par clé | Oui | 5 Go | Non appliqué | Non appliqué | — | — | 50 (UTC) | 100/IP |
+| Pro | Web | Oui | 100 Go | 100 Go (UTC) | 750 Go | 100 | 10 | — | — |
+| Pro | API REST par clé | Oui | 25 Go | Non appliqué | Non appliqué | — | — | 200 (UTC) | 300/IP |
+| Business | Web | Oui | 1 To | Aucun plafond | 5 To | 1000 | 50 | — | — |
+| Business | API REST par clé | Oui | 1 To | Non appliqué | Non appliqué | — | — | 1000 (UTC) | 1000/IP |
+
+Politique : les limites Web s’appliquent aux uploads de transfert Web ; les quotas en octets et le nombre de transferts mensuels sont cumulés par compte. Le quota journalier Web utilise la date UTC et se réinitialise à 00:00 UTC. Les quotas API REST v1 par clé sont indépendants : taille par fichier, nombre de fichiers enregistrés par jour UTC et débit par minute compté par clé API sur toutes les routes API limitées (30 clés invalides au plus par IP et par 15 minutes). Cette API n’a pas de plafond journalier ou mensuel en octets. Ses limites affichées comme « Non incluse » ne sont pas applicables aux plans sans accès API. Les endpoints de session `/api/transfers/*` et `/api/dashboard/reports/*` utilisent séparément un limiteur générique de 30 requêtes/minute/IP ; les autres endpoints d’application ne sont pas couverts par ce limiteur.
+<!-- PLAN_CHANNEL_POLICIES:END -->
+
+</details>
+
 Tarifs et limites à jour : **[udcshare.com/pricing](https://udcshare.com/pricing)**.
 
 ---
