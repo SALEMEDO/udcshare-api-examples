@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Logo UDCShare">
-  <rect width="120" height="120" rx="22" ry="22" fill="#0B1020"/>
-  <polygon points="60,17 99,38.5 60,57 20,38.5" fill="#E91E63"/>
-  <polygon points="15,57 104,57 104,63 60,85 15,63" fill="#E91E63"/>
-  <polygon points="15,78 104,78 104,84 60,107 15,84" fill="#E91E63"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 24" width="120" height="111" role="img" aria-label="Logo UDCShare">
+  <path d="M13 2L3 7L13 12L23 7L13 2Z" fill="#FF3366"/>
+  <path d="M3 12L13 17L23 12" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>
