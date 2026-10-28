@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="API UDCShare — exemples de code officiels">
+  <defs>
+    <linearGradient id="fond" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1020"/>
+      <stop offset="60%" stop-color="#121a36"/>
+      <stop offset="100%" stop-color="#1b1030"/>
+    </linearGradient>
+    <linearGradient id="trait" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E91E63" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#E91E63"/>
+      <stop offset="100%" stop-color="#E91E63" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#fond)"/>
+  <circle cx="1065" cy="58" r="190" fill="#E91E63" opacity="0.07"/>
+  <circle cx="120" cy="268" r="150" fill="#5b8cff" opacity="0.06"/>
+
+  <!-- Logo -->
+  <g transform="translate(92 92) scale(0.95)">
+    <polygon points="60,17 99,38.5 60,57 20,38.5" fill="#E91E63"/>
+    <polygon points="15,57 104,57 104,63 60,85 15,63" fill="#E91E63"/>
+    <polygon points="15,78 104,78 104,84 60,107 15,84" fill="#E91E63"/>
+  </g>
+
+  <!-- Nom et accroche -->
+  <text x="248" y="124" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="62" font-weight="700" fill="#ffffff" letter-spacing="-1.5">UDC<tspan fill="#E91E63">Share</tspan></text>
+  <text x="250" y="170" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#cdd4e8">Exemples de code officiels de l&#8217;API</text>
+  <text x="250" y="212" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="20" fill="#8e99bb">Envoyez des fichiers volumineux depuis votre application &#8212; JavaScript, React, Vue, Node.js, Python, PHP, Go</text>
+
+  <rect x="250" y="240" width="700" height="3" rx="1.5" fill="url(#trait)"/>
+  <text x="250" y="276" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#E91E63">udcshare.com</text>
+</svg>
