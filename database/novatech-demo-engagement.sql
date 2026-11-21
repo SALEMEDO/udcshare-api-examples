@@ -26,6 +26,12 @@ create index if not exists novatech_demo_likes_slug_idx
 alter table private.novatech_demo_views enable row level security;
 alter table private.novatech_demo_likes enable row level security;
 revoke all on private.novatech_demo_views, private.novatech_demo_likes from public, anon, authenticated;
+drop policy if exists novatech_demo_views_deny_direct_access on private.novatech_demo_views;
+create policy novatech_demo_views_deny_direct_access on private.novatech_demo_views
+  for all to anon, authenticated using (false) with check (false);
+drop policy if exists novatech_demo_likes_deny_direct_access on private.novatech_demo_likes;
+create policy novatech_demo_likes_deny_direct_access on private.novatech_demo_likes
+  for all to anon, authenticated using (false) with check (false);
 
 create or replace function public.novatech_demo_engagement(
   p_demo_slug text,
