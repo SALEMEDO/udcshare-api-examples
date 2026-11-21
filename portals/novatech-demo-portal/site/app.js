@@ -39,6 +39,11 @@
     hideMessage("authMessage");
   }
   function showWorkspace(user) {
+    const next = new URLSearchParams(window.location.search).get("next");
+    if (next && next.startsWith("/") && !next.startsWith("//")) {
+      window.location.replace(next);
+      return;
+    }
     currentUser = user;
     $("authView").classList.add("hidden");
     $("workspace").classList.remove("hidden");
