@@ -61,6 +61,16 @@ const compte = await r.json();
 
 ---
 
+## Portails de démonstration complets
+
+| Portail | Architecture | Description |
+|---|---|---|
+| [NOVATECH DEMO](./portals/novatech-demo-portal/) | Site statique + API Node.js | Portail fictif de dépôt et de suivi de justificatifs, avec espace agents, aperçu des fichiers, statuts, diagnostic et statistiques. Mode simulation par défaut ; connexion Sandbox UDCShare facultative via secrets Render côté serveur. |
+
+Le guide [NOVATECH DEMO](./portals/novatech-demo-portal/README.md) explique le déploiement séparé du site statique et du backend, les variables Render et les précautions de sécurité. N'utilisez que des données et fichiers fictifs dans cette démonstration publique.
+
+---
+
 ## Les exemples
 
 Sept exemples contiennent du code source complet, commenté et prêt à adapter.
