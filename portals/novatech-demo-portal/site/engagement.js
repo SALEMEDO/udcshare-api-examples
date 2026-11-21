@@ -43,9 +43,10 @@
     const slug = root.dataset.demoSlug;
     if (!slug) return;
     try {
-      const stats = await call("/api/demos/" + encodeURIComponent(slug) + "/view", {
-        method: "POST", body: JSON.stringify({ visitor_key: visitorKey() })
-      });
+      const recordView = root.dataset.demoRecordView === "true";
+      const stats = await call("/api/demos/" + encodeURIComponent(slug) + (recordView ? "/view" : "/engagement"), recordView
+        ? { method: "POST", body: JSON.stringify({ visitor_key: visitorKey() }) }
+        : { method: "GET" });
       paint(root, stats);
     } catch {
       const views = $(root, "[data-views]");
