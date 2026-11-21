@@ -2,204 +2,85 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#123d30">
-  <meta name="description" content="Portail NOVATECH de dépôt et de suivi des preuves de paiement des stagiaires.">
-  <title>NOVATECH — Dépôt des preuves de paiement</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#102a25">
+  <meta name="description" content="NOVATECH Developer Playground — testez votre propre API UDCShare avec vos identifiants et vos ressources.">
+  <title>NOVATECH — Developer Playground</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <header class="topbar">
-  <div class="shell topbar-inner">
-    <a class="identity" href="/">
-      <img class="novatech-logo" src="/novatech-logo.svg" alt="Logo officiel NOVATECH">
-      <span><strong>NOVATECH</strong><small>CENTRE DE FORMATION & SERVICES NUMÉRIQUES</small></span>
-    </a>
-    <div class="top-actions">
-      <a href="#depot">Dépôt stagiaire</a>
-      <button id="adminNav" type="button">Espace agents NOVATECH</button>
-    </div>
-  </div>
+  <a class="brand" href="/"><span class="brand-mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
+  <div class="top-actions"><span class="public-label">LABORATOIRE PUBLIC</span><button id="logoutBtn" class="btn ghost hidden" type="button">Déconnexion</button></div>
 </header>
-
-<div class="demo-banner"><strong>ENVIRONNEMENT DE DÉMONSTRATION</strong><span>Entreprise fictive · données de test uniquement · ne transmettez aucun vrai reçu ni renseignement personnel.</span></div>
-<main id="publicView" class="shell">
+<main class="container">
   <section class="hero">
-    <div>
-      <div class="eyebrow">PORTAIL DES STAGIAIRES</div>
-      <h1>Votre preuve de paiement.<br><span>Bien reçue et suivie.</span></h1>
-      <p>Déposez votre reçu de paiement en ligne. L'NOVATECH reçoit le document dans son espace Drive dédié et peut suivre le traitement de votre dossier.</p>
+    <div class="hero-copy">
+      <span class="eyebrow">UDCSHARE API · ENVIRONNEMENT DE TEST</span>
+      <h1>Votre API.<br><em>Votre Drive. Vos essais.</em></h1>
+      <p>Connectez votre propre projet UDCShare, vérifiez sa disponibilité et explorez les fonctionnalités avec vos propres identifiants. Vos configurations et vos historiques vous attendent à votre prochaine connexion.</p>
+      <div class="hero-points"><span>✓ Espace personnel</span><span>✓ Clés chiffrées</span><span>✓ Données isolées</span></div>
     </div>
-    <div class="hero-card">
-      <div class="eyebrow">DÉPÔT SÉCURISÉ</div>
-      <strong>Un seul formulaire pour transmettre votre justificatif.</strong>
-      <p>Préparez votre référence d'inscription, les informations de transaction et votre reçu en PDF ou en image.</p>
-    </div>
+    <div class="hero-art"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="terminal"><div class="terminal-head"><i></i><i></i><i></i><span>developer-console</span></div><div class="terminal-body"><span class="muted">$</span> connect --project <b>your-project</b><br><span class="green">✓</span> credentials secured<br><span class="green">✓</span> personal workspace ready<br><span class="muted">$</span> <span class="cursor"></span></div></div></div>
   </section>
 
-  <section class="steps" aria-label="Étapes du dépôt">
-    <div class="step"><span class="step-num">1</span><span><b>Renseignez vos informations</b><small>Identité et formation</small></span></div>
-    <div class="step"><span class="step-num">2</span><span><b>Joignez le reçu</b><small>PDF, JPG ou PNG · 4 Mo maximum</small></span></div>
-    <div class="step"><span class="step-num">3</span><span><b>Recevez votre référence</b><small>Conservez-la pour le suivi</small></span></div>
-  </section>
-
-  <section class="workspace">
-    <div class="card" id="depot">
-      <div class="card-head">
-        <div><div class="eyebrow">TRANSMISSION DE JUSTIFICATIF</div><h2>Déposer une preuve de paiement</h2></div>
-        <span id="portalStatus" class="pill pending">Vérification du service</span>
-      </div>
-
-      <form id="submissionForm">
-        <div class="form-grid">
-          <div class="field"><label for="fullName">Nom complet *</label><input id="fullName" name="fullName" required maxlength="140" autocomplete="name" placeholder="Nom et postnom du stagiaire"></div>
-          <div class="field"><label for="registrationNumber">Matricule ou référence d'inscription *</label><input id="registrationNumber" name="registrationNumber" required maxlength="80" placeholder="Ex. NOVATECH-2026-00124"></div>
-          <div class="field"><label for="phone">Téléphone *</label><input id="phone" name="phone" type="tel" required maxlength="40" autocomplete="tel" placeholder="+243 ..."></div>
-          <div class="field"><label for="email">Adresse e-mail (facultatif)</label><input id="email" name="email" type="email" maxlength="160" autocomplete="email" placeholder="nom@exemple.com"></div>
-          <div class="field"><label for="centre">Centre / Direction provinciale *</label><input id="centre" name="centre" required maxlength="120" placeholder="Ex. NOVATECH Kinshasa"></div>
-          <div class="field"><label for="program">Formation / Filière *</label><input id="program" name="program" required maxlength="140" placeholder="Intitulé de la formation"></div>
-          <div class="field"><label for="amount">Montant payé (CDF) *</label><input id="amount" name="amount" type="number" inputmode="decimal" min="1" step="1" required placeholder="Montant en francs congolais"></div>
-          <div class="field"><label for="paymentMethod">Mode de paiement *</label><select id="paymentMethod" name="paymentMethod" required><option value="">Sélectionner</option><option>M-Pesa</option><option>Airtel Money</option><option>Orange Money</option><option>Virement bancaire</option><option>Versement bancaire</option><option>Autre</option></select></div>
-          <div class="field"><label for="transactionReference">Code / référence de transaction *</label><input id="transactionReference" name="transactionReference" required maxlength="100" placeholder="Référence indiquée sur le reçu"></div>
-          <div class="field"><label for="paymentDate">Date du paiement *</label><input id="paymentDate" name="paymentDate" type="date" required></div>
-          <div class="field full">
-            <span>Preuve de paiement *</span>
-            <div class="file-picker">
-              <input id="proof" name="proof" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" required>
-              <div><b>Choisir le reçu à transmettre</b><small id="fileHint">PDF, JPG ou PNG · 4 Mo maximum</small></div>
-            </div>
-          </div>
-        </div>
-        <label class="checkline"><input id="accuracy" type="checkbox" required><span>Je confirme que les informations transmises correspondent à mon paiement et que le document joint est lisible.</span></label>
-        <div id="submissionMessage" class="notice hidden" role="status"></div>
-        <div class="form-actions"><button id="submitButton" class="btn" type="submit">Envoyer ma preuve de paiement</button><span class="subtle">Ne fermez pas la page avant la confirmation.</span></div>
+  <section id="authView" class="auth-layout">
+    <div class="auth-info"><span class="eyebrow">COMMENCEZ ICI</span><h2>Un espace développeur qui vous suit.</h2><p>Créez votre compte gratuit. Vos paramètres API et vos tests sont associés à votre compte, jamais à celui d'un autre visiteur.</p><ul><li>Retrouvez vos connexions après déconnexion.</li><li>Testez Sandbox ou vos projets autorisés.</li><li>Supprimez vos configurations quand vous le souhaitez.</li></ul></div>
+    <div class="panel auth-panel">
+      <div class="tabs"><button id="loginTab" class="tab active" type="button">Connexion</button><button id="signupTab" class="tab" type="button">Créer un compte</button></div>
+      <form id="authForm">
+        <div id="nameField" class="field hidden"><label for="displayName">Nom ou pseudo</label><input id="displayName" maxlength="100" autocomplete="name" placeholder="Votre nom"></div>
+        <div class="field"><label for="email">Adresse e-mail</label><input id="email" type="email" required autocomplete="email" placeholder="vous@exemple.com"></div>
+        <div class="field"><label for="password">Mot de passe</label><input id="password" type="password" required minlength="10" autocomplete="current-password" placeholder="10 caractères minimum"></div>
+        <p id="authMessage" class="message hidden" role="status"></p>
+        <button id="authSubmit" class="btn primary full" type="submit">Se connecter <span>→</span></button>
       </form>
-      <div id="confirmation" class="reference-box hidden" aria-live="polite">
-        <div class="eyebrow">DÉPÔT ENREGISTRÉ</div>
-        <b>Votre preuve a été transmise à l'NOVATECH.</b>
-        <strong id="confirmationReference"></strong>
-        <span class="subtle">Conservez cette référence. Elle permet à l'agent NOVATECH de retrouver votre dossier.</span>
-      </div>
-      <p class="privacy">Confidentialité : les informations de dossier et la preuve sont conservées dans l'espace de stockage rattaché au projet NOVATECH. La clé API n'est jamais transmise à votre navigateur.</p>
+      <p class="tiny">En créant un compte, vous acceptez de n'utiliser que des projets et des fichiers de test dont vous avez l'autorisation.</p>
     </div>
+  </section>
 
-    <aside>
-      <div class="card">
-        <div class="eyebrow">TRANSMISSION SÉCURISÉE</div>
-        <h2 style="font-size:18px;margin:7px 0 13px">Votre dossier est protégé</h2>
-        <p class="subtle">Votre preuve est transmise au service de réception de l'NOVATECH. Seuls les agents autorisés peuvent consulter les justificatifs et mettre à jour leur traitement.</p>
-      </div>
+  <section id="workspace" class="hidden">
+    <div class="workspace-head"><div><span class="eyebrow">MON ESPACE DÉVELOPPEUR</span><h2>Bonjour, <span id="userLabel">développeur</span></h2><p>Vos configurations personnelles et votre historique de tests.</p></div><div class="account-chip"><span class="online-dot"></span><span id="userEmail"></span></div></div>
+    <div class="workspace-grid">
+      <aside class="panel connection-panel">
+        <div class="panel-title"><div><span class="eyebrow">CONFIGURATION</span><h3>Connecter une API</h3></div><span class="step-icon">01</span></div>
+        <form id="connectionForm">
+          <div class="field"><label for="connectionLabel">Nom de la configuration</label><input id="connectionLabel" maxlength="80" value="Mon projet UDCShare" required></div>
+          <div class="field"><label for="apiBase">Adresse de l'API</label><input id="apiBase" type="url" value="https://udcshare.com/api/v1" required placeholder="https://udcshare.com/api/v1"><small>Adresse HTTPS de votre API, sans paramètres.</small></div>
+          <div class="field"><label for="projectId">Identifiant du projet</label><input id="projectId" required maxlength="180" placeholder="Votre identifiant API"></div>
+          <div class="field"><label for="apiKey">Votre clé API privée</label><input id="apiKey" type="password" required autocomplete="off" placeholder="Collez votre propre clé API"><small>Chiffrée avant stockage. Jamais ajoutée aux variables Render ni envoyée au navigateur après l'enregistrement.</small></div>
+          <p id="connectionMessage" class="message hidden" role="status"></p>
+          <button id="saveConnection" class="btn primary full" type="submit">Enregistrer ma configuration <span>→</span></button>
+        </form>
+        <div class="security-note"><span>⌑</span><div><b>Vos identifiants restent privés</b><small>La clé est chiffrée AES-256-GCM côté serveur. Seul votre compte peut accéder à cette configuration.</small></div></div>
+      </aside>
 
-      <div class="card">
-        <div class="eyebrow">AVANT DE VALIDER</div>
-        <h2 style="font-size:18px;margin:7px 0 13px">Vérifiez votre reçu</h2>
-        <ul class="side-list">
-          <li><span class="tick">✓</span><span>Le nom et le numéro d'inscription sont exacts.</span></li>
-          <li><span class="tick">✓</span><span>Le montant et la référence correspondent au paiement.</span></li>
-          <li><span class="tick">✓</span><span>Le reçu est complet, net et lisible.</span></li>
-          <li><span class="tick">✓</span><span>Vous conservez la référence affichée après l'envoi.</span></li>
-        </ul>
+      <div class="main-column">
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">MES PROJETS</span><h3>Connexions enregistrées</h3></div><button id="reloadConnections" class="btn small ghost" type="button">Actualiser</button></div>
+          <div id="connectionsList" class="connection-list"><div class="empty-state">Connectez votre première API pour commencer.</div></div>
+        </section>
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">API PLAYGROUND</span><h3>Démonstrations disponibles</h3></div><span class="step-icon">02</span></div>
+          <p class="subtle">Sélectionnez une connexion puis lancez un test. Les requêtes utilisent votre clé et votre projet, pas ceux de NOVATECH.</p>
+          <div class="demo-grid">
+            <button class="demo-card" data-endpoint="status" type="button"><span class="demo-icon">⌁</span><b>État du projet</b><small>Vérifier API, projet et Drive</small><span class="demo-run">Tester →</span></button>
+            <button class="demo-card" data-endpoint="files" type="button"><span class="demo-icon">▤</span><b>Mes fichiers</b><small>Afficher les fichiers du projet</small><span class="demo-run">Tester →</span></button>
+            <button class="demo-card" data-endpoint="usage" type="button"><span class="demo-icon">◫</span><b>Consommation API</b><small>Lire plan, quotas et usage</small><span class="demo-run">Tester →</span></button>
+          </div>
+          <p id="testMessage" class="message hidden" role="status"></p>
+          <div id="resultPanel" class="result-panel hidden"><div class="result-head"><b id="resultTitle">Résultat du test</b><span id="resultStatus" class="status-pill"></span></div><pre id="resultBody"></pre></div>
+        </section>
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">MES ACTIVITÉS</span><h3>Historique des tests</h3></div><button id="reloadHistory" class="btn small ghost" type="button">Actualiser</button></div>
+          <div id="historyList" class="history-list"><div class="empty-state">Vos tests apparaîtront ici.</div></div>
+        </section>
       </div>
-      <div class="card">
-        <div class="eyebrow">BESOIN D'AIDE ?</div>
-        <p class="subtle">En cas d'erreur de dépôt, contactez le centre NOVATECH où vous suivez votre formation et communiquez votre matricule ou référence d'inscription.</p>
-      </div>
-    </aside>
+    </div>
+    <p class="workspace-foot">NOVATECH est un environnement pédagogique public. Utilisez des données fictives et un projet Sandbox ou un projet dont vous êtes propriétaire. Les quotas et actions exécutés sur votre API sont réels.</p>
   </section>
 </main>
-
-<main id="adminView" class="shell admin-section hidden">
-  <div class="admin-toolbar">
-    <div><div class="eyebrow">ESPACE INTERNE</div><h1 style="font-size:32px;margin:7px 0">Gestion des paiements stagiaires</h1><p class="subtle">Consultez les reçus reçus dans le Drive du projet et mettez à jour leur état de traitement.</p></div>
-    <button id="backToPortal" class="btn ghost" type="button">Retour au portail</button>
-  </div>
-
-  <section id="adminLogin" class="card admin-login">
-    <div class="eyebrow">AUTHENTIFICATION AGENT</div><h2 style="margin:7px 0">Connexion à l'espace NOVATECH</h2>
-    <p class="subtle">Réservé aux agents autorisés. La session est sécurisée par un cookie HTTP-only.</p>
-    <form id="loginForm">
-      <div class="field"><label for="adminPassword">Mot de passe agent</label><input id="adminPassword" type="password" required autocomplete="current-password"></div>
-      <div id="loginMessage" class="notice hidden"></div>
-      <button class="btn" type="submit">Ouvrir l'espace agents</button>
-    </form>
-  </section>
-
-  <dialog id="proofPreviewDialog" style="width:min(1100px,96vw);max-width:96vw;height:88vh;max-height:88vh;padding:0;border:0;border-radius:16px;overflow:hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#123d30;color:#fff">
-      <strong id="proofPreviewTitle">Aperçu de la preuve</strong>
-      <button id="closeProofPreview" class="btn small secondary" type="button">Fermer</button>
-    </div>
-    <iframe id="proofPreviewFrame" title="Aperçu sécurisé de la preuve de paiement" style="display:block;width:100%;height:calc(88vh - 54px);border:0;background:#f4f6f5"></iframe>
-  </dialog>
-
-  <section id="adminBoard" class="hidden">
-    <section class="card drive-card">
-      <div class="eyebrow">OUTIL RÉSERVÉ AUX AGENTS</div>
-      <h2 style="margin:7px 0">Gestion du stockage NOVATECH</h2>
-      <p class="subtle">Ouvrez le projet UDCShare pour administrer la connexion Drive. Connectez-vous avec le compte UDCShare qui possède le projet NOVATECH et ses dossiers. UDCShare vérifiera vos autorisations.</p>
-      <ul class="subtle" style="margin:8px 0 0;padding-left:18px;line-height:1.5">
-        <li><b>Depuis ce portail :</b> voir si le Drive est connecté, son type (entreprise ou individuel), l’état de l’autorisation Google, le compte connecté, ouvrir le lien officiel de reconnexion, déconnecter le Drive (réversible) ou révoquer complètement l’autorisation Google.</li>
-        <li><b>Depuis le projet UDCShare (compte propriétaire) :</b> changer de compte Google (nouveau consentement) ou retirer définitivement le Drive avec suppression des fichiers. L’API publique ne permet pas ces deux opérations avec une clé API seule.</li>
-      </ul>
-      <a id="driveManageAdmin" class="btn secondary" href="#" aria-disabled="true" target="_blank" rel="noopener">Ouvrir le projet NOVATECH dans UDCShare</a>
-      <div id="driveManageMessage" class="subtle" style="margin-top:10px" aria-live="polite"></div>
-    </section>
-    <section class="card api-status-card">
-      <div class="admin-toolbar">
-        <div><div class="eyebrow">DIAGNOSTIC DE L’INTÉGRATION</div><h2 style="margin:5px 0">État de l’API UDCShare</h2><p class="subtle">Contrôle réel de la clé API, du projet NOVATECH et de l’autorisation Google Drive.</p></div>
-        <button id="refreshApiStatus" class="btn secondary" type="button">Vérifier maintenant</button>
-      </div>
-      <div class="api-status-summary"><span id="apiStatusPill" class="pill pending">Vérification en attente</span><small id="apiStatusChecked">Dernier contrôle : —</small></div>
-      <div id="apiStatusMessage" class="notice info" role="status">Le diagnostic sera chargé après la connexion de l’agent.</div>
-      <div id="apiStatusCode" class="api-status-code hidden"></div>
-      <div id="apiStatusDriveMode" class="api-status-code hidden"></div>
-      <a id="apiStatusReconnect" class="btn secondary hidden" href="#" target="_blank" rel="noopener noreferrer">Reconnecter Google Drive</a>
-      <div id="apiStatusDriveActions" class="hidden" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-        <button id="disconnectDrive" class="btn small ghost" type="button">Déconnecter le Drive (réversible)</button>
-        <button id="revokeDrive" class="btn small ghost" type="button">Révoquer l’autorisation Google</button>
-      </div>
-      <p class="subtle api-status-help">Si la clé API a été révoquée, créez-en une nouvelle dans le projet UDCShare et remplacez le secret côté serveur Render. Si Google a révoqué le Drive, reconnectez le même compte Google dans le projet NOVATECH. « Déconnecter » est réversible (le compte peut être reconnecté sans nouveau consentement) ; « Révoquer » exige une nouvelle autorisation Google complète, faite par le propriétaire du projet. Ni l’une ni l’autre ne supprime de fichiers.</p>
-    </section>
-    <section class="card api-usage-card">
-      <div class="admin-toolbar">
-        <div><div class="eyebrow">CONSOMMATION DU PROJET</div><h2 style="margin:5px 0">Utilisation de l’API UDCShare</h2><p class="subtle">Données réelles retournées par l’endpoint authentifié. Le quota de fichiers est partagé au niveau du compte développeur.</p></div>
-        <button id="refreshApiUsage" class="btn secondary" type="button">Actualiser</button>
-      </div>
-      <div class="api-usage-grid">
-        <div class="api-usage-metric"><small>Fichiers consommés ce mois (quota partagé du compte)</small><strong id="apiUsageFiles">—</strong><span id="apiUsagePlan">Forfait —</span></div>
-        <div class="api-usage-metric"><small>Appels API ce mois</small><strong id="apiUsageRequests">—</strong><span><span id="apiUsageSuccess">—</span> réussis · <span id="apiUsageErrors">—</span> en erreur</span></div>
-        <div class="api-usage-metric"><small>Débit de la clé</small><strong id="apiUsageRate">—</strong><span>Requêtes par minute</span></div>
-        <div class="api-usage-metric"><small>Dépôts de fichiers API réussis ce mois</small><strong id="apiUsageUploads">—</strong><span><span id="apiUsageUploadsFailed">—</span> tentative(s) refusée(s) ou en erreur</span></div>
-      </div>
-      <div class="api-usage-progress" role="progressbar" aria-label="Quota mensuel de fichiers API" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="apiUsageProgress"><div id="apiUsageBar"></div></div>
-      <div class="api-usage-foot"><span id="apiUsagePercent">—</span><span>Réinitialisation : <b id="apiUsageReset">—</b></span></div>
-      <div id="apiUsageMessage" class="notice info" role="status">Chargement de la consommation API…</div>
-    </section>
-    <div class="stats">
-      <div class="stat"><small>Total des dossiers</small><b id="totalCount">0</b></div>
-      <div class="stat"><small>À traiter</small><b id="receivedCount">0</b></div>
-      <div class="stat"><small>Vérifiés</small><b id="verifiedCount">0</b></div>
-      <div class="stat"><small>Rejetés</small><b id="rejectedCount">0</b></div>
-    </div>
-    <section class="card">
-      <div class="admin-toolbar"><div><div class="eyebrow">REGISTRE DE RÉCEPTION</div><h2 style="margin:5px 0">Dossiers de paiement</h2><p id="registryNote" class="subtle">Données chargées depuis le registre conservé dans le stockage NOVATECH.</p></div><button id="refreshSubmissions" class="btn secondary" type="button">Actualiser</button></div>
-      <div class="filters">
-        <input id="searchSubmissions" type="search" placeholder="Rechercher nom, matricule, référence...">
-        <select id="statusFilter"><option value="">Tous les statuts</option><option value="received">À traiter</option><option value="verified">Vérifiés</option><option value="rejected">Rejetés</option></select>
-      </div>
-      <div id="adminMessage" class="notice hidden"></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Stagiaire / référence</th><th>Formation / centre</th><th>Paiement</th><th>Date de réception</th><th>État</th><th>Actions</th></tr></thead>
-          <tbody id="submissionRows"><tr><td colspan="6" class="empty">Aucun dossier chargé.</td></tr></tbody>
-        </table>
-      </div>
-    </section>
-    <div style="display:flex;justify-content:flex-end;margin-top:12px"><button id="logoutButton" class="btn ghost" type="button">Déconnexion agent</button></div>
-  </section>
-</main>
-
-<footer class="footer"><div class="shell"><b>NOVATECH</b> · Portail de réception des preuves de paiement<br>Les fichiers justificatifs sont déposés dans le Drive associé au projet API de l'institution.</div></footer>
+<footer><div class="container footer-inner"><span><b>NOVATECH</b> Developer Playground</span><span>Une démonstration publique UDCShare · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source GitHub ↗</a></span></div></footer>
 <script src="/config.js"></script>
 <script src="/app.js" defer></script>
 </body>
