@@ -282,7 +282,7 @@ app.post("/api/auth/signup", limit(5, 15 * 60 * 1000), async (req, res) => {
       await ensureDemoProfile(req);
       return res.status(201).json({ created: true, authenticated: true, message: "Votre espace développeur est créé." });
     }
-    return res.status(201).json({ created: true, authenticated: false, message: "Compte créé. Vérifiez votre e-mail pour confirmer l'inscription, puis connectez-vous." });
+    return res.status(201).json({ created: true, authenticated: false, message: "Demande reçue. Si vous avez déjà un compte UDCShare avec cette adresse, utilisez directement l’onglet Connexion avec le même mot de passe. Sinon, vérifiez votre boîte de réception et les courriers indésirables, puis utilisez le bouton de renvoi si nécessaire." });
   } catch (error) {
     return jsonError(res, error.status || 400, error.code || "SIGNUP_FAILED", error.message);
   }
