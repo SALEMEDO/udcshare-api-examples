@@ -2,6 +2,7 @@
   const API = window.NOVATECH_API_BASE;
   const $ = (id) => document.getElementById(id);
   let mode = "login";
+  let pendingConfirmationEmail = "";
   let currentUser = null;
   let selectedConnection = null;
   let connections = [];
@@ -28,6 +29,10 @@
     $("loginTab").classList.toggle("active", mode === "login");
     $("signupTab").classList.toggle("active", mode === "signup");
     $("nameField").classList.toggle("hidden", mode !== "signup");
+    $("confirmPasswordField").classList.toggle("hidden", mode !== "signup");
+    $("confirmPassword").disabled = mode !== "signup";
+    if (mode !== "signup") $("confirmPassword").value = "";
+    if (mode === "signup") $("resendConfirmation").classList.add("hidden");
     $("authSubmit").innerHTML = mode === "login" ? "Se connecter <span>→</span>" : "Créer mon espace <span>→</span>";
     $("password").autocomplete = mode === "login" ? "current-password" : "new-password";
     $("password").minLength = mode === "login" ? 1 : 10;
@@ -54,18 +59,31 @@
   $("authForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     hideMessage("authMessage");
+    const enteredPassword = $("password").value;
+    if (mode === "signup") {
+      if (enteredPassword !== $("confirmPassword").value) {
+        message("authMessage", "Les deux mots de passe ne correspondent pas.", true);
+        return;
+      }
+      if (!/[a-z]/.test(enteredPassword) || !/[A-Z]/.test(enteredPassword) || !/[0-9]/.test(enteredPassword) || !/[^A-Za-z0-9]/.test(enteredPassword)) {
+        message("authMessage", "Le mot de passe doit contenir une minuscule, une majuscule, un chiffre et un symbole.", true);
+        return;
+      }
+    }
     $("authSubmit").disabled = true;
     try {
-      const payload = { email: $("email").value.trim(), password: $("password").value };
+      const payload = { email: $("email").value.trim(), password: enteredPassword };
       if (mode === "signup") {
         payload.display_name = $("displayName").value.trim();
         const result = await request("/api/auth/signup", { method: "POST", body: JSON.stringify(payload) });
         if (result.authenticated) {
           showWorkspace({ email: payload.email, name: payload.display_name });
         } else {
+          pendingConfirmationEmail = payload.email;
           setMode("login");
           $("email").value = payload.email;
-          message("authMessage", result.message || "Vérifiez votre e-mail pour confirmer votre compte.");
+          message("authMessage", result.message || "Vérifiez votre e-mail. Si vous avez déjà un compte NOVATECH ou UDCShare, essayez plutôt de vous connecter.");
+          $("resendConfirmation").classList.remove("hidden");
         }
       } else {
         const result = await request("/api/auth/login", { method: "POST", body: JSON.stringify(payload) });
@@ -75,6 +93,42 @@
       message("authMessage", error.message, true);
     } finally { $("authSubmit").disabled = false; }
   });
+  $("resendConfirmation").addEventListener("click", async () => {
+    const email = $("email").value.trim() || pendingConfirmationEmail;
+    if (!email) {
+      message("authMessage", "Saisissez d'abord votre adresse e-mail.", true);
+      return;
+    }
+    const button = $("resendConfirmation");
+    button.disabled = true;
+    button.textContent = "Envoi en cours…";
+    try {
+      const result = await request("/api/auth/resend-confirmation", {
+        method: "POST",
+        body: JSON.stringify({ email })
+      });
+      message("authMessage", result.message || "Si cette adresse attend une confirmation, un nouvel e-mail vient d'être demandé.");
+    } catch (error) {
+      message("authMessage", error.message, true);
+    } finally {
+      window.setTimeout(() => {
+        button.disabled = false;
+        button.textContent = "Renvoyer l'e-mail de confirmation";
+      }, 30000);
+    }
+  });
+
+  document.querySelectorAll("[data-toggle-password]").forEach(button => {
+    button.addEventListener("click", () => {
+      const field = $(button.dataset.togglePassword);
+      const visible = field.type === "password";
+      field.type = visible ? "text" : "password";
+      button.textContent = visible ? "Masquer" : "Afficher";
+      button.setAttribute("aria-label", visible ? "Masquer le mot de passe" : "Afficher le mot de passe");
+      button.setAttribute("aria-pressed", String(visible));
+    });
+  });
+
   $("logoutBtn").addEventListener("click", async () => {
     try { await request("/api/auth/logout", { method: "POST" }); } catch {}
     connections = []; selectedConnection = null; showAuth();
