@@ -290,7 +290,8 @@ app.post("/api/auth/signup", limit(5, 15 * 60 * 1000), async (req, res) => {
 app.post("/api/auth/resend-confirmation", limit(3, 15 * 60 * 1000), async (req, res) => {
   if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "Le service de compte NOVATECH n'est pas encore configuré.");
   const email = String(req.body?.email || "").trim().toLowerCase();
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+  const at = email.indexOf("@");
+  if (!email || email.includes(" ") || at < 1 || email.lastIndexOf(".") < at + 2) {
     return jsonError(res, 400, "EMAIL_INVALID", "Saisissez une adresse e-mail valide.");
   }
   try {
