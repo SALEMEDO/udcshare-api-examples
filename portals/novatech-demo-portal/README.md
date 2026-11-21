@@ -1,62 +1,66 @@
-# NOVATECH DEMO — portail de dépôt et de suivi
+# NOVATECH — Developer Playground public
 
-Application **entièrement fictive** inspirée d'un portail de réception de justificatifs. Elle sert à montrer comment une entreprise cliente peut intégrer UDCShare dans son propre produit.
+NOVATECH est un laboratoire public destiné aux développeurs qui souhaitent comprendre et tester l'intégration de l'API UDCShare avec **leurs propres projets, leurs propres clés API et leur propre Google Drive**.
 
-> ⚠️ Démonstration publique : n'envoyez aucun vrai reçu, document personnel, numéro de téléphone réel, donnée bancaire ou information client. Utilisez uniquement des valeurs inventées et des fichiers de test.
+## Accès public
 
-## Architecture
+- Portail : https://novatech-demo-portal-public.onrender.com
+- API du Playground : https://novatech-demo-api-public.onrender.com
+- Santé du backend : https://novatech-demo-api-public.onrender.com/health
+- Code source : https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal
 
-- `site/` : interface HTML/CSS/JavaScript publiée comme site statique Render.
-- `api/` : backend Node.js/Express publié comme Web Service Render.
-- Le navigateur appelle uniquement le backend NOVATECH ; il ne reçoit jamais de clé API UDCShare.
-- En mode démo par défaut, les fichiers et le registre sont stockés temporairement en mémoire et sont effacés au redémarrage du service.
-- Aucun projet, aucune clé et aucune donnée d'un client réel ne sont utilisés.
+Chaque visiteur crée son compte développeur avec son adresse e-mail et son mot de passe. Après connexion, il retrouve ses configurations API et son historique, même après s'être déconnecté puis reconnecté.
 
-## Démonstration
+## Règle de séparation
 
-- URL portail : https://novatech-demo-portal-public.onrender.com
-- URL API : https://novatech-demo-api-public.onrender.com
-- Santé API : https://novatech-demo-api-public.onrender.com/health
-- Espace équipe : bouton « Espace agents NOVATECH »
-- Mot de passe public de démonstration : `NOVATECH-DEMO-2026`
+Chaque compte NOVATECH est un compte de démonstration public, distinct des comptes clients UDCShare. Les tables userdemo, userdemo_api_connections et userdemo_api_test_runs identifient les développeurs et séparent leurs données.
 
-Les identifiants sont volontairement publics et ne doivent jamais être réutilisés en production. L'espace équipe ne contient que des données fictives.
+- Le développeur saisit sa propre adresse API, son identifiant de projet et sa clé API dans son espace privé.
+- Le backend utilise cette clé uniquement pour les requêtes du propriétaire de la configuration.
+- Les appels transmettent un identifiant externe stable dérivé du compte NOVATECH, afin de séparer les utilisateurs au niveau du projet API.
+- Chaque visiteur doit connecter le Google Drive qu'il contrôle dans son propre projet UDCShare. NOVATECH ne prête ni ne partage un Drive central.
+- Aucun appel API de visiteur n'utilise une clé API UDCShare de production appartenant à NOVATECH ou à un autre client.
 
-## Mode démo et mode API réel
+## Protection des clés
 
-Par défaut, Render configure `NOVATECH_DEMO_MODE=true`. Ce mode simule l'état du Drive, l'usage API et le stockage ; il n'utilise aucune clé et ne consomme aucun quota réel.
+**La clé API saisie par un visiteur n'est jamais configurée dans Render.** Elle est envoyée au backend via HTTPS, chiffrée avec AES-256-GCM et stockée sous forme de ciphertext, IV et tag dans userdemo_api_connections. Elle n'est jamais renvoyée au navigateur après enregistrement.
 
-Pour une démonstration connectée à UDCShare Sandbox, utiliser **un projet Sandbox dédié**, distinct de tout projet client ou institutionnel, puis configurer côté serveur uniquement :
+Render conserve uniquement les paramètres techniques du service :
+- SUPABASE_URL : URL du projet Supabase UDCShare.
+- SUPABASE_ANON_KEY : clé publishable Supabase (non secrète).
+- NOVATECH_CREDENTIALS_ENCRYPTION_KEY : clé de chiffrement interne de 32 octets encodée en hexadécimal. Ce n'est **pas** une clé API UDCShare.
+- NOVATECH_ALLOWED_ORIGIN : origine exacte du portail public.
 
-| Variable Render | Rôle |
-|---|---|
-| `NOVATECH_DEMO_MODE` | Passer à `false` pour activer l'API réelle |
-| `NOVATECH_PROJECT_READY` | `true` après vérification du projet dédié |
-| `UDCSHARE_API_BASE_URL` | `https://udcshare.com/api/v1` |
-| `UDCSHARE_API_CLIENT_ID` | Identifiant de la ressource Sandbox NOVATECH |
-| `UDCSHARE_API_KEY` | Clé API privée Sandbox NOVATECH — jamais dans Git ni le navigateur |
-| `UDCSHARE_EXTERNAL_USER_ID` | `NOVATECH-DEMO-PORTAL` |
-| `UDCSHARE_PROJECT_URL` | URL de la page du projet Sandbox |
-| `NOVATECH_ALLOWED_ORIGIN` | URL publique du portail statique |
-| `NOVATECH_ADMIN_PASSWORD` | Mot de passe de démo (à remplacer pour une instance privée) |
-| `NOVATECH_SESSION_SECRET` | Secret aléatoire indépendant, privé |
+Ne jamais committer ces secrets internes dans GitHub. La clé de chiffrement ne doit jamais être partagée ni utilisée comme clé API. Ne configurez pas UDCSHARE_API_KEY, UDCSHARE_API_CLIENT_ID ou un Drive de démonstration partagé dans Render.
 
-Ne jamais réutiliser une clé API, un identifiant de ressource, un Drive, un compte Google ou des données appartenant à un autre client. Ne pas intégrer de secret dans `site/config.js`, les fichiers HTML, JavaScript, exemples publics ou captures d'écran.
+## Base de données
 
-## Stockage et base de données
+Le script database/novatech-public-demo.sql contient uniquement les trois tables nécessaires au Playground et leurs règles RLS. Il ne contient aucune donnée, clé, token ou table de la plateforme UDCShare complète.
 
-Cette démonstration ne crée pas de base SQL. En mode démo, le registre et les fichiers sont temporaires en mémoire. En mode API réel, les binaires sont envoyés dans le Drive associé au projet UDCShare et le registre JSON est conservé comme fichier dans ce même Drive. Aucune preuve n'est envoyée dans Supabase Storage.
+- userdemo : profil public relié à auth.users.
+- userdemo_api_connections : configurations personnelles et clé API chiffrée.
+- userdemo_api_test_runs : journal des tests, sans clé ni réponse sensible complète.
 
-## Développement local
+Les politiques RLS imposent auth.uid() = userdemo_id (ou id pour userdemo). Les clés ne doivent jamais être enregistrées en clair. Les fichiers binaires restent dans le Google Drive du projet API de chaque développeur ; aucun fichier n'est stocké dans Supabase Storage par ce Playground.
 
-```bash
-cd api
-npm install
-NOVATECH_DEMO_MODE=true NOVATECH_ADMIN_PASSWORD=NOVATECH-DEMO-2026 NOVATECH_SESSION_SECRET=change-me npm start
-```
+## Démonstrations présentes
 
-Ouvrir ensuite `site/index.html` via un serveur statique et définir `NOVATECH_API_BASE` dans `site/config.js`.
+1. État du projet : GET /apps/{projectId}/status.
+2. Fichiers du projet : GET /apps/{projectId}/files?limit=10.
+3. Consommation : GET /usage.
 
-## Licence et réutilisation
+Les requêtes sont exécutées côté serveur avec la clé personnelle du visiteur. Les erreurs sont journalisées dans son historique, sans stocker sa clé.
 
-Exemple pédagogique à adapter à votre propre entreprise. Voir la licence du dépôt parent.
+## Sécurité
+
+Le backend exige HTTPS, refuse les adresses locales/privées et bloque les redirections automatiques afin de réduire les risques SSRF. Les appels ont un délai maximal et une limite de taille de réponse. Les quotas consommés par les appels de démonstration appartiennent au projet du développeur.
+
+## Configuration Render
+
+Le backend Render doit recevoir les variables techniques listées dans « Protection des clés ». Générer NOVATECH_CREDENTIALS_ENCRYPTION_KEY comme 32 octets aléatoires encodés en hexadécimal (64 caractères). Cette clé de chiffrement n'est jamais la clé API du visiteur.
+
+Pour activer la création de comptes, vérifier dans Supabase Auth que les inscriptions e-mail sont autorisées et que la confirmation e-mail est configurée selon la politique de l'organisation. Si la confirmation est obligatoire, l'utilisateur confirme son adresse avant sa première connexion.
+
+## Avertissement
+
+Utilisez un projet Sandbox ou un projet dont vous êtes propriétaire, des fichiers fictifs et des données de test. Les appels réalisés sur une API réelle peuvent consommer des quotas et agir sur les fichiers de votre propre projet. NOVATECH ne garantit pas les ressources des API tierces.
