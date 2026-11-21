@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const crypto = require("node:crypto");
 const dns = require("node:dns").promises;
 const net = require("node:net");
@@ -135,6 +136,34 @@ async function requireUser(req, res, next) {
     return jsonError(res, 401, "SESSION_EXPIRED", "Votre session a expiré. Reconnectez-vous.");
   }
 }
+
+async function optionalUser(req, res, next) {
+  if (!configured()) return next();
+  const cookies = parseCookies(req.headers.cookie || "");
+  let token = cookies.novatech_access || "";
+  const refresh = cookies.novatech_refresh || "";
+  try {
+    if (!token && refresh) token = await refreshSession(refresh, res);
+    if (token) {
+      let user;
+      try {
+        user = await supabaseFetch("/auth/v1/user", { method: "GET" }, token);
+      } catch (error) {
+        if (error.status !== 401 || !refresh) throw error;
+        token = await refreshSession(refresh, res);
+        user = await supabaseFetch("/auth/v1/user", { method: "GET" }, token);
+      }
+      if (user?.id && !user.is_anonymous) {
+        req.user = user;
+        req.accessToken = token;
+      }
+    }
+  } catch {
+    // Public statistics remain readable even when an optional session has expired.
+  }
+  next();
+}
+
 async function ensureDemoProfile(req) {
   await supabaseFetch("/rest/v1/userdemo?on_conflict=id", {
     method: "POST",
@@ -447,8 +476,136 @@ app.post("/api/connections/:id/test/:endpoint", requireUser, limit(60, 60 * 60 *
   }
 });
 
+
+const demoUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024, files: 1 }
+});
+
+function validDemoSlug(slug) {
+  return slug === "portail-client" || slug === "playground-api";
+}
+async function engagementStats(slug, visitorHash, accessToken = "") {
+  return supabaseFetch("/rest/v1/rpc/novatech_demo_engagement", {
+    method: "POST",
+    body: JSON.stringify({ p_demo_slug: slug, p_visitor_hash: visitorHash || null })
+  }, accessToken);
+}
+app.get("/api/demos/:slug/engagement", optionalUser, async (req, res) => {
+  if (!validDemoSlug(req.params.slug)) return jsonError(res, 404, "DEMO_NOT_FOUND", "Démonstration inconnue.");
+  if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "Les compteurs publics ne sont pas configurés.");
+  try {
+    return res.json(await engagementStats(req.params.slug, null, req.accessToken || ""));
+  } catch {
+    return jsonError(res, 502, "ENGAGEMENT_UNAVAILABLE", "Impossible de charger les compteurs.");
+  }
+});
+app.post("/api/demos/:slug/view", limit(120, 60 * 60 * 1000), optionalUser, async (req, res) => {
+  if (!validDemoSlug(req.params.slug)) return jsonError(res, 404, "DEMO_NOT_FOUND", "Démonstration inconnue.");
+  if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "Les compteurs publics ne sont pas configurés.");
+  const visitorKey = String(req.body?.visitor_key || "");
+  if (visitorKey.length < 16 || visitorKey.length > 160) return jsonError(res, 400, "VISITOR_KEY_INVALID", "Identifiant visiteur invalide.");
+  const visitorHash = crypto.createHash("sha256").update(visitorKey).digest("hex");
+  try {
+    return res.json(await engagementStats(req.params.slug, visitorHash, req.accessToken || ""));
+  } catch {
+    return jsonError(res, 502, "VIEW_NOT_RECORDED", "La vue n'a pas pu être enregistrée.");
+  }
+});
+app.post("/api/demos/:slug/like", requireUser, limit(30, 60 * 60 * 1000), async (req, res) => {
+  if (!validDemoSlug(req.params.slug)) return jsonError(res, 404, "DEMO_NOT_FOUND", "Démonstration inconnue.");
+  if (typeof req.body?.liked !== "boolean") return jsonError(res, 400, "LIKE_VALUE_INVALID", "Action J'aime invalide.");
+  try {
+    const result = await db(req, "rpc/novatech_demo_toggle_like", {
+      method: "POST",
+      body: JSON.stringify({ p_demo_slug: req.params.slug, p_liked: req.body.liked })
+    });
+    return res.json(result);
+  } catch {
+    return jsonError(res, 502, "LIKE_NOT_SAVED", "Impossible d'enregistrer votre J'aime.");
+  }
+});
+
+async function clientDemoConnection(req) {
+  const rows = await db(req, "userdemo_api_connections?select=*&is_active=eq.true&order=created_at.desc&limit=1");
+  return rows?.[0] || null;
+}
+async function requireClientDemoConnection(req, res) {
+  const connection = await clientDemoConnection(req);
+  if (!connection) {
+    jsonError(res, 409, "API_CONNECTION_REQUIRED", "Connectez d'abord votre clé API UDCShare dans le Playground. Elle sera conservée chiffrée côté serveur.");
+    return null;
+  }
+  return connection;
+}
+app.get("/api/client-demo/overview", requireUser, async (req, res) => {
+  try {
+    const connection = await requireClientDemoConnection(req, res);
+    if (!connection) return;
+    const [account, files, stats] = await Promise.all([
+      callUserApi(connection, req.user.id, "/account"),
+      callUserApi(connection, req.user.id, "/files"),
+      callUserApi(connection, req.user.id, "/stats")
+    ]);
+    return res.json({
+      account: account.payload,
+      files: files.payload,
+      stats: stats.payload,
+      connection: { label: connection.label, api_base_url: connection.api_base_url }
+    });
+  } catch (error) {
+    return jsonError(res, error.status || 502, error.code || "CLIENT_DEMO_LOAD_FAILED", error.message || "Impossible de charger le portail client.");
+  }
+});
+app.post("/api/client-demo/upload", requireUser, demoUpload.single("file"), async (req, res) => {
+  if (!req.file) return jsonError(res, 400, "FILE_REQUIRED", "Choisissez un fichier à envoyer.");
+  try {
+    const connection = await requireClientDemoConnection(req, res);
+    if (!connection) return;
+    const base = await validateApiBase(connection.api_base_url);
+    const form = new FormData();
+    form.append("file", new Blob([req.file.buffer], { type: req.file.mimetype || "application/octet-stream" }), req.file.originalname);
+    const started = Date.now();
+    const response = await fetch(base + "/upload", {
+      method: "POST",
+      headers: {
+        "X-API-Key": decryptSecret(connection),
+        "X-External-User-ID": "NOVATECH-DEMO-" + req.user.id
+      },
+      body: form,
+      cache: "no-store",
+      redirect: "manual",
+      signal: AbortSignal.timeout(120000)
+    });
+    const raw = await response.text();
+    if (raw.length > MAX_API_RESPONSE) return jsonError(res, 502, "RESPONSE_TOO_LARGE", "La réponse de l'API est trop volumineuse.");
+    let payload = null;
+    try { payload = raw ? JSON.parse(raw) : null; } catch { payload = { message: raw.slice(0, 400) }; }
+    if (!response.ok) {
+      const detail = payload?.error?.message || payload?.message || payload?.error || "L'API UDCShare a refusé l'envoi.";
+      return jsonError(res, response.status, payload?.code || "UPLOAD_FAILED", String(detail).slice(0, 400));
+    }
+    return res.status(201).json({ ok: true, duration_ms: Date.now() - started, data: payload });
+  } catch (error) {
+    return jsonError(res, error.status || 502, error.code || "UPLOAD_FAILED", error.message || "L'envoi a échoué.");
+  }
+});
+app.delete("/api/client-demo/files/:id", requireUser, async (req, res) => {
+  const fileId = String(req.params.id || "").trim();
+  if (!fileId || fileId.length > 180 || /[/?#]/.test(fileId)) return jsonError(res, 400, "FILE_ID_INVALID", "Identifiant de fichier invalide.");
+  try {
+    const connection = await requireClientDemoConnection(req, res);
+    if (!connection) return;
+    const result = await callUserApi(connection, req.user.id, "/files/" + encodeURIComponent(fileId), "DELETE");
+    return res.json({ ok: true, data: result.payload });
+  } catch (error) {
+    return jsonError(res, error.status || 502, error.code || "FILE_DELETE_FAILED", error.message || "Impossible de supprimer ce fichier.");
+  }
+});
+
 app.use((error, _req, res, _next) => {
-  if (error?.type === "entity.too.large") return jsonError(res, 413, "REQUEST_TOO_LARGE", "Requête trop volumineuse.");
+  if (error?.type === "entity.too.large" || error?.code === "LIMIT_FILE_SIZE") return jsonError(res, 413, "REQUEST_TOO_LARGE", "Fichier trop volumineux. La démonstration accepte jusqu’à 50 Mo par fichier.");
+  if (error?.code === "LIMIT_FILE_COUNT" || error?.code === "LIMIT_UNEXPECTED_FILE") return jsonError(res, 400, "UPLOAD_INVALID", "Un seul fichier est accepté à la fois.");
   return jsonError(res, 500, "INTERNAL_ERROR", "Une erreur interne est survenue.");
 });
 app.listen(PORT, () => console.log("NOVATECH Developer Playground listening on " + PORT));
