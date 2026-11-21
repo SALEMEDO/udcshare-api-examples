@@ -1,3 +1,7 @@
+# UDCShare API — Exemples développeurs
+
+**Catalogue web public :** après publication du site statique, le lien sera indiqué ici. Le code source et les guides restent disponibles dans ce dépôt.
+
 <p align="center">
   <a href="https://udcshare.com"><img src="assets/banner.svg" alt="API UDCShare — exemples de code officiels" width="100%"></a>
 </p>
@@ -58,6 +62,16 @@ const compte = await r.json();
 > **Gardez la clé côté serveur.** Ne la placez jamais dans du code livré au navigateur
 > ni dans un dépôt Git. Chaque exemple de ce dépôt lit la clé depuis une variable
 > d'environnement et fournit un `.env.example`.
+
+---
+
+## Portails de démonstration complets
+
+| Portail | Architecture | Description |
+|---|---|---|
+| [NOVATECH DEMO](./portals/novatech-demo-portal/) | Site statique + API Node.js | Portail fictif de dépôt et de suivi de justificatifs, avec espace agents, aperçu des fichiers, statuts, diagnostic et statistiques. Mode simulation par défaut ; connexion Sandbox UDCShare facultative via secrets Render côté serveur. |
+
+Le guide [NOVATECH DEMO](./portals/novatech-demo-portal/README.md) explique le déploiement séparé du site statique et du backend, les variables Render et les précautions de sécurité. N'utilisez que des données et fichiers fictifs dans cette démonstration publique.
 
 ---
 

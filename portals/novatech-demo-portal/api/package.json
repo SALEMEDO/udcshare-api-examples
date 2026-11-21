@@ -1,0 +1,18 @@
+{
+  "name": "novatech-demo-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API de démonstration fictive NOVATECH pour illustrer une intégration cliente UDCShare.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}

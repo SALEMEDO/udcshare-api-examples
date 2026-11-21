@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UDCShare — Exemples développeurs</title>
+<meta name="description" content="Découvrez des exemples concrets d'intégration de l'API UDCShare : portails, dépôts de fichiers, suivi et statistiques.">
+<style>
+:root{color-scheme:light;--ink:#17251e;--muted:#63736a;--green:#146b49;--line:#dce8df;--paper:#f5f8f5}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+header{background:#103e2c;color:white;padding:18px max(22px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-weight:850;letter-spacing:.04em}.brand span{color:#e5c477}header a{color:white;text-decoration:none;font-size:14px}
+main{max-width:1120px;margin:auto;padding:54px 22px 76px}.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:11px;color:var(--green);font-weight:800}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.04;letter-spacing:-.045em;margin:12px 0 16px;max-width:760px}
+.lead{max-width:720px;color:var(--muted);font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:34px 0}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:23px;box-shadow:0 8px 28px #183c2610}
+.card h2{margin:7px 0;font-size:21px}.card p{color:var(--muted);font-size:14px}
+.tag{display:inline-block;border-radius:30px;padding:5px 9px;background:#eaf4ed;color:#176344;font-size:11px;font-weight:800}
+a.button{display:inline-flex;background:var(--green);color:white;text-decoration:none;padding:11px 15px;border-radius:9px;font-weight:750;font-size:13px;margin:7px 7px 0 0}
+a.secondary{background:#edf4ef;color:var(--green)}
+pre{overflow:auto;background:#14251d;color:#e8f3eb;padding:16px;border-radius:12px;font-size:12px}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+.notice{border-left:4px solid #d3aa53;padding:12px 16px;background:#fff8e9;color:#65512b;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body>
+<header><div class="brand">UDC<span>SHARE</span> · DEVELOPERS</div><a href="https://udcshare.com/api/docs">Documentation API ↗</a></header>
+<main>
+<div class="eyebrow">Centre d'exemples officiels</div>
+<h1>Construisez avec l'API UDCShare.</h1>
+<p class="lead">Des projets de démonstration et des exemples de code pour comprendre comment intégrer les dépôts de fichiers, consulter les ressources, suivre l'utilisation et créer vos propres expériences.</p>
+<div class="grid">
+<section class="card"><span class="tag">Portail complet · Node.js</span><h2>NOVATECH DEMO</h2><p>Un portail fictif de réception de justificatifs : formulaire de dépôt, espace agents, aperçu des fichiers, recherche, statuts, diagnostic API et statistiques.</p><a class="button" href="https://novatech-demo-portal.onrender.com">Essayer le portail</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal">Voir le code</a></section>
+<section class="card"><span class="tag">Démarrer rapidement</span><h2>Exemples par langage</h2><p>Retrouvez les requêtes et intégrations de référence pour cURL, JavaScript, Node.js, Python, PHP, Java et autres environnements.</p><a class="button" href="https://github.com/SALEMEDO/udcshare-api-examples">Parcourir les exemples</a></section>
+<section class="card"><span class="tag">Référence</span><h2>Documentation interactive</h2><p>Consultez les routes, paramètres, en-têtes d'authentification, réponses et schémas de l'API UDCShare.</p><a class="button" href="https://udcshare.com/api/docs">Ouvrir la documentation</a></section>
+</div>
+<section class="card"><h2>Exemple : déposer un fichier avec cURL</h2><p>Les appels projet utilisent une clé API et un identifiant utilisateur externe. Gardez toujours la clé privée côté serveur.</p>
+<pre>curl -X POST "https://udcshare.com/api/v1/apps/PROJECT_ID/files" \
+  -H "X-API-Key: $UDCSHARE_API_KEY" \
+  -H "X-External-User-ID: user-123" \
+  -F "file=@document.pdf"</pre>
+<div class="notice">Les portails de démonstration publics utilisent des données fictives. Ne soumettez aucun document personnel, justificatif réel ou secret d'accès. Pour tester l'API réelle, créez votre propre projet Sandbox et configurez la clé uniquement dans votre backend.</div>
+</section>
+</main>
+<footer>UDCShare Developer Examples · Exemples pédagogiques · Ne jamais publier de clés API</footer>
+</body></html>
