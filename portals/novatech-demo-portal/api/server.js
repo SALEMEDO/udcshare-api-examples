@@ -287,6 +287,29 @@ app.post("/api/auth/signup", limit(5, 15 * 60 * 1000), async (req, res) => {
     return jsonError(res, error.status || 400, error.code || "SIGNUP_FAILED", error.message);
   }
 });
+app.post("/api/auth/resend-confirmation", limit(3, 15 * 60 * 1000), async (req, res) => {
+  if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "Le service de compte NOVATECH n'est pas encore configuré.");
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+    return jsonError(res, 400, "EMAIL_INVALID", "Saisissez une adresse e-mail valide.");
+  }
+  try {
+    await supabaseFetch("/auth/v1/resend", {
+      method: "POST",
+      body: JSON.stringify({ type: "signup", email })
+    });
+    return res.json({
+      sent: true,
+      message: "Demande traitée. Si cette adresse attend une confirmation, un nouvel e-mail vient d'être demandé. Vérifiez aussi les courriers indésirables."
+    });
+  } catch (error) {
+    const status = error.status || 400;
+    const message = status === 429
+      ? "Trop de demandes. Attendez quelques minutes avant de réessayer."
+      : error.message || "Impossible de demander un nouvel e-mail pour le moment.";
+    return jsonError(res, status, error.code || "RESEND_FAILED", message);
+  }
+});
 app.post("/api/auth/login", limit(8, 15 * 60 * 1000), async (req, res) => {
   if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "La connexion n'est pas encore configurée.");
   const email = String(req.body?.email || "").trim().toLowerCase();
