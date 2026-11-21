@@ -71,7 +71,7 @@ const compte = await r.json();
 |---|---|---|
 | [NOVATECH Developer Playground](./portals/novatech-demo-portal/) | Site statique + API Node.js + Supabase Auth | Laboratoire public : chaque développeur crée son compte, saisit sa propre URL API, sa clé et son identifiant de projet, puis teste l’état, les fichiers et l’usage de son API. Clés chiffrées et espaces isolés. |
 
-Le guide [NOVATECH Developer Playground](./portals/novatech-demo-portal/README.md) explique le fonctionnement et la sécurité des comptes publics. Le script SQL autonome est disponible dans [database/novatech-public-demo.sql](./database/novatech-public-demo.sql) ; il ne contient que les trois tables du Playground, pas la base complète UDCShare. Utilisez un projet Sandbox ou un projet dont vous êtes propriétaire.
+Le guide [NOVATECH Developer Playground](./portals/novatech-demo-portal/README.md) explique le fonctionnement et la sécurité des comptes publics. Consultez aussi le [tutoriel technique en français](./docs/NOVATECH_PLAYGROUND_GUIDE_FR.md) et le [script SQL autonome](./database/novatech-public-demo.sql), limité aux trois tables du Playground et non à la base complète UDCShare. Utilisez un projet Sandbox ou un projet dont vous êtes propriétaire.
 
 ---
 
