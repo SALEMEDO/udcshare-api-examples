@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f8f5">
+  <meta name="description" content="NOVATECH — Démonstration d'un portail client construit avec l'API UDCShare.">
+  <title>NOVATECH — Démo 1 · Portail client</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .demo-hero{padding:38px 0 20px}.demo-hero h1{font-size:clamp(32px,4vw,48px);line-height:1.08;letter-spacing:-.05em;margin:10px 0}.demo-hero p{color:var(--muted);max-width:760px}
+    .demo-layout{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start;padding:16px 0 60px}.demo-main{display:grid;gap:16px}.demo-side{display:grid;gap:16px}
+    .metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.metric{padding:17px;border:1px solid var(--line);border-radius:13px;background:#fbfdfb}.metric small{display:block;color:var(--muted);font-size:11px}.metric strong{display:block;font-size:23px;margin-top:4px;overflow-wrap:anywhere}
+    .upload-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.upload-row input{flex:1;min-width:180px;border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff;font:inherit}
+    .file-list{display:grid;gap:8px}.file-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:11px;padding:12px}.file-main{min-width:0}.file-main strong{display:block;overflow-wrap:anywhere;font-size:13px}.file-main small{color:var(--muted);font-size:11px}.file-actions{display:flex;gap:7px;flex-shrink:0;align-items:center}.file-actions a{font-size:11px;color:var(--green);font-weight:800;text-decoration:none}.connection-help{background:#f2f8f3;border:1px solid #d9eadf;border-radius:12px;padding:14px;color:var(--ink);font-size:12px;line-height:1.6}.connection-help a{color:var(--green);font-weight:800}.demo-engagement{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px}.demo-engagement button,.demo-engagement a{border:1px solid var(--line);border-radius:99px;padding:6px 11px;background:#fff;color:var(--ink);font:inherit;text-decoration:none;cursor:pointer}.demo-engagement [hidden]{display:none!important}
+    @media(max-width:850px){.demo-layout{grid-template-columns:1fr}.demo-side{grid-template-columns:1fr 1fr}}@media(max-width:560px){.metric-grid{grid-template-columns:1fr 1fr}.demo-side{grid-template-columns:1fr}.file-row{align-items:flex-start;flex-direction:column}.file-actions{width:100%;justify-content:flex-end}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><span class="brand-mark">N</span><span>NOVATECH<small>DÉMONSTRATIONS API</small></span></a>
+  <div class="top-actions"><a class="btn ghost" href="/app.html">Playground API</a><a class="btn ghost" href="/guide.html">Tutoriel</a><a class="btn primary" href="/app.html">Espace développeur</a></div>
+</header>
+<main class="container">
+  <section class="demo-hero">
+    <span class="eyebrow">DÉMO 1 · APPLICATION CLIENTE</span>
+    <h1>Votre espace de fichiers, connecté à UDCShare.</h1>
+    <p>Cette application de démonstration utilise les vrais endpoints de l'API UDCShare. Connectez votre propre clé API dans le Playground : elle reste chiffrée côté serveur et n'est jamais affichée dans cette page.</p>
+    <div class="demo-engagement" data-demo-engagement data-demo-slug="portail-client">
+      <span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span>
+      <a data-like-login href="/app.html?next=%2Fclient-portal.html">Se connecter pour aimer</a><button data-like-toggle hidden type="button">♡ J'aime</button>
+    </div>
+  </section>
+
+  <section id="loginRequired" class="panel hidden">
+    <h3>Connectez-vous pour utiliser le portail client</h3>
+    <p class="subtle">Les vues sont publiques. Pour gérer vos propres fichiers, vous devez avoir un compte NOVATECH et connecter votre clé API UDCShare.</p>
+    <a class="btn primary" href="/app.html?next=%2Fclient-portal.html">Connexion / Inscription →</a>
+  </section>
+
+  <section id="clientArea" class="demo-layout hidden">
+    <div class="demo-main">
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">VOTRE COMPTE UDCSHARE</span><h3 id="accountTitle">Vue d'ensemble</h3></div><button id="refreshBtn" class="btn small ghost" type="button">Actualiser</button></div>
+        <div class="metric-grid">
+          <div class="metric"><small>Forfait</small><strong id="planValue">—</strong></div>
+          <div class="metric"><small>Fichiers enregistrés</small><strong id="filesValue">—</strong></div>
+          <div class="metric"><small>Stockage utilisé</small><strong id="storageValue">—</strong></div>
+        </div>
+        <p id="accountMeta" class="subtle"></p>
+      </section>
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">AJOUTER UN FICHIER</span><h3>Envoyer vers votre espace UDCShare</h3></div><span class="step-icon">01</span></div>
+        <form id="uploadForm">
+          <div class="upload-row"><input id="fileInput" type="file" required><button id="uploadBtn" class="btn primary" type="submit">Envoyer le fichier →</button></div>
+          <p class="subtle">Limite de cette démonstration : 50 Mo par fichier. L'envoi est réalisé par l'API UDCShare avec votre propre clé et selon les limites de votre forfait.</p>
+        </form>
+        <p id="uploadMessage" class="message hidden" role="status"></p>
+      </section>
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">VOS FICHIERS</span><h3>Fichiers enregistrés</h3></div><span class="step-icon">02</span></div>
+        <div id="fileList" class="file-list"><div class="empty-state">Chargement de vos fichiers…</div></div>
+      </section>
+    </div>
+    <aside class="demo-side">
+      <section class="panel">
+        <span class="eyebrow">DÉMONSTRATION RÉELLE</span>
+        <h3>Votre propre espace</h3>
+        <p class="subtle">Les fichiers sont stockés par UDCShare dans l'espace de stockage associé à votre compte. NOVATECH ne copie aucun fichier dans Supabase Storage.</p>
+        <div class="connection-help">Configuration API : <b id="connectionLabel">—</b><br><a href="/app.html#connectionForm">Gérer ma connexion API →</a></div>
+      </section>
+      <section class="panel">
+        <span class="eyebrow">ENDPOINTS UTILISÉS</span>
+        <p class="subtle"><b>GET /account</b> — compte et forfait</p>
+        <p class="subtle"><b>GET /files</b> — liste des fichiers</p>
+        <p class="subtle"><b>POST /upload</b> — envoi d'un fichier</p>
+        <p class="subtle"><b>DELETE /files/:id</b> — suppression</p>
+        <p class="subtle"><b>GET /stats</b> — statistiques d'utilisation</p>
+        <a class="btn small ghost" href="https://udcshare.com/api" target="_blank" rel="noopener">Documentation UDCShare ↗</a>
+      </section>
+    </aside>
+  </section>
+  <p id="pageMessage" class="message hidden" role="status"></p>
+</main>
+<footer><div class="container footer-inner"><span><b>NOVATECH</b> · Démo 1 — Portail client</span><span><a href="/">Toutes les démonstrations</a> · <a href="/app.html">Playground API</a></span></div></footer>
+<script src="/config.js"></script>
+<script src="/engagement.js" defer></script>
+<script src="/client-portal.js" defer></script>
+</body>
+</html>
