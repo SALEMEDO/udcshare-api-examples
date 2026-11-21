@@ -130,6 +130,7 @@ async function requireUser(req, res, next) {
     await ensureDemoProfile(req);
     next();
   } catch (error) {
+    if (error.code === "DEMO_ACCOUNT_DISABLED") return jsonError(res, 403, "DEMO_ACCOUNT_DISABLED", "Cet espace développeur est suspendu.");
     clearCookies(res);
     return jsonError(res, 401, "SESSION_EXPIRED", "Votre session a expiré. Reconnectez-vous.");
   }
@@ -146,6 +147,10 @@ async function ensureDemoProfile(req) {
       updated_at: new Date().toISOString()
     })
   }, req.accessToken);
+  const profiles = await supabaseFetch("/rest/v1/userdemo?id=eq." + encodeURIComponent(req.user.id) + "&select=account_status", {}, req.accessToken);
+  if (!profiles?.[0] || profiles[0].account_status !== "active") {
+    throw Object.assign(new Error("DEMO_ACCOUNT_DISABLED"), { code: "DEMO_ACCOUNT_DISABLED" });
+  }
 }
 function encryptionKey() {
   if (!/^[0-9a-f]{64}$/i.test(ENCRYPTION_KEY)) throw new Error("NOVATECH_CREDENTIALS_ENCRYPTION_KEY doit contenir 32 octets hexadécimaux.");
