@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1715">
+<title>Guide NOVATECH — Tutoriel développeur</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1715;--panel:#122521;--line:#29443c;--mint:#b7f3d5;--green:#55d69b;--muted:#a8bdb4}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#1b4538 0,transparent 36%),var(--bg);color:#f1faf5;font:15px/1.75 Inter,system-ui,sans-serif}
+.wrap{width:min(900px,calc(100% - 32px));margin:auto}header{height:76px;border-bottom:1px solid #ffffff18;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:900;letter-spacing:.12em;color:#f1faf5;text-decoration:none}.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:.2em}
+.btn{display:inline-flex;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:750;font-size:13px}.primary{background:var(--green);color:#092219}.secondary{border:1px solid #ffffff2b;color:#eaf7f0}
+main{padding:55px 0 80px}.eyebrow{color:var(--green);font-size:11px;font-weight:850;letter-spacing:.18em}h1{font-size:clamp(34px,6vw,54px);line-height:1.08;letter-spacing:-.045em;margin:14px 0}h1 span{color:var(--mint)}.intro{color:#b6c9c0;font-size:17px;max-width:700px}
+nav.toc,.panel{background:linear-gradient(145deg,#142a24,#0e1c18);border:1px solid #ffffff19;border-radius:16px;padding:22px;margin:24px 0}nav.toc b{display:block;margin-bottom:8px}nav.toc a{display:inline-block;color:var(--mint);margin:4px 15px 4px 0;text-decoration:none;font-size:13px}
+h2{font-size:23px;letter-spacing:-.025em;margin:0 0 12px}h3{font-size:16px;margin:18px 0 6px;color:var(--mint)}p,li{color:#b6c9c0}li{margin:7px 0}ol,ul{padding-left:23px}.note{border-left:3px solid var(--green);padding:12px 16px;background:#55d69b12;border-radius:0 10px 10px 0;color:#d8eee2;margin:16px 0}.warn{border-left-color:#e6b85c;background:#e6b85c12}
+code{font-family:ui-monospace,monospace;color:#a8f0c8;background:#07120f;padding:2px 5px;border-radius:5px;overflow-wrap:anywhere}.endpoint{display:block;padding:9px 12px;margin:7px 0;background:#081511;border:1px solid #29443c;border-radius:8px;font:13px ui-monospace,monospace;color:#b7f3d5;overflow-wrap:anywhere}
+footer{border-top:1px solid #ffffff18;padding:22px 0;color:#8da69b;font-size:12px}footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:600px){main{padding-top:38px}.panel,nav.toc{padding:18px}header{height:68px}}
+</style>
+</head>
+<body>
+<header class="wrap"><a class="brand" href="/">NOVATECH<small>DEVELOPER PLAYGROUND</small></a><a class="btn primary" href="/app.html">Ouvrir mon espace →</a></header>
+<main class="wrap">
+<span class="eyebrow">CENTRE D'AIDE · TUTORIEL OFFICIEL</span>
+<h1>Bienvenue dans le <span>guide NOVATECH.</span></h1>
+<p class="intro">Retrouve ici les étapes pour créer ton compte, connecter ta propre API UDCShare et lancer tes premiers essais. Tu n'as pas besoin d'ouvrir Render pour consulter ce tutoriel.</p>
+<nav class="toc"><b>Dans ce guide</b>
+<a href="#demarrer">1. Démarrer</a><a href="#connexion">2. Connecter une API</a><a href="#tests">3. Lancer les tests</a><a href="#securite">4. Sécurité</a><a href="#architecture">5. Stockage</a><a href="#technique">6. Informations techniques</a>
+</nav>
+<section class="panel" id="demarrer"><h2>1. Créer ton espace développeur</h2>
+<ol><li>Ouvre la <a href="/app.html" style="color:var(--mint)">plateforme NOVATECH</a>.</li><li>Choisis « Créer un compte » et renseigne ton nom, ton adresse e-mail et un mot de passe sécurisé.</li><li>Confirme ton adresse e-mail si cette étape est demandée par le service de connexion.</li><li>Connecte-toi. Ton espace et tes données sont personnels.</li></ol></section>
+<section class="panel" id="connexion"><h2>2. Connecter ta propre API</h2>
+<ol><li>Dans « Connecter une API », donne un nom à ta configuration.</li><li>Saisis l'adresse HTTPS de ton API.</li><li>Ajoute l'identifiant de ton projet et ta clé API personnelle.</li><li>Clique sur « Enregistrer ma configuration ». La clé est effacée du formulaire après l'enregistrement.</li></ol>
+<div class="note">Utilise uniquement une clé et un projet que tu es autorisé à utiliser. Pour apprendre, privilégie un projet Sandbox.</div></section>
+<section class="panel" id="tests"><h2>3. Lancer tes premiers tests</h2>
+<p>Sélectionne une connexion enregistrée, puis choisis l'une des démonstrations :</p>
+<ul><li><b>État du projet :</b> vérifie la disponibilité de l'API et du projet.</li><li><b>Mes fichiers :</b> affiche les fichiers accessibles dans ton projet.</li><li><b>Consommation API :</b> consulte les informations de plan et d'utilisation disponibles.</li></ul>
+<p>Les résultats et l'historique des essais sont visibles dans ton espace personnel. Ils sont conservés pour ton compte afin que tu puisses les retrouver après une nouvelle connexion.</p>
+<div class="note warn">Attention : ces appels sont réels. Ils utilisent ton API, tes droits et les quotas de ton projet. Vérifie toujours le projet sélectionné avant de lancer un test.</div></section>
+<section class="panel" id="securite"><h2>4. Protection de tes identifiants</h2>
+<ul><li>Ta clé API n'est pas ajoutée aux variables d'environnement Render.</li><li>Elle est transmise au backend par HTTPS, puis chiffrée avec AES-256-GCM.</li><li>La clé en clair n'est pas renvoyée au navigateur ni écrite dans les journaux.</li><li>Chaque compte ne peut accéder qu'à ses propres configurations et historiques grâce aux règles d'isolation de la base.</li><li>Ne partage jamais ta clé API, ton mot de passe ou tes identifiants.</li></ul></section>
+<section class="panel" id="architecture"><h2>5. Où sont conservées les données ?</h2>
+<p>NOVATECH conserve dans Supabase les informations du compte démo, les configurations API chiffrées et l'historique synthétique des tests.</p>
+<p>Les fichiers binaires ne sont pas stockés dans Supabase Storage par NOVATECH. Ils restent dans le Google Drive relié au projet API que tu testes.</p></section>
+<section class="panel" id="technique"><h2>6. Informations techniques</h2>
+<h3>Endpoints testés</h3>
+<span class="endpoint">GET /api/v1/apps/{projectId}/status</span>
+<span class="endpoint">GET /api/v1/apps/{projectId}/files?limit=10</span>
+<span class="endpoint">GET /api/v1/usage</span>
+<h3>Conseils pratiques</h3>
+<ul><li>Utilise des données fictives et évite les documents personnels.</li><li>Ne teste jamais avec la clé d'un autre client.</li><li>Vérifie l'adresse de l'API et l'identifiant du projet avant chaque essai.</li><li>Supprime les configurations que tu n'utilises plus depuis ton espace.</li></ul>
+<p>Pour les détails destinés aux administrateurs et développeurs techniques, consulte aussi le <a href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md" target="_blank" rel="noopener" style="color:var(--mint)">guide technique sur GitHub</a>.</p></section>
+<p><a class="btn primary" href="/app.html">Commencer maintenant →</a></p>
+</main>
+<footer><div class="wrap"><span>© NOVATECH · Guide utilisateur</span><span><a href="/" style="color:var(--mint)">Accueil</a> · <a href="/app.html" style="color:var(--mint)">Espace développeur</a></span></div></footer>
+</body></html>
