@@ -68,3 +68,19 @@ Pour activer la création de comptes, vérifier dans Supabase Auth que les inscr
 ## Avertissement
 
 Utilisez un projet Sandbox ou un projet dont vous êtes propriétaire, des fichiers fictifs et des données de test. Les appels réalisés sur une API réelle peuvent consommer des quotas et agir sur les fichiers de votre propre projet. NOVATECH ne garantit pas les ressources des API tierces.
+
+
+## Démonstrations publiques NOVATECH
+
+- Démo 1 — Portail client : https://novatech-demo-portal-public.onrender.com/client-portal.html
+- Démo 2 — Playground API : https://novatech-demo-portal-public.onrender.com/app.html
+
+Le portail client est une vraie intégration des routes UDCShare documentées : `GET /account`, `GET /files`, `POST /upload`, `DELETE /files/:id` et `GET /stats`. Il réutilise une configuration API appartenant au compte NOVATECH connecté. La clé API est déchiffrée uniquement côté serveur au moment de l'appel et n'est jamais envoyée au navigateur. Cette démonstration limite les uploads à 50 Mo par fichier pour maîtriser la mémoire du service.
+
+### Vues et J'aime publics
+
+Chaque démonstration affiche ses vues et ses J'aime. Une vue est comptée une seule fois par navigateur et par journée UTC pour chaque démo ; aucun compte n'est requis pour consulter. Un identifiant aléatoire conservé dans le navigateur est haché côté serveur ; aucune adresse IP ni adresse e-mail n'est enregistrée pour les vues.
+
+Un J'aime exige un compte NOVATECH connecté. La contrainte unique en base empêche un même compte d'aimer plusieurs fois la même démo ; l'utilisateur peut retirer son J'aime. Les tables d'engagement résident dans le schéma privé Supabase et ne sont pas accessibles directement via la Data API. Le schéma SQL est documenté dans [database/novatech-demo-engagement.sql](../../database/novatech-demo-engagement.sql).
+
+Les compteurs publics sont servis par le backend NOVATECH via des fonctions SQL limitées à deux identifiants de démonstration connus. Les actions J'aime sont autorisées uniquement aux sessions authentifiées.
