@@ -256,12 +256,43 @@ function projectSuffix(connection, endpoint) {
   throw new Error("Démonstration API inconnue.");
 }
 
-app.get("/", (_req, res) => res.status(200).json({
-  service: "NOVATECH Developer Playground API",
-  status: "online",
-  health: "/health",
-  documentation: "https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md"
-}));
+app.get("/", (_req, res) => {
+  res.status(200).type("html").send(`<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102a25">
+<meta name="description" content="NOVATECH Developer Playground — accédez à votre espace développeur UDCShare.">
+<title>NOVATECH — Developer Playground</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1715;--panel:#122521;--line:#29443c;--mint:#b7f3d5;--green:#55d69b;--muted:#a8bdb4}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 10%,#1b4538 0,transparent 42%),linear-gradient(145deg,#0b1715,#10231f 60%,#0b1715);color:#f4fbf7;font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;display:flex;flex-direction:column}
+header,main,footer{width:min(1080px,calc(100% - 40px));margin-inline:auto}header{height:88px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff16}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-weight:800;letter-spacing:.13em}.mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#b7f3d5,#52c891);color:#10251d;font-size:23px;letter-spacing:0}
+.brand small{display:block;font-size:9px;letter-spacing:.2em;color:var(--muted);font-weight:600}.live{font-size:12px;color:var(--mint);border:1px solid #55d69b55;border-radius:99px;padding:7px 12px}
+main{flex:1;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:64px;padding-block:72px}
+.eyebrow{font-size:11px;letter-spacing:.2em;color:var(--green);font-weight:800}.hero h1{font-size:clamp(42px,6vw,70px);line-height:1.04;letter-spacing:-.055em;margin:20px 0}.hero h1 span{color:var(--mint)}.hero p{max-width:600px;color:var(--muted);font-size:18px;line-height:1.75}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:54px;padding:0 22px;border-radius:12px;text-decoration:none;font-weight:800;transition:transform .2s,background .2s}.btn:hover{transform:translateY(-2px)}.primary{background:var(--mint);color:#10251d}.secondary{border:1px solid var(--line);color:#e9f5ef;background:#ffffff08}
+.panel{border:1px solid var(--line);border-radius:22px;padding:26px;background:linear-gradient(155deg,#18342cdd,#10201ddd);box-shadow:0 28px 90px #0005}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.panel h2{font-size:17px;margin:0}.pill{font-size:10px;letter-spacing:.12em;color:var(--mint);background:#55d69b18;padding:6px 9px;border-radius:99px}
+.row{display:flex;align-items:center;gap:12px;padding:15px 0;border-top:1px solid #ffffff12}.symbol{width:36px;height:36px;border-radius:10px;background:#55d69b17;color:var(--mint);display:grid;place-items:center;font-weight:800}.row strong{display:block;font-size:13px}.row small{display:block;color:var(--muted);font-size:11px}.arrow{margin-left:auto;color:var(--green)}.note{font-size:12px;color:var(--muted);margin:18px 0 0}
+footer{padding:22px 0;border-top:1px solid #ffffff16;color:#8da69b;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer a{color:var(--mint);text-decoration:none}
+@media(max-width:760px){main{grid-template-columns:1fr;gap:36px;padding-block:52px}.hero h1{font-size:48px}.hero p{font-size:16px}.panel{padding:20px}header,main,footer{width:min(100% - 32px,1080px)}}
+</style>
+</head>
+<body>
+<header><a class="brand" href="/"><span class="mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a><span class="live">● API EN LIGNE</span></header>
+<main>
+<section class="hero"><span class="eyebrow">L'ESPACE DES DÉVELOPPEURS</span><h1>Construisez.<br><span>Testez. Explorez.</span></h1><p>Bienvenue sur NOVATECH Developer Playground, l'environnement public pour découvrir et tester les API UDCShare avec vos propres projets et identifiants.</p><div class="actions"><a class="btn primary" href="https://novatech-demo-portal-public.onrender.com">Accéder à la plateforme <span aria-hidden="true">→</span></a><a class="btn secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md">Lire le guide</a></div></section>
+<aside class="panel"><div class="panel-head"><h2>Ressources NOVATECH</h2><span class="pill">PUBLIC PLAYGROUND</span></div>
+<a class="row" href="https://novatech-demo-portal-public.onrender.com" style="color:inherit;text-decoration:none"><span class="symbol">↗</span><span><strong>Portail développeur</strong><small>Créer un compte et gérer vos connexions</small></span><span class="arrow">→</span></a>
+<a class="row" href="/health" style="color:inherit;text-decoration:none"><span class="symbol">✓</span><span><strong>État du service</strong><small>Vérifier la disponibilité de l'API</small></span><span class="arrow">→</span></a>
+<a class="row" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md" style="color:inherit;text-decoration:none"><span class="symbol">⌘</span><span><strong>Documentation</strong><small>Guide de démarrage et exemples</small></span><span class="arrow">→</span></a>
+<p class="note">Chaque visiteur dispose de son propre espace. Les clés API personnelles ne sont pas partagées entre les comptes.</p></aside>
+</main>
+<footer><span>© NOVATECH · Developer Playground</span><span>Propulsé par <a href="https://udcshare.com">UDCShare</a></span></footer>
+</body></html>`);
+});
 app.get("/health", (_req, res) => res.json({ ok: true, service: "novatech-developer-playground", configured: configured() }));
 app.get("/api/config", (_req, res) => res.json({
   app: "NOVATECH Developer Playground",
