@@ -2,6 +2,10 @@
 
 NOVATECH est un laboratoire public destiné aux développeurs qui souhaitent comprendre et tester l'intégration de l'API UDCShare avec **leurs propres projets, leurs propres clés API et leur propre Google Drive**.
 
+## Guide détaillé
+
+Le tutoriel en français est disponible dans [docs/NOVATECH_PLAYGROUND_GUIDE_FR.md](../../docs/NOVATECH_PLAYGROUND_GUIDE_FR.md). Le schéma SQL minimal est dans [database/novatech-public-demo.sql](../../database/novatech-public-demo.sql).
+
 ## Accès public
 
 - Portail : https://novatech-demo-portal-public.onrender.com
