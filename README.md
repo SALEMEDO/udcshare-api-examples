@@ -75,6 +75,12 @@ Le guide [NOVATECH DEMO](./portals/novatech-demo-portal/README.md) explique le d
 
 ---
 
+## Tutoriels et schema SQL de reference
+
+- [Tutoriel complet en francais : architecture, environnements, integration backend, securite et depannage](./docs/INTEGRATION_TUTORIAL_FR.md)
+- [Schema SQL de reference limite aux ressources API/Drive](./database/README.md) : definitions de tables uniquement, sans donnees ni secrets. Ce n'est pas une copie de la base UDCShare.
+- [Vitrine en ligne : visualisations et demonstrations](https://udcshare-developer-examples.onrender.com)
+
 ## Les exemples
 
 Sept exemples contiennent du code source complet, commenté et prêt à adapter.

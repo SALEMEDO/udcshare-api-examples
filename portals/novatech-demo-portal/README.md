@@ -6,6 +6,8 @@ Application **entièrement fictive** inspirée d'un portail de réception de jus
 
 ## Architecture
 
+Tutoriel general : [integrer et deployer l’API UDCShare](../../docs/INTEGRATION_TUTORIAL_FR.md). Le schema SQL de reference est dans [`database/`](../../database/README.md) ; ce portail fonctionne sans base SQL en mode simulation.
+
 - `site/` : interface HTML/CSS/JavaScript publiée comme site statique Render.
 - `api/` : backend Node.js/Express publié comme Web Service Render.
 - Le navigateur appelle uniquement le backend NOVATECH ; il ne reçoit jamais de clé API UDCShare.
