@@ -69,9 +69,9 @@ const compte = await r.json();
 
 | Portail | Architecture | Description |
 |---|---|---|
-| [NOVATECH DEMO](./portals/novatech-demo-portal/) | Site statique + API Node.js | Portail fictif de dépôt et de suivi de justificatifs, avec espace agents, aperçu des fichiers, statuts, diagnostic et statistiques. Mode simulation par défaut ; connexion Sandbox UDCShare facultative via secrets Render côté serveur. |
+| [NOVATECH Developer Playground](./portals/novatech-demo-portal/) | Site statique + API Node.js + Supabase Auth | Laboratoire public : chaque développeur crée son compte, saisit sa propre URL API, sa clé et son identifiant de projet, puis teste l’état, les fichiers et l’usage de son API. Clés chiffrées et espaces isolés. |
 
-Le guide [NOVATECH DEMO](./portals/novatech-demo-portal/README.md) explique le déploiement séparé du site statique et du backend, les variables Render et les précautions de sécurité. N'utilisez que des données et fichiers fictifs dans cette démonstration publique.
+Le guide [NOVATECH Developer Playground](./portals/novatech-demo-portal/README.md) explique le fonctionnement et la sécurité des comptes publics. Le script SQL autonome est disponible dans [database/novatech-public-demo.sql](./database/novatech-public-demo.sql) ; il ne contient que les trois tables du Playground, pas la base complète UDCShare. Utilisez un projet Sandbox ou un projet dont vous êtes propriétaire.
 
 ---
 
