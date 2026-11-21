@@ -1,6 +1,6 @@
 # UDCShare API — Exemples développeurs
 
-**Catalogue web public :** après publication du site statique, le lien sera indiqué ici. Le code source et les guides restent disponibles dans ce dépôt.
+**Catalogue web public :** https://udcshare-developer-examples.onrender.com — le code source et les guides restent disponibles dans ce dépôt.
 
 <p align="center">
   <a href="https://udcshare.com"><img src="assets/banner.svg" alt="API UDCShare — exemples de code officiels" width="100%"></a>
