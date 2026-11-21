@@ -256,6 +256,12 @@ function projectSuffix(connection, endpoint) {
   throw new Error("Démonstration API inconnue.");
 }
 
+app.get("/", (_req, res) => res.status(200).json({
+  service: "NOVATECH Developer Playground API",
+  status: "online",
+  health: "/health",
+  documentation: "https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md"
+}));
 app.get("/health", (_req, res) => res.json({ ok: true, service: "novatech-developer-playground", configured: configured() }));
 app.get("/api/config", (_req, res) => res.json({
   app: "NOVATECH Developer Playground",
