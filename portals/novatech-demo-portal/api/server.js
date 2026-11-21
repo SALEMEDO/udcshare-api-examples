@@ -377,7 +377,7 @@ app.post("/api/connections/:id/test/:endpoint", requireUser, limit(60, 60 * 60 *
         });
       } catch {}
     }
-    return jsonError(res, 200, code, error.message || "Impossible de joindre cette API.");
+    return jsonError(res, status >= 400 && status < 500 ? status : 502, code, error.message || "Impossible de joindre cette API.");
   }
 });
 
