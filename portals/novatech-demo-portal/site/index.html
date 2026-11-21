@@ -3,100 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#102a25">
-  <meta name="description" content="NOVATECH Developer Playground — testez votre propre API UDCShare avec vos identifiants et vos ressources.">
-  <title>NOVATECH — Developer Playground</title>
-  <link rel="stylesheet" href="/styles.css">
+  <meta name="theme-color" content="#0b1715">
+  <meta name="description" content="NOVATECH Developer Playground : découvrez, connectez et testez vos propres API UDCShare dans un espace développeur personnel et sécurisé.">
+  <title>NOVATECH — Espace développeur</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1715;--panel:#122521;--line:#29443c;--mint:#b7f3d5;--green:#55d69b;--muted:#a8bdb4}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 78% 8%,#1b4538 0,transparent 38%),linear-gradient(145deg,#091411,#10231f 62%,#0b1715);color:#f1faf5;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+    header{height:82px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff13}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.12em}.mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#8bf0bd,#2b9d70);color:#092219;display:grid;place-items:center;font-size:23px;box-shadow:0 8px 28px #55d69b30}.brand small{display:block;font-size:9px;letter-spacing:.2em;color:#a8bdb4;margin-top:3px}
+    .nav{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:13px}.nav a:hover{color:var(--mint)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:750;transition:transform .2s,background .2s}.btn:hover{transform:translateY(-2px)}.primary{background:var(--green);color:#082219;box-shadow:0 12px 30px #55d69b22}.secondary{border:1px solid #ffffff2a;background:#ffffff08;color:#e8f5ee}
+    .hero{display:grid;grid-template-columns:1.12fr .88fr;align-items:center;gap:55px;padding:90px 0 76px}.eyebrow{font-size:11px;letter-spacing:.19em;font-weight:800;color:var(--green)}h1{font-size:clamp(44px,6.2vw,72px);line-height:1.04;letter-spacing:-.055em;margin:18px 0 22px}h1 span{color:var(--mint)}.lead{font-size:17px;line-height:1.8;color:#b6c9c0;max-width:610px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px;color:#a8bdb4;font-size:12px}.trust span:before{content:"✓";color:var(--green);font-weight:900;margin-right:7px}
+    .visual{position:relative;min-height:360px;display:grid;place-items:center}.glow{position:absolute;width:290px;height:290px;border-radius:50%;background:#45d99a1c;filter:blur(36px)}.orb{position:absolute;width:300px;height:300px;border:1px solid #8cefc044;border-radius:50%;transform:rotate(-24deg) scaleY(.58)}.orb.two{width:350px;height:350px;transform:rotate(48deg) scaleY(.58);border-color:#8cefc026}.console{position:relative;width:min(100%,390px);padding:0;border:1px solid #ffffff24;border-radius:18px;background:#0c1916;box-shadow:0 28px 90px #0008;overflow:hidden;transform:rotate(-2deg)}.console-head{height:43px;border-bottom:1px solid #ffffff16;display:flex;align-items:center;padding:0 15px;gap:7px;color:#91a99e;font-size:11px}.dot{width:7px;height:7px;border-radius:50%;background:#5a776b}.console-body{padding:25px;font:12px/2.1 ui-monospace,SFMono-Regular,monospace;color:#c0d8cb}.dim{color:#668478}.green{color:#70e6aa}.codebox{margin-top:18px;padding:14px;border:1px solid #29443c;border-radius:10px;background:#10231f}
+    .features{padding:35px 0 85px}.section-head{text-align:center;max-width:650px;margin:0 auto 32px}.section-head h2{font-size:30px;letter-spacing:-.03em;margin:12px 0}.section-head p{color:var(--muted);line-height:1.7}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{border:1px solid #ffffff17;background:linear-gradient(145deg,#142a24,#0e1c18);border-radius:16px;padding:23px}.icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#55d69b18;color:var(--mint);font-size:20px}.card h3{font-size:16px;margin:18px 0 8px}.card p{font-size:13px;line-height:1.7;color:var(--muted);margin:0}
+    .cta{margin:0 0 75px;border:1px solid #55d69b3b;border-radius:20px;padding:32px 36px;background:linear-gradient(110deg,#17382d,#10231f);display:flex;align-items:center;justify-content:space-between;gap:25px}.cta h2{margin:0 0 8px;font-size:24px}.cta p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+    footer{border-top:1px solid #ffffff16;padding:24px 0;color:#8da69b;font-size:12px}footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}footer a{color:var(--mint)}
+    @media(max-width:760px){.wrap{width:min(100% - 30px,1120px)}header{height:70px}.nav>a:not(.btn){display:none}.hero{grid-template-columns:1fr;gap:20px;padding:58px 0 48px}.visual{min-height:290px}.console{max-width:350px}.cards{grid-template-columns:1fr}.features{padding-bottom:55px}.cta{padding:25px;align-items:flex-start;flex-direction:column}.brand{font-size:13px}}
+  </style>
 </head>
 <body>
-<header class="topbar">
-  <a class="brand" href="/"><span class="brand-mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
-  <div class="top-actions"><span class="public-label">LABORATOIRE PUBLIC</span><button id="logoutBtn" class="btn ghost hidden" type="button">Déconnexion</button></div>
+<header class="wrap">
+  <a class="brand" href="/"><span class="mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
+  <nav class="nav" aria-label="Navigation principale"><a href="#fonctionnalites">Fonctionnalités</a><a href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md" target="_blank" rel="noopener">Documentation</a><a class="btn secondary" href="/app.html">Connexion <span>↗</span></a></nav>
 </header>
-<main class="container">
-  <section class="hero">
-    <div class="hero-copy">
-      <span class="eyebrow">UDCSHARE API · ENVIRONNEMENT DE TEST</span>
-      <h1>Votre API.<br><em>Votre Drive. Vos essais.</em></h1>
-      <p>Connectez votre propre projet UDCShare, vérifiez sa disponibilité et explorez les fonctionnalités avec vos propres identifiants. Vos configurations et vos historiques vous attendent à votre prochaine connexion.</p>
-      <div class="hero-points"><span>✓ Espace personnel</span><span>✓ Clés chiffrées</span><span>✓ Données isolées</span></div>
+<main>
+  <section class="hero wrap">
+    <div>
+      <span class="eyebrow">L'ENVIRONNEMENT DES DÉVELOPPEURS</span>
+      <h1>Vos API.<br><span>Vos projets. Vos tests.</span></h1>
+      <p class="lead">Bienvenue sur NOVATECH, le laboratoire public pour découvrir et tester les API UDCShare. Créez votre espace personnel, connectez votre propre projet et explorez les fonctionnalités en toute sécurité.</p>
+      <div class="actions"><a class="btn primary" href="/app.html">Accéder à la plateforme <span>→</span></a><a class="btn secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md" target="_blank" rel="noopener">Consulter le guide</a></div>
+      <div class="trust"><span>Inscription gratuite</span><span>Espaces indépendants</span><span>Clés chiffrées</span></div>
     </div>
-    <div class="hero-art"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="terminal"><div class="terminal-head"><i></i><i></i><i></i><span>developer-console</span></div><div class="terminal-body"><span class="muted">$</span> connect --project <b>your-project</b><br><span class="green">✓</span> credentials secured<br><span class="green">✓</span> personal workspace ready<br><span class="muted">$</span> <span class="cursor"></span></div></div></div>
+    <div class="visual" aria-hidden="true"><div class="glow"></div><div class="orb"></div><div class="orb two"></div><div class="console"><div class="console-head"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span style="margin-left:8px">novatech / developer-console</span></div><div class="console-body"><span class="dim">$</span> novatech connect --project <span class="green">my-project</span><br><span class="green">✓</span> espace personnel prêt<br><span class="green">✓</span> identifiants protégés<br><span class="green">✓</span> environnement de test actif<div class="codebox"><span class="dim">API STATUS</span><br><span class="green">●</span> Ready to explore <span class="dim">_</span></div></div></div></div>
   </section>
-
-  <section id="authView" class="auth-layout">
-    <div class="auth-info"><span class="eyebrow">COMMENCEZ ICI</span><h2>Un espace développeur qui vous suit.</h2><p>Créez votre compte gratuit. Vos paramètres API et vos tests sont associés à votre compte, jamais à celui d'un autre visiteur.</p><ul><li>Retrouvez vos connexions après déconnexion.</li><li>Testez Sandbox ou vos projets autorisés.</li><li>Supprimez vos configurations quand vous le souhaitez.</li></ul></div>
-    <div class="panel auth-panel">
-      <div class="tabs"><button id="loginTab" class="tab active" type="button">Connexion</button><button id="signupTab" class="tab" type="button">Créer un compte</button></div>
-      <form id="authForm">
-        <div id="nameField" class="field hidden"><label for="displayName">Nom ou pseudo</label><input id="displayName" maxlength="100" autocomplete="name" placeholder="Votre nom"></div>
-        <div class="field"><label for="email">Adresse e-mail</label><input id="email" type="email" required autocomplete="email" placeholder="vous@exemple.com"></div>
-        <div class="field">
-          <label for="password">Mot de passe</label>
-          <div class="password-control">
-            <input id="password" type="password" required minlength="10" autocomplete="current-password" placeholder="10 caractères minimum">
-            <button class="password-toggle" type="button" data-toggle-password="password" aria-label="Afficher le mot de passe" aria-pressed="false">Afficher</button>
-          </div>
-          <small>10 caractères minimum, avec une minuscule, une majuscule, un chiffre et un symbole.</small>
-        </div>
-        <div id="confirmPasswordField" class="field hidden">
-          <label for="confirmPassword">Confirmer le mot de passe</label>
-          <div class="password-control">
-            <input id="confirmPassword" type="password" minlength="10" autocomplete="new-password" placeholder="Saisissez à nouveau le mot de passe" disabled>
-            <button class="password-toggle" type="button" data-toggle-password="confirmPassword" aria-label="Afficher la confirmation du mot de passe" aria-pressed="false">Afficher</button>
-          </div>
-        </div>
-        <p id="authMessage" class="message hidden" role="status"></p>
-        <button id="resendConfirmation" class="resend-link hidden" type="button">Renvoyer l'e-mail de confirmation</button>
-        <button id="authSubmit" class="btn primary full" type="submit">Se connecter <span>→</span></button>
-      </form>
-      <p class="tiny">En créant un compte, vous acceptez de n'utiliser que des projets et des fichiers de test dont vous avez l'autorisation.</p>
+  <section class="features wrap" id="fonctionnalites">
+    <div class="section-head"><span class="eyebrow">UN ESPACE FAIT POUR EXPÉRIMENTER</span><h2>Tout commence dans votre espace.</h2><p>Un environnement simple pour configurer vos accès, lancer vos essais et retrouver vos résultats.</p></div>
+    <div class="cards">
+      <article class="card"><span class="icon">⌘</span><h3>Connectez votre API</h3><p>Ajoutez l'adresse de votre API, l'identifiant de votre projet et votre propre clé d'accès.</p></article>
+      <article class="card"><span class="icon">⚡</span><h3>Testez les fonctionnalités</h3><p>Vérifiez l'état du projet, consultez les fichiers et explorez les informations de consommation disponibles.</p></article>
+      <article class="card"><span class="icon">▣</span><h3>Gardez votre historique</h3><p>Retrouvez vos configurations et vos résultats lors de vos prochaines connexions.</p></article>
     </div>
   </section>
-
-  <section id="workspace" class="hidden">
-    <div class="workspace-head"><div><span class="eyebrow">MON ESPACE DÉVELOPPEUR</span><h2>Bonjour, <span id="userLabel">développeur</span></h2><p>Vos configurations personnelles et votre historique de tests.</p></div><div class="account-chip"><span class="online-dot"></span><span id="userEmail"></span></div></div>
-    <div class="workspace-grid">
-      <aside class="panel connection-panel">
-        <div class="panel-title"><div><span class="eyebrow">CONFIGURATION</span><h3>Connecter une API</h3></div><span class="step-icon">01</span></div>
-        <form id="connectionForm">
-          <div class="field"><label for="connectionLabel">Nom de la configuration</label><input id="connectionLabel" maxlength="80" value="Mon projet UDCShare" required></div>
-          <div class="field"><label for="apiBase">Adresse de l'API</label><input id="apiBase" type="url" value="https://udcshare.com/api/v1" required placeholder="https://udcshare.com/api/v1"><small>Adresse HTTPS de votre API, sans paramètres.</small></div>
-          <div class="field"><label for="projectId">Identifiant du projet</label><input id="projectId" required maxlength="180" placeholder="Votre identifiant API"></div>
-          <div class="field"><label for="apiKey">Votre clé API privée</label><input id="apiKey" type="password" required autocomplete="off" placeholder="Collez votre propre clé API"><small>Chiffrée avant stockage. Jamais ajoutée aux variables Render ni envoyée au navigateur après l'enregistrement.</small></div>
-          <p id="connectionMessage" class="message hidden" role="status"></p>
-          <button id="saveConnection" class="btn primary full" type="submit">Enregistrer ma configuration <span>→</span></button>
-        </form>
-        <div class="security-note"><span>⌑</span><div><b>Vos identifiants restent privés</b><small>La clé est chiffrée AES-256-GCM côté serveur. Seul votre compte peut accéder à cette configuration.</small></div></div>
-      </aside>
-
-      <div class="main-column">
-        <section class="panel">
-          <div class="panel-title"><div><span class="eyebrow">MES PROJETS</span><h3>Connexions enregistrées</h3></div><button id="reloadConnections" class="btn small ghost" type="button">Actualiser</button></div>
-          <div id="connectionsList" class="connection-list"><div class="empty-state">Connectez votre première API pour commencer.</div></div>
-        </section>
-        <section class="panel">
-          <div class="panel-title"><div><span class="eyebrow">API PLAYGROUND</span><h3>Démonstrations disponibles</h3></div><span class="step-icon">02</span></div>
-          <p class="subtle">Sélectionnez une connexion puis lancez un test. Les requêtes utilisent votre clé et votre projet, pas ceux de NOVATECH.</p>
-          <div class="demo-grid">
-            <button class="demo-card" data-endpoint="status" type="button"><span class="demo-icon">⌁</span><b>État du projet</b><small>Vérifier API, projet et Drive</small><span class="demo-run">Tester →</span></button>
-            <button class="demo-card" data-endpoint="files" type="button"><span class="demo-icon">▤</span><b>Mes fichiers</b><small>Afficher les fichiers du projet</small><span class="demo-run">Tester →</span></button>
-            <button class="demo-card" data-endpoint="usage" type="button"><span class="demo-icon">◫</span><b>Consommation API</b><small>Lire plan, quotas et usage</small><span class="demo-run">Tester →</span></button>
-          </div>
-          <p id="testMessage" class="message hidden" role="status"></p>
-          <div id="resultPanel" class="result-panel hidden"><div class="result-head"><b id="resultTitle">Résultat du test</b><span id="resultStatus" class="status-pill"></span></div><pre id="resultBody"></pre></div>
-        </section>
-        <section class="panel">
-          <div class="panel-title"><div><span class="eyebrow">MES ACTIVITÉS</span><h3>Historique des tests</h3></div><button id="reloadHistory" class="btn small ghost" type="button">Actualiser</button></div>
-          <div id="historyList" class="history-list"><div class="empty-state">Vos tests apparaîtront ici.</div></div>
-        </section>
-      </div>
-    </div>
-    <p class="workspace-foot">NOVATECH est un environnement pédagogique public. Utilisez des données fictives et un projet Sandbox ou un projet dont vous êtes propriétaire. Les quotas et actions exécutés sur votre API sont réels.</p>
-  </section>
+  <section class="cta wrap"><div><h2>Prêt à commencer ?</h2><p>Créez votre compte NOVATECH et accédez à votre espace développeur personnel.</p></div><a class="btn primary" href="/app.html">Ouvrir mon espace <span>→</span></a></section>
 </main>
-<footer><div class="container footer-inner"><span><b>NOVATECH</b> Developer Playground</span><span>Une démonstration publique UDCShare · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source GitHub ↗</a></span></div></footer>
-<script src="/config.js"></script>
-<script src="/app.js" defer></script>
+<footer><div class="wrap"><span>© NOVATECH · Developer Playground</span><span>Un environnement public <a href="https://udcshare.com" target="_blank" rel="noopener">UDCShare</a> · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source</a></span></div></footer>
 </body>
 </html>
