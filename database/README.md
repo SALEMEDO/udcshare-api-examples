@@ -10,7 +10,7 @@ It is deliberately not a backup, export or copy of the UDCShare production datab
 
 ## Important before running
 
-The script is PostgreSQL / Supabase compatible, but it is a reusable reference model, not a one-click deployment of UDCShare's private backend.
+The script targets Supabase PostgreSQL (it expects the standard `anon`, `authenticated` and `service_role` roles). It is a reusable reference model, not a one-click deployment of UDCShare's private backend.
 
 - It intentionally uses UUID owner/user identifiers without binding them to a particular authentication table. Add foreign keys to your own user table after adapting the schema.
 - The SQL grants server access to Supabase's `service_role`; use that role only in a trusted backend. Never expose its key in a browser or public repository.
