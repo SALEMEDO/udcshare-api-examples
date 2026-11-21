@@ -31,21 +31,28 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px;border-t
 .project-preview-screen{margin-top:12px;background:#fff;border:1px solid #dfe9e1;border-radius:10px;padding:13px;display:grid;grid-template-columns:1.2fr .8fr;gap:12px;box-shadow:0 6px 18px #193d2710}
 .project-preview-screen strong{font-size:19px;line-height:1.05;color:#173d30;display:block}.project-preview-screen p{font-size:10px;color:#64756b;margin:7px 0}.project-preview-terminal{background:#142820;color:#d9f0e1;border-radius:7px;padding:10px;font:9px/1.8 monospace}
 @media(max-width:600px){.library-cover{padding:18px;min-height:245px}.cover-copy{padding-top:27px}.cover-copy h1{font-size:36px}.project-preview{height:165px}}
-\n</style>
+\n
+.cover-person{position:absolute;right:28px;top:22px;width:190px;height:225px;object-fit:cover;object-position:center 25%;border-radius:16px;border:3px solid #ffffffb8;box-shadow:0 10px 30px #071f1640}
+.library-cover .cover-copy{max-width:64%}
+.project-preview-live{padding:0;height:175px}
+.project-preview-live iframe{width:1280px;height:900px;border:0;transform:scale(.13);transform-origin:top left;background:#fff}
+@media(max-width:600px){.cover-person{right:14px;top:20px;width:105px;height:145px}.library-cover .cover-copy{max-width:70%;padding-top:24px}.project-preview-live{height:165px}.project-preview-live iframe{transform:scale(.12)}}
+
+</style>
 </head>
 <body>
 <header><div class="brand">UDC<span>SHARE</span> · DEVELOPERS</div><a href="https://udcshare.com/api/docs">Documentation API ↗</a></header>
 <main>\n<section class="library-cover" aria-label="Couverture de la bibliothèque publique">
+<img class="cover-person" src="https://udcshare.com/images/salem-nkormen-720.jpg" alt="Portrait de la personne présentée sur UDCShare">
 <div class="cover-brand">UDC<span>SHARE</span> <small>· DEVELOPERS</small></div>
 <div class="cover-copy"><span>CENTRE D'EXEMPLES OFFICIELS</span><h1>Construisez avec l'API UDCShare.</h1><p>Des projets de démonstration, des intégrations et des portails complets à explorer.</p><div class="cover-chips"><i>Node.js</i><i>JavaScript</i><i>Python</i><i>PHP</i><i>Java</i></div></div>
-<div class="cover-orbit"></div>
 </section>
 
 <div class="eyebrow">Centre d'exemples officiels</div>
 <h1>Construisez avec l'API UDCShare.</h1>
 <p class="lead">Des projets de démonstration et des exemples de code pour comprendre comment intégrer les dépôts de fichiers, consulter les ressources, suivre l'utilisation et créer vos propres expériences.</p>
 <div class="grid">
-<section class="card"><span class="tag">Laboratoire public · Supabase + Node.js</span><h2>NOVATECH Developer Playground</h2><div class="project-preview" role="img" aria-label="Aperçu de la page d’accueil NOVATECH"><div class="project-preview-top"><b><span>N</span>NOVATECH · DEVELOPER PLAYGROUND</b><em>LABORATOIRE PUBLIC</em></div><div class="project-preview-screen"><div><strong>Votre API.<br>Votre Drive. Vos essais.</strong><p>Connectez votre projet et explorez vos fonctionnalités dans votre espace personnel.</p></div><div class="project-preview-terminal">$ connect --project<br>✓ credentials secured<br>✓ workspace ready</div></div></div><p>Chaque développeur crée son propre compte, connecte sa propre URL API avec sa clé et son projet, puis teste l’état, les fichiers et la consommation. Configurations chiffrées, comptes et historiques isolés.</p><a class="button" href="https://novatech-demo-portal-public.onrender.com">Essayer le Playground</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal">Voir le code</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/database/novatech-public-demo.sql">Script SQL</a></section>
+<section class="card"><span class="tag">Laboratoire public · Supabase + Node.js</span><h2>NOVATECH Developer Playground</h2><div class="project-preview project-preview-live"><iframe src="https://novatech-demo-portal-public.onrender.com" title="Aperçu réel du portail NOVATECH" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p>Chaque développeur</div></div></div><p>Chaque développeur crée son propre compte, connecte sa propre URL API avec sa clé et son projet, puis teste l’état, les fichiers et la consommation. Configurations chiffrées, comptes et historiques isolés.</p><a class="button" href="https://novatech-demo-portal-public.onrender.com">Essayer le Playground</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal">Voir le code</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/database/novatech-public-demo.sql">Script SQL</a></section>
 <section class="card"><span class="tag">Démarrer rapidement</span><h2>Exemples par langage</h2><p>Retrouvez les requêtes et intégrations de référence pour cURL, JavaScript, Node.js, Python, PHP, Java et autres environnements.</p><a class="button" href="https://github.com/SALEMEDO/udcshare-api-examples">Parcourir les exemples</a></section>
 <section class="card"><span class="tag">Référence</span><h2>Documentation interactive</h2><p>Consultez les routes, paramètres, en-têtes d'authentification, réponses et schémas de l'API UDCShare.</p><a class="button" href="https://udcshare.com/api/docs">Ouvrir la documentation</a></section>
 </div>
