@@ -1,5 +1,5 @@
 -- UDCShare Developer API — reference schema (metadata only)
--- PostgreSQL / Supabase compatible.
+-- Supabase PostgreSQL compatible (requires the standard Supabase roles: anon, authenticated and service_role).
 --
 -- This is a SMALL, reusable reference schema for the API file-resource model.
 -- It is NOT a dump of the UDCShare production database and contains NO data,
