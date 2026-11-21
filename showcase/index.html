@@ -30,7 +30,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px;border-t
 <h1>Construisez avec l'API UDCShare.</h1>
 <p class="lead">Des projets de démonstration et des exemples de code pour comprendre comment intégrer les dépôts de fichiers, consulter les ressources, suivre l'utilisation et créer vos propres expériences.</p>
 <div class="grid">
-<section class="card"><span class="tag">Portail complet · Node.js</span><h2>NOVATECH DEMO</h2><p>Un portail fictif de réception de justificatifs : formulaire de dépôt, espace agents, aperçu des fichiers, recherche, statuts, diagnostic API et statistiques.</p><a class="button" href="https://novatech-demo-portal-public.onrender.com">Essayer le portail</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal">Voir le code</a></section>
+<section class="card"><span class="tag">Laboratoire public · Supabase + Node.js</span><h2>NOVATECH Developer Playground</h2><p>Chaque développeur crée son propre compte, connecte sa propre URL API avec sa clé et son projet, puis teste l’état, les fichiers et la consommation. Configurations chiffrées, comptes et historiques isolés.</p><a class="button" href="https://novatech-demo-portal-public.onrender.com">Essayer le Playground</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal">Voir le code</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/database/novatech-public-demo.sql">Script SQL</a></section>
 <section class="card"><span class="tag">Démarrer rapidement</span><h2>Exemples par langage</h2><p>Retrouvez les requêtes et intégrations de référence pour cURL, JavaScript, Node.js, Python, PHP, Java et autres environnements.</p><a class="button" href="https://github.com/SALEMEDO/udcshare-api-examples">Parcourir les exemples</a></section>
 <section class="card"><span class="tag">Référence</span><h2>Documentation interactive</h2><p>Consultez les routes, paramètres, en-têtes d'authentification, réponses et schémas de l'API UDCShare.</p><a class="button" href="https://udcshare.com/api/docs">Ouvrir la documentation</a></section>
 </div>
@@ -39,7 +39,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px;border-t
   -H "X-API-Key: $UDCSHARE_API_KEY" \
   -H "X-External-User-ID: user-123" \
   -F "file=@document.pdf"</pre>
-<div class="notice">Les portails de démonstration publics utilisent des données fictives. Ne soumettez aucun document personnel, justificatif réel ou secret d'accès. Pour tester l'API réelle, créez votre propre projet Sandbox et configurez la clé uniquement dans votre backend.</div>
+<div class="notice">NOVATECH utilise les clés API personnelles des visiteurs, chiffrées dans leur espace. Ne soumettez aucun document personnel. Les tests peuvent consommer les quotas de votre propre projet UDCShare.</div>
 </section>
 </main>
 <footer>UDCShare Developer Examples · Exemples pédagogiques · Ne jamais publier de clés API</footer>
