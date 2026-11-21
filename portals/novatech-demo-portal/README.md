@@ -14,9 +14,9 @@ Application **entièrement fictive** inspirée d'un portail de réception de jus
 
 ## Démonstration
 
-- URL portail : https://novatech-demo-portal.onrender.com
-- URL API : https://novatech-demo-api.onrender.com
-- Santé API : https://novatech-demo-api.onrender.com/health
+- URL portail : https://novatech-demo-portal-public.onrender.com
+- URL API : https://novatech-demo-api-public.onrender.com
+- Santé API : https://novatech-demo-api-public.onrender.com/health
 - Espace équipe : bouton « Espace agents NOVATECH »
 - Mot de passe public de démonstration : `NOVATECH-DEMO-2026`
 
