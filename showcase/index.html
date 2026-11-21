@@ -21,16 +21,31 @@ a.secondary{background:#edf4ef;color:var(--green)}
 pre{overflow:auto;background:#14251d;color:#e8f3eb;padding:16px;border-radius:12px;font-size:12px}
 footer{text-align:center;padding:25px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
 .notice{border-left:4px solid #d3aa53;padding:12px 16px;background:#fff8e9;color:#65512b;border-radius:5px;font-size:13px}
-</style>
+
+.library-cover{position:relative;overflow:hidden;min-height:270px;padding:22px 28px;border-radius:22px;background:linear-gradient(115deg,#103e2c,#176448 68%,#244d3c);color:#fff;box-shadow:0 14px 40px #153e2b20}
+.cover-brand{font-weight:900;letter-spacing:.04em}.cover-brand span{color:#e5c477}.cover-brand small{font-size:11px;color:#d9e9df}
+.cover-copy{position:relative;z-index:1;max-width:680px;padding:30px 0 12px}.cover-copy>span{font-size:11px;letter-spacing:.16em;font-weight:800;color:#d6e7dc}.cover-copy h1{font-size:clamp(34px,5vw,54px);line-height:1.02;letter-spacing:-.045em;margin:12px 0}.cover-copy p{color:#dce9e0;font-size:16px;max-width:570px}.cover-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}.cover-chips i{font-style:normal;border:1px solid #ffffff55;border-radius:30px;padding:5px 10px;font-size:12px;color:white}.cover-orbit{position:absolute;width:330px;height:330px;border:1px solid #ffffff25;border-radius:50%;right:-70px;top:-110px;box-shadow:0 0 0 30px #ffffff0c,0 0 0 60px #ffffff08;pointer-events:none}
+.project-preview{height:175px;border-radius:13px;background:linear-gradient(145deg,#f1f6f2,#e5eee8);border:1px solid #dce8df;overflow:hidden;position:relative;margin:16px 0 12px;padding:12px}
+.project-preview-top{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#52685b}
+.project-preview-top b{font-size:11px;color:#173d30}.project-preview-top b span{background:#173d30;color:#e5c477;border-radius:4px;padding:3px 5px;margin-right:5px}
+.project-preview-screen{margin-top:12px;background:#fff;border:1px solid #dfe9e1;border-radius:10px;padding:13px;display:grid;grid-template-columns:1.2fr .8fr;gap:12px;box-shadow:0 6px 18px #193d2710}
+.project-preview-screen strong{font-size:19px;line-height:1.05;color:#173d30;display:block}.project-preview-screen p{font-size:10px;color:#64756b;margin:7px 0}.project-preview-terminal{background:#142820;color:#d9f0e1;border-radius:7px;padding:10px;font:9px/1.8 monospace}
+@media(max-width:600px){.library-cover{padding:18px;min-height:245px}.cover-copy{padding-top:27px}.cover-copy h1{font-size:36px}.project-preview{height:165px}}
+\n</style>
 </head>
 <body>
 <header><div class="brand">UDC<span>SHARE</span> · DEVELOPERS</div><a href="https://udcshare.com/api/docs">Documentation API ↗</a></header>
-<main>
+<main>\n<section class="library-cover" aria-label="Couverture de la bibliothèque publique">
+<div class="cover-brand">UDC<span>SHARE</span> <small>· DEVELOPERS</small></div>
+<div class="cover-copy"><span>CENTRE D'EXEMPLES OFFICIELS</span><h1>Construisez avec l'API UDCShare.</h1><p>Des projets de démonstration, des intégrations et des portails complets à explorer.</p><div class="cover-chips"><i>Node.js</i><i>JavaScript</i><i>Python</i><i>PHP</i><i>Java</i></div></div>
+<div class="cover-orbit"></div>
+</section>
+
 <div class="eyebrow">Centre d'exemples officiels</div>
 <h1>Construisez avec l'API UDCShare.</h1>
 <p class="lead">Des projets de démonstration et des exemples de code pour comprendre comment intégrer les dépôts de fichiers, consulter les ressources, suivre l'utilisation et créer vos propres expériences.</p>
 <div class="grid">
-<section class="card"><span class="tag">Laboratoire public · Supabase + Node.js</span><h2>NOVATECH Developer Playground</h2><p>Chaque développeur crée son propre compte, connecte sa propre URL API avec sa clé et son projet, puis teste l’état, les fichiers et la consommation. Configurations chiffrées, comptes et historiques isolés.</p><a class="button" href="https://novatech-demo-portal-public.onrender.com">Essayer le Playground</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal">Voir le code</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/database/novatech-public-demo.sql">Script SQL</a></section>
+<section class="card"><span class="tag">Laboratoire public · Supabase + Node.js</span><h2>NOVATECH Developer Playground</h2><div class="project-preview" role="img" aria-label="Aperçu de la page d’accueil NOVATECH"><div class="project-preview-top"><b><span>N</span>NOVATECH · DEVELOPER PLAYGROUND</b><em>LABORATOIRE PUBLIC</em></div><div class="project-preview-screen"><div><strong>Votre API.<br>Votre Drive. Vos essais.</strong><p>Connectez votre projet et explorez vos fonctionnalités dans votre espace personnel.</p></div><div class="project-preview-terminal">$ connect --project<br>✓ credentials secured<br>✓ workspace ready</div></div></div><p>Chaque développeur crée son propre compte, connecte sa propre URL API avec sa clé et son projet, puis teste l’état, les fichiers et la consommation. Configurations chiffrées, comptes et historiques isolés.</p><a class="button" href="https://novatech-demo-portal-public.onrender.com">Essayer le Playground</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/portals/novatech-demo-portal">Voir le code</a><a class="button secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/database/novatech-public-demo.sql">Script SQL</a></section>
 <section class="card"><span class="tag">Démarrer rapidement</span><h2>Exemples par langage</h2><p>Retrouvez les requêtes et intégrations de référence pour cURL, JavaScript, Node.js, Python, PHP, Java et autres environnements.</p><a class="button" href="https://github.com/SALEMEDO/udcshare-api-examples">Parcourir les exemples</a></section>
 <section class="card"><span class="tag">Référence</span><h2>Documentation interactive</h2><p>Consultez les routes, paramètres, en-têtes d'authentification, réponses et schémas de l'API UDCShare.</p><a class="button" href="https://udcshare.com/api/docs">Ouvrir la documentation</a></section>
 </div>
