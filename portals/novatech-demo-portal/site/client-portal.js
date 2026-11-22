@@ -29,28 +29,41 @@
     const index = Math.min(Math.floor(Math.log(n) / Math.log(1024)), units.length - 1);
     return (n / Math.pow(1024, index)).toFixed(index ? 1 : 0) + " " + units[index];
   }
+  let activePreviewUrl = "";
   function filePreviewUrl(file) {
-    const raw = file?.file_url || file?.url || file?.download_url || "";
-    if (raw) {
-      try {
-        const url = new URL(raw, "https://udcshare.com");
-        if (url.protocol === "https:" && (url.hostname === "udcshare.com" || url.hostname.endsWith(".udcshare.com"))) return url.href;
-      } catch {}
-    }
     const id = file?.file_id || file?.id;
-    return id ? "https://udcshare.com/d/" + encodeURIComponent(String(id)) : "";
+    return id ? String(id) : "";
   }
-  function openFilePreview(file) {
-    const url = filePreviewUrl(file);
-    if (!url) {
-      showMessage("pageMessage", "Aperçu indisponible : lien de consultation introuvable.", true);
+  async function openFilePreview(file) {
+    const id = filePreviewUrl(file);
+    if (!id) {
+      showMessage("pageMessage", "Aperçu indisponible : identifiant du fichier introuvable.", true);
       return;
     }
-    $("filePreviewTitle").textContent = file.name || file.filename || "Aperçu du fichier";
-    $("filePreviewFrame").src = url;
     const dialog = $("filePreviewModal");
-    if (typeof dialog.showModal === "function") dialog.showModal();
+    const frame = $("filePreviewFrame");
+    $("filePreviewTitle").textContent = file.name || file.filename || "Aperçu du fichier";
+    frame.src = "about:blank";
+    if (activePreviewUrl) URL.revokeObjectURL(activePreviewUrl);
+    activePreviewUrl = "";
+    if (typeof dialog.showModal === "function" && !dialog.open) dialog.showModal();
     else dialog.setAttribute("open", "");
+    try {
+      const response = await fetch(API + "/api/client-demo/files/" + encodeURIComponent(id) + "/preview", {
+        method: "GET", credentials: "include", cache: "no-store"
+      });
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error?.error?.message || error?.message || "Le fichier n'a pas pu être récupéré.");
+      }
+      const blob = await response.blob();
+      if (!blob.size) throw new Error("Le fichier récupéré est vide.");
+      activePreviewUrl = URL.createObjectURL(blob);
+      frame.src = activePreviewUrl;
+    } catch (error) {
+      dialog.close?.();
+      showMessage("pageMessage", "Aperçu impossible : " + error.message, true);
+    }
   }
   function renderFiles(payload) {
     const files = Array.isArray(payload?.files) ? payload.files : (Array.isArray(payload) ? payload : []);
@@ -147,6 +160,8 @@
   $("closeFilePreview").addEventListener("click", () => {
     $("filePreviewModal").close?.();
     $("filePreviewFrame").src = "about:blank";
+    if (activePreviewUrl) URL.revokeObjectURL(activePreviewUrl);
+    activePreviewUrl = "";
   });
   $("filePreviewModal").addEventListener("click", event => {
     if (event.target === $("filePreviewModal")) {
