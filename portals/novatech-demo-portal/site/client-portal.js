@@ -28,6 +28,24 @@
     const index = Math.min(Math.floor(Math.log(n) / Math.log(1024)), units.length - 1);
     return (n / Math.pow(1024, index)).toFixed(index ? 1 : 0) + " " + units[index];
   }
+  function driveFileId(file) {
+    if (file?.id) return String(file.id);
+    const link = file?.web_view_link || file?.webViewLink || file?.file_url || "";
+    const match = String(link).match(/\\/file\\/d\\/([a-zA-Z0-9_-]+)/);
+    return match?.[1] || "";
+  }
+  function openFilePreview(file) {
+    const id = driveFileId(file);
+    if (!id) {
+      showMessage("pageMessage", "Aperçu indisponible : identifiant du fichier introuvable.", true);
+      return;
+    }
+    $("filePreviewTitle").textContent = file.name || file.filename || "Aperçu du fichier";
+    $("filePreviewFrame").src = "https://drive.google.com/file/d/" + encodeURIComponent(id) + "/preview";
+    const dialog = $("filePreviewModal");
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+  }
   function renderFiles(payload) {
     const files = Array.isArray(payload?.files) ? payload.files : (Array.isArray(payload) ? payload : []);
     const host = $("fileList"); host.replaceChildren();
@@ -37,14 +55,33 @@
     }
     files.forEach(file => {
       const row = document.createElement("div"); row.className = "file-row";
+      const id = driveFileId(file);
+      const fileName = file.name || file.filename || "Fichier sans nom";
+      if (id) {
+        const thumb = document.createElement("img");
+        thumb.className = "file-preview-thumb";
+        thumb.alt = "Vignette de " + fileName;
+        thumb.loading = "lazy";
+        thumb.src = "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w240";
+        thumb.addEventListener("error", () => {
+          thumb.removeAttribute("src");
+          thumb.alt = "Aperçu non disponible";
+          thumb.style.display = "none";
+        }, { once: true });
+        thumb.addEventListener("click", () => openFilePreview(file));
+        thumb.title = "Afficher l'aperçu";
+        row.append(thumb);
+      }
       const main = document.createElement("div"); main.className = "file-main";
-      const name = document.createElement("strong"); name.textContent = file.name || file.filename || "Fichier sans nom";
+      const name = document.createElement("strong"); name.textContent = fileName;
       const meta = document.createElement("small"); meta.textContent = bytes(file.size || file.filesize) + " · " + (file.created_at ? new Date(file.created_at).toLocaleString("fr-FR") : "Date inconnue");
-      main.append(name, meta);
+      main.append(name, meta); row.append(main);
       const actions = document.createElement("div"); actions.className = "file-actions";
-      const fileUrl = file.web_view_link || file.file_url;
-      if (fileUrl) {
-        const open = document.createElement("a"); open.href = fileUrl; open.target = "_blank"; open.rel = "noopener"; open.textContent = "Ouvrir ↗"; actions.append(open);
+      if (id) {
+        const preview = document.createElement("button");
+        preview.className = "file-preview-btn"; preview.type = "button"; preview.textContent = "Aperçu ↗";
+        preview.addEventListener("click", () => openFilePreview(file));
+        actions.append(preview);
       }
       if (file.id) {
         const remove = document.createElement("button"); remove.className = "btn small ghost"; remove.type = "button"; remove.textContent = "Supprimer";
@@ -56,7 +93,7 @@
         });
         actions.append(remove);
       }
-      row.append(main, actions); host.append(row);
+      row.append(actions); host.append(row);
     });
   }
   function renderOverview(data) {
@@ -93,6 +130,19 @@
     } finally { $("refreshBtn").disabled = false; }
   }
   $("refreshBtn").addEventListener("click", loadOverview);
+  $("closeFilePreview").addEventListener("click", () => {
+    $("filePreviewModal").close?.();
+    $("filePreviewFrame").src = "about:blank";
+  });
+  $("filePreviewModal").addEventListener("click", event => {
+    if (event.target === $("filePreviewModal")) {
+      $("filePreviewModal").close?.();
+      $("filePreviewFrame").src = "about:blank";
+    }
+  });
+  $("filePreviewModal").addEventListener("close", () => {
+    $("filePreviewFrame").src = "about:blank";
+  });
   $("uploadForm").addEventListener("submit", async event => {
     event.preventDefault();
     const file = $("fileInput").files?.[0];
