@@ -22,7 +22,7 @@ projects:
               - key: SUPABASE_DB_SCHEMA
                 value: developer_test
               - key: NOVATECH_ALLOWED_ORIGIN
-                value: https://novatech-demo-portal-test.onrender.com
+                value: https://novatech-demo-portal-test-61nh.onrender.com
               - key: NOVATECH_CREDENTIALS_ENCRYPTION_KEY
                 sync: false
           - type: web
