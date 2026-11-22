@@ -283,11 +283,14 @@ async function callUserApi(connection, userId, suffix, method = "GET", body) {
   return { payload, status: response.status, duration: Date.now() - started };
 }
 function projectSuffix(connection, endpoint) {
-  const projectId = String(connection.project_id || "").trim();
-  if (!projectId) throw new Error("L'identifiant du projet API est obligatoire.");
-  if (endpoint === "status") return "/apps/" + encodeURIComponent(projectId) + "/status";
-  if (endpoint === "files") return "/apps/" + encodeURIComponent(projectId) + "/files?limit=10";
+  // La colonne historique project_id stocke ici l'api_client_id public de la ressource.
+  const apiClientId = String(connection.project_id || "").trim();
+  if (!apiClientId) throw new Error("L'identifiant client API (api_client_id) est obligatoire.");
+  const resource = "/apps/" + encodeURIComponent(apiClientId);
+  if (endpoint === "status") return resource + "/status";
+  if (endpoint === "files") return resource + "/files";
   if (endpoint === "usage") return "/usage";
+  if (endpoint === "stats") return "/stats";
   throw new Error("Démonstration API inconnue.");
 }
 
@@ -615,16 +618,24 @@ app.get("/api/client-demo/overview", requireUser, async (req, res) => {
   try {
     const connection = await requireClientDemoConnection(req, res);
     if (!connection) return;
-    const [account, files, stats] = await Promise.all([
-      callUserApi(connection, req.user.id, "/account"),
-      callUserApi(connection, req.user.id, "/files"),
-      callUserApi(connection, req.user.id, "/stats")
+    const [status, files, stats, usage] = await Promise.all([
+      callUserApi(connection, req.user.id, projectSuffix(connection, "status")),
+      callUserApi(connection, req.user.id, projectSuffix(connection, "files") + "?limit=50"),
+      callUserApi(connection, req.user.id, projectSuffix(connection, "stats")),
+      callUserApi(connection, req.user.id, projectSuffix(connection, "usage"))
     ]);
+    const project = stats.payload?.project || {};
+    const account = {
+      full_name: "Ressource API " + (project.api_client_id || connection.project_id),
+      plan: project.environment || status.payload?.api?.environment || "—"
+    };
     return res.json({
-      account: account.payload,
+      account,
       files: files.payload,
       stats: stats.payload,
-      connection: { label: connection.label, api_base_url: connection.api_base_url }
+      status: status.payload,
+      usage: usage.payload,
+      connection: { label: connection.label, api_base_url: connection.api_base_url, api_client_id: connection.project_id }
     });
   } catch (error) {
     return jsonError(res, error.status || 502, error.code || "CLIENT_DEMO_LOAD_FAILED", error.message || "Impossible de charger le portail client.");
@@ -639,7 +650,7 @@ app.post("/api/client-demo/upload", requireUser, demoUpload.single("file"), asyn
     const form = new FormData();
     form.append("file", new Blob([req.file.buffer], { type: req.file.mimetype || "application/octet-stream" }), req.file.originalname);
     const started = Date.now();
-    const response = await fetch(base + "/upload", {
+    const response = await fetch(base + projectSuffix(connection, "files"), {
       method: "POST",
       headers: {
         "X-API-Key": decryptSecret(connection),
@@ -669,7 +680,7 @@ app.delete("/api/client-demo/files/:id", requireUser, async (req, res) => {
   try {
     const connection = await requireClientDemoConnection(req, res);
     if (!connection) return;
-    const result = await callUserApi(connection, req.user.id, "/files/" + encodeURIComponent(fileId), "DELETE");
+    const result = await callUserApi(connection, req.user.id, projectSuffix(connection, "files") + "/" + encodeURIComponent(fileId), "DELETE");
     return res.json({ ok: true, data: result.payload });
   } catch (error) {
     return jsonError(res, error.status || 502, error.code || "FILE_DELETE_FAILED", error.message || "Impossible de supprimer ce fichier.");
