@@ -78,7 +78,7 @@
       const meta = document.createElement("small"); meta.textContent = bytes(file.size || file.filesize) + " · " + (file.created_at ? new Date(file.created_at).toLocaleString("fr-FR") : "Date inconnue");
       main.append(name, meta); row.append(main);
       const actions = document.createElement("div"); actions.className = "file-actions";
-      if (id) {
+      if (previewUrl) {
         const preview = document.createElement("button");
         preview.className = "file-preview-btn"; preview.type = "button"; preview.textContent = "Aperçu ↗";
         preview.addEventListener("click", () => openFilePreview(file));
