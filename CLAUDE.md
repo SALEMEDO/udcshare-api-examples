@@ -13,7 +13,7 @@
 ## Monitor inventory
 
 - NOVATECH API — `https://novatech-demo-api-public.onrender.com/ping` — GET — every 2 minutes — enabled in Cron-job.org on 2026-11-22.
-- UDCShare API — `https://udcshare-drc-g2qc.onrender.com/ping` — GET — every 2 minutes — pending verification.
+- UDCShare API — `https://udcshare-drc-g2qc.onrender.com/ping` — GET — every 2 minutes — enabled; first execution successful on 2026-11-22.
 - UDCShare Developer Examples — static site `https://udcshare-developer-examples.onrender.com/` — availability check only, not a keep-alive.
 
 ## GitHub CI constraint
