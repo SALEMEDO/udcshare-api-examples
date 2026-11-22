@@ -28,7 +28,6 @@ projects:
           - type: web
             runtime: static
             name: novatech-demo-portal-test
-            region: frankfurt
             repo: https://github.com/SALEMEDO/udcshare-api-examples
             branch: staging
             rootDir: portals/novatech-demo-portal/site
