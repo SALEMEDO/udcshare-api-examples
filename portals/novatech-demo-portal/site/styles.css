@@ -5,3 +5,32 @@
 .password-toggle:focus-visible,.resend-link:focus-visible{outline:3px solid #b9e1c7;outline-offset:2px}
 .resend-link{display:block;margin:10px auto 0;padding:7px 10px;border:0;background:transparent;color:var(--green);font:inherit;font-size:12px;font-weight:800;text-decoration:underline;cursor:pointer}
 .resend-link:disabled{opacity:.55;cursor:wait}
+
+/* UI/UX Pro Max — responsive polish and accessible interaction */
+:root{--focus-ring:0 0 0 3px rgba(20,122,84,.2);--radius-card:18px;--motion-fast:160ms}
+:where(a,button,input,select,textarea):focus-visible{outline:3px solid #74b991;outline-offset:3px;box-shadow:var(--focus-ring)}
+:where(button,a,.demo-card,.tab){-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn,.tab,.password-toggle,.resend-link,.file-preview-btn,.preview-zoom-btn,.demo-card{min-height:44px}
+.btn{transition:background var(--motion-fast) ease,border-color var(--motion-fast) ease,box-shadow var(--motion-fast) ease,transform var(--motion-fast) ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(18,43,37,.08)}.btn:active,.demo-card:active{transform:translateY(0)}
+.panel,.demo-card,.metric,.connection-item{transition:border-color var(--motion-fast) ease,box-shadow var(--motion-fast) ease,background var(--motion-fast) ease}
+.panel{border-radius:var(--radius-card);box-shadow:0 12px 34px rgba(19,55,41,.055)}
+.demo-icon,.icon{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:var(--mint);color:var(--green)}
+.demo-icon svg,.icon svg,.hero-points svg,.trust svg{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.demo-card{min-width:0;min-height:160px;padding:16px;border-radius:14px;gap:8px}.demo-card b{font-size:13px}.demo-card small{font-size:11px;line-height:1.45;min-height:0}
+.hero-points{align-items:center;gap:12px 20px}.hero-points span{display:inline-flex;align-items:center;gap:7px}.hero-points svg{width:16px;height:16px;color:var(--green);flex:0 0 auto}
+.demo-grid{gap:12px}.top-actions{gap:10px;flex-wrap:wrap}.field input,.upload-row input{min-width:0}.file-row{min-width:0}.file-main{overflow-wrap:anywhere}.file-actions>*{min-height:40px}
+@media(max-width:850px){.auth-layout{gap:28px}.workspace-grid{gap:14px}.connection-panel{top:12px}}
+@media(max-width:600px){
+.container{width:calc(100% - 28px)}.topbar{height:auto;min-height:64px;padding:10px 14px;gap:10px;flex-wrap:wrap}.brand{font-size:13px}.brand-mark{width:36px;height:36px}
+.top-actions{width:100%;gap:8px}.top-actions .btn{flex:1;justify-content:center;padding:10px 9px;font-size:11px}.public-label{display:none}
+.hero{padding:28px 0 22px}.hero h1{font-size:clamp(34px,9vw,42px)}.hero p{font-size:14px;line-height:1.65}.hero-points{gap:10px 14px;font-size:11px}.hero-art{min-height:150px}.terminal{transform:none;width:100%;max-width:360px}.orbit-a{width:240px}.orbit-b{width:210px}
+.auth-layout{padding:16px 0 42px;gap:18px}.auth-info h2{font-size:26px}.auth-info ul{line-height:1.7}.panel,.auth-panel{padding:16px;border-radius:14px}.panel-title{align-items:flex-start}.panel-title h3{font-size:16px}
+.workspace-head{padding:22px 0 16px}.workspace-head h2{font-size:25px}.account-chip{max-width:100%;overflow-wrap:anywhere}
+.demo-grid{grid-template-columns:1fr;gap:9px}.demo-card{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;min-height:88px;padding:12px}.demo-icon{grid-row:1 / span 2}.demo-card b,.demo-card small{grid-column:2}.demo-run{grid-column:2;grid-row:auto;margin-top:0}
+.connection-item{align-items:flex-start;flex-wrap:wrap}.connection-actions{width:100%;justify-content:flex-end}.history-row{gap:8px}.history-row b{overflow-wrap:anywhere}
+.upload-row{align-items:stretch}.upload-row input{width:100%;flex-basis:100%}.upload-row .btn{width:100%}
+.file-row{gap:10px}.file-actions{flex-wrap:wrap}.file-actions .btn,.file-actions a,.file-preview-btn{min-height:44px;padding:10px}
+.footer-inner{gap:8px}.workspace-foot{padding-bottom:24px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
