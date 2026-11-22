@@ -11,6 +11,7 @@ app.set("trust proxy", 1);
 const PORT = Number(process.env.PORT || 10000);
 const SUPABASE_URL = String(process.env.SUPABASE_URL || "").replace(/\/+$/, "");
 const SUPABASE_ANON_KEY = String(process.env.SUPABASE_ANON_KEY || "");
+const SUPABASE_DB_SCHEMA = String(process.env.SUPABASE_DB_SCHEMA || "developer_test").trim();
 const ENCRYPTION_KEY = String(process.env.NOVATECH_CREDENTIALS_ENCRYPTION_KEY || "");
 const ALLOWED_ORIGIN = String(process.env.NOVATECH_ALLOWED_ORIGIN || "https://novatech-demo-portal-public.onrender.com");
 const COOKIE_SECURE = process.env.NODE_ENV !== "development";
@@ -87,6 +88,11 @@ async function supabaseFetch(path, options = {}, accessToken = "") {
       apikey: SUPABASE_ANON_KEY,
       ...(accessToken ? { Authorization: "Bearer " + accessToken } : {}),
       ...(options.body ? { "Content-Type": "application/json" } : {}),
+      ...(path.startsWith("/rest/v1/") && !path.startsWith("/rest/v1/rpc/")
+        ? (String(options.method || "GET").toUpperCase() === "GET"
+          ? { "Accept-Profile": SUPABASE_DB_SCHEMA }
+          : { "Content-Profile": SUPABASE_DB_SCHEMA })
+        : {}),
       ...(options.headers || {})
     },
     cache: "no-store",
