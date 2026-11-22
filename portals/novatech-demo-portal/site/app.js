@@ -250,6 +250,23 @@
 
   (async () => {
     try {
+      const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+      const accessToken = fragment.get("access_token");
+      const refreshToken = fragment.get("refresh_token");
+      const authError = fragment.get("error_description") || fragment.get("error");
+      if (accessToken || refreshToken || authError) {
+        window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+        if (authError) throw new Error("Confirmation impossible : " + authError.replace(/\\+/g, " "));
+        const callback = await request("/api/auth/callback", {
+          method: "POST",
+          body: JSON.stringify({ access_token: accessToken, refresh_token: refreshToken })
+        });
+        if (callback.authenticated) {
+          showWorkspace(callback.user);
+          message("authMessage", "Adresse e-mail confirmée. Bienvenue dans NOVATECH.");
+          return;
+        }
+      }
       const cfg = await request("/api/config");
       if (!cfg.authReady || !cfg.credentialVaultReady) {
         message("authMessage", "Le service est en cours de configuration. Réessayez dans quelques instants.", true);
