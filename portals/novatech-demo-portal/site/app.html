@@ -66,7 +66,7 @@
         <form id="connectionForm">
           <div class="field"><label for="connectionLabel">Nom de la configuration</label><input id="connectionLabel" maxlength="80" value="Mon projet UDCShare" required></div>
           <div class="field"><label for="apiBase">Adresse de l'API</label><input id="apiBase" type="url" value="https://udcshare.com/api/v1" required placeholder="https://udcshare.com/api/v1"><small>Adresse HTTPS de votre API, sans paramètres.</small></div>
-          <div class="field"><label for="projectId">Identifiant du projet</label><input id="projectId" required maxlength="180" placeholder="Votre identifiant API"></div>
+          <div class="field"><label for="projectId">Identifiant client API (api_client_id)</label><input id="projectId" required maxlength="180" placeholder="Votre api_client_id"><small>Identifiant public de la ressource API liée à votre projet — pas l'UUID du projet.</small></div>
           <div class="field"><label for="apiKey">Votre clé API privée</label><input id="apiKey" type="password" required autocomplete="off" placeholder="Collez votre propre clé API"><small>Chiffrée avant stockage. Jamais ajoutée aux variables Render ni envoyée au navigateur après l'enregistrement.</small></div>
           <p id="connectionMessage" class="message hidden" role="status"></p>
           <button id="saveConnection" class="btn primary full" type="submit">Enregistrer ma configuration <span>→</span></button>
