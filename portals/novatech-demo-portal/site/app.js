@@ -161,7 +161,7 @@
       row.className = "connection-item" + (item.id === selectedConnection ? " selected" : "");
       const info = document.createElement("div");
       const name = document.createElement("div"); name.className = "connection-name"; name.textContent = item.label;
-      const meta = document.createElement("div"); meta.className = "connection-meta"; meta.textContent = item.api_base_url + " · Projet " + item.project_id;
+      const meta = document.createElement("div"); meta.className = "connection-meta"; meta.textContent = item.api_base_url + " · API client ID " + item.project_id;
       const state = document.createElement("span"); state.className = "status-pill " + (item.last_status === "connected" ? "ok" : item.last_status === "invalid_key" ? "bad" : "");
       state.textContent = item.last_status === "connected" ? "Connecté" : item.last_status === "invalid_key" ? "Clé invalide" : "À tester";
       info.append(name, meta, state);
