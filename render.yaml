@@ -1,0 +1,37 @@
+projects:
+  - name: "UDCShare service api développer"
+    environments:
+      - name: Test
+        services:
+          - type: web
+            name: novatech-demo-api-test
+            runtime: node
+            plan: free
+            region: frankfurt
+            repo: https://github.com/SALEMEDO/udcshare-api-examples
+            branch: staging
+            rootDir: portals/novatech-demo-portal/api
+            buildCommand: npm install
+            startCommand: npm start
+            autoDeployTrigger: commit
+            envVars:
+              - key: SUPABASE_URL
+                value: https://aptsndwskxgzadmkylmm.supabase.co
+              - key: SUPABASE_ANON_KEY
+                value: sb_publishable_E-RZ0UXfX5cMdvN1OAY3lQ_W6l43nIF
+              - key: SUPABASE_DB_SCHEMA
+                value: developer_test
+              - key: NOVATECH_ALLOWED_ORIGIN
+                value: https://novatech-demo-portal-test.onrender.com
+              - key: NOVATECH_CREDENTIALS_ENCRYPTION_KEY
+                sync: false
+          - type: web
+            runtime: static
+            name: novatech-demo-portal-test
+            region: frankfurt
+            repo: https://github.com/SALEMEDO/udcshare-api-examples
+            branch: staging
+            rootDir: portals/novatech-demo-portal/site
+            buildCommand: echo "NOVATECH static portal"
+            staticPublishPath: .
+            autoDeployTrigger: commit
