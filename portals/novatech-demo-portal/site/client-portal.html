@@ -53,7 +53,7 @@
         <div class="panel-title"><div><span class="eyebrow">AJOUTER UN FICHIER</span><h3>Envoyer vers votre espace UDCShare</h3></div><span class="step-icon">01</span></div>
         <form id="uploadForm">
           <div class="upload-row"><input id="fileInput" type="file" required><button id="uploadBtn" class="btn primary" type="submit">Envoyer le fichier →</button></div>
-          <p class="subtle">Limite de cette démonstration : 50 Mo par fichier. L'envoi est réalisé par l'API UDCShare avec votre propre clé et selon les limites de votre forfait.</p>
+          <p class="subtle">Limite locale de cette démonstration : 50 Mo par fichier. L'API applique aussi les limites de votre offre Developer Console.</p>
         </form>
         <p id="uploadMessage" class="message hidden" role="status"></p>
       </section>
@@ -66,16 +66,16 @@
       <section class="panel">
         <span class="eyebrow">DÉMONSTRATION RÉELLE</span>
         <h3>Votre propre espace</h3>
-        <p class="subtle">Les fichiers sont stockés par UDCShare dans l'espace de stockage associé à votre compte. NOVATECH ne copie aucun fichier dans Supabase Storage.</p>
+        <p class="subtle">Les fichiers restent dans le Drive associé à la ressource API de votre projet. NOVATECH ne copie aucun fichier dans Supabase Storage.</p>
         <div class="connection-help">Configuration API : <b id="connectionLabel">—</b><br><a href="/app.html#connectionForm">Gérer ma connexion API →</a></div>
       </section>
       <section class="panel">
         <span class="eyebrow">ENDPOINTS UTILISÉS</span>
-        <p class="subtle"><b>GET /account</b> — compte et forfait</p>
-        <p class="subtle"><b>GET /files</b> — liste des fichiers</p>
-        <p class="subtle"><b>POST /upload</b> — envoi d'un fichier</p>
-        <p class="subtle"><b>DELETE /files/:id</b> — suppression</p>
-        <p class="subtle"><b>GET /stats</b> — statistiques d'utilisation</p>
+        <p class="subtle"><b>GET /apps/{clientId}/status</b> — diagnostic projet / Drive</p>
+        <p class="subtle"><b>GET /apps/{clientId}/files</b> — liste des fichiers</p>
+        <p class="subtle"><b>POST /apps/{clientId}/files</b> — envoi multipart (champ file)</p>
+        <p class="subtle"><b>DELETE /apps/{clientId}/files/{fileId}</b> — suppression</p>
+        <p class="subtle"><b>GET /stats</b> et <b>GET /usage</b> — statistiques privées et quotas</p>
         <a class="btn small ghost" href="https://udcshare.com/api" target="_blank" rel="noopener">Documentation UDCShare ↗</a>
       </section>
     </aside>
