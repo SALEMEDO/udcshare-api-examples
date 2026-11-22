@@ -19,3 +19,14 @@
 ## GitHub CI constraint
 
 - The user requested that remote GitHub Actions/tests not be triggered because their GitHub Free quota is exhausted. Prefer local checks and include `[skip ci]` in documentation commit messages.
+
+## Shared Supabase test database — mandatory
+- NOVATECH Supabase project ref: `aptsndwskxgzadmkylmm`. Its existing objects and data must remain intact.
+- UDCShare production Supabase ref `eqkwjeaijoqtridbfeen` is strictly out of scope for test/demo services.
+- The NOVATECH Developer Playground API uses only schema `developer_test` for its own tables. Set Render env `SUPABASE_DB_SCHEMA=developer_test`; keep Auth endpoints on the same NOVATECH Supabase project. PostgREST table reads use `Accept-Profile`; writes use `Content-Profile`. Engagement RPC functions remain in their existing schema.
+- UDCShare test backend uses schema `udcshare_test`, never `developer_test` or the production project.
+- Do not move, rename, truncate, delete, or overwrite existing NOVATECH `public.*` tables. The previous `public.userdemo*` tables are retained; new Playground writes belong only to `developer_test.*`.
+- Add custom schemas to Supabase Dashboard > API Settings > Exposed schemas before enabling PostgREST calls. Keep RLS enabled and grant only least privilege.
+- Future demo apps get their own schema (for example `<app>_test` or `<app>_demo`) and an entry in `platform_registry.applications`.
+- Never copy production data, real client API keys, sessions, tokens, Google Drive credentials, or files into test schemas. Never store file binaries in Supabase Storage for UDCShare; use Drive Pool or a dedicated test Drive/mock.
+- Do not trigger GitHub Actions or remote tests; the owner's GitHub Free quota is exhausted. Use local checks and commit messages with `[skip ci]`.
