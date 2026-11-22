@@ -418,7 +418,10 @@ app.post("/api/auth/signup", limit(5, 15 * 60 * 1000), async (req, res) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return jsonError(res, 400, "EMAIL_INVALID", "Adresse e-mail invalide.");
   if (password.length < 10) return jsonError(res, 400, "PASSWORD_TOO_SHORT", "Choisissez un mot de passe d'au moins 10 caractères.");
   try {
-    const confirmationRedirect = "https://novatech-demo-portal-test-61nh.onrender.com/app.html";
+    const confirmationRedirect = new URL("/app.html", ALLOWED_ORIGIN).toString();
+    if (!confirmationRedirect.startsWith("https://") || confirmationRedirect.includes("localhost") || confirmationRedirect.includes("127.0.0.1")) {
+      return jsonError(res, 500, "AUTH_REDIRECT_MISCONFIGURED", "La redirection de confirmation doit utiliser une adresse HTTPS publique.");
+    }
     const result = await supabaseFetch("/auth/v1/signup?redirect_to=" + encodeURIComponent(confirmationRedirect), {
       method: "POST", body: JSON.stringify({ email, password, data: { full_name: displayName } })
     });
@@ -442,7 +445,11 @@ app.post("/api/auth/resend-confirmation", limit(3, 15 * 60 * 1000), async (req, 
     return jsonError(res, 400, "EMAIL_INVALID", "Saisissez une adresse e-mail valide.");
   }
   try {
-    await supabaseFetch("/auth/v1/resend", {
+    const confirmationRedirect = new URL("/app.html", ALLOWED_ORIGIN).toString();
+    if (!confirmationRedirect.startsWith("https://") || confirmationRedirect.includes("localhost") || confirmationRedirect.includes("127.0.0.1")) {
+      return jsonError(res, 500, "AUTH_REDIRECT_MISCONFIGURED", "La redirection de confirmation doit utiliser une adresse HTTPS publique.");
+    }
+    await supabaseFetch("/auth/v1/resend?redirect_to=" + encodeURIComponent(confirmationRedirect), {
       method: "POST",
       body: JSON.stringify({ type: "signup", email })
     });
