@@ -4,14 +4,14 @@
 
 NOVATECH est un environnement public d'apprentissage de l'API UDCShare. Chaque développeur crée un compte public distinct, enregistre sa propre configuration API et exécute les essais avec ses propres ressources.
 
-Portail : https://novatech-demo-portal-public.onrender.com
+Portail de test : https://novatech-demo-portal-test-61nh.onrender.com
 
 ## Parcours d'un développeur
 
 1. Ouvrir le portail et choisir « Créer un compte ».
 2. Confirmer son adresse e-mail si Supabase Auth le demande.
 3. Se connecter avec son compte.
-4. Saisir l'URL HTTPS de son API, l'identifiant de son projet et sa clé API personnelle.
+4. Saisir l'URL HTTPS de l'API, l'identifiant public api_client_id de sa ressource API et sa clé API personnelle.
 5. Enregistrer la configuration. La clé est immédiatement effacée du formulaire.
 6. Lancer les tests « État du projet », « Mes fichiers » et « Consommation API ».
 7. Se déconnecter. Après une nouvelle connexion, retrouver les configurations et l'historique du compte.
@@ -47,11 +47,22 @@ Le projet Supabase doit autoriser les inscriptions e-mail dans Auth. Le mode de 
 
 ## Endpoints utilisés pour les tests
 
-- État : GET /api/v1/apps/{projectId}/status
-- Fichiers : GET /api/v1/apps/{projectId}/files?limit=10
-- Usage : GET /api/v1/usage
+NOVATECH utilise les routes de l'API fichiers liées à une ressource de projet. Le champ saisi dans le Playground est l'identifiant public api_client_id de la ressource API, et non l'UUID interne du projet Developer Console.
 
-Les endpoints et les quotas sont ceux du projet personnel du développeur. Les tests ne sont pas simulés : ils peuvent consommer les quotas et consulter les fichiers de ce projet.
+Base : https://udcshare.com/api/v1
+
+- Diagnostic de la ressource et du Drive : GET /apps/{clientId}/status
+- Liste des fichiers : GET /apps/{clientId}/files?limit=50
+- Statistiques privées de la ressource : GET /stats
+- Quotas et consommation de la clé : GET /usage
+- Dépôt d'un fichier : POST /apps/{clientId}/files avec multipart/form-data et le champ file
+- Suppression d'un fichier : DELETE /apps/{clientId}/files/{fileId}
+
+Chaque appel est envoyé depuis le backend avec X-API-Key. En mode API-only / Drive individuel, NOVATECH ajoute aussi X-External-User-ID, calculé côté serveur à partir de l'identité authentifiée NOVATECH. Cet identifiant reste stable et n'est jamais fourni librement par le navigateur.
+
+Important : les anciennes routes /account, /upload et /files à la racine de l'API v1 sont réservées aux clés historiques non liées à un projet. Une clé Developer Console liée à un projet doit utiliser les routes /apps/{clientId}/... pour les opérations fichiers ; appeler les anciennes routes peut renvoyer 403 PROJECT_SCOPED_ENDPOINT_REQUIRED.
+
+Les tests utilisent les ressources et quotas du projet personnel du développeur. Ils ne sont pas simulés : le diagnostic et les lectures interrogent l'API réelle, et les dépôts/suppressions modifient réellement les fichiers du projet. Préférez un projet Sandbox.
 
 ## Script SQL
 
@@ -59,7 +70,7 @@ Le schéma minimal à reproduire est dans database/novatech-public-demo.sql. Il 
 
 ## Architecture de stockage
 
-Les binaires ne sont pas envoyés dans Supabase Storage par NOVATECH. Ils restent dans le Google Drive connecté au projet API personnel. Supabase conserve uniquement le profil développeur, la configuration chiffrée et l'historique des appels.
+Les binaires ne sont pas envoyés dans Supabase Storage par NOVATECH. Ils restent dans le Google Drive associé à la ressource API du projet UDCShare. Supabase NOVATECH conserve uniquement le profil développeur, la configuration chiffrée et l'historique des appels.
 
 ## Bonnes pratiques de test
 
