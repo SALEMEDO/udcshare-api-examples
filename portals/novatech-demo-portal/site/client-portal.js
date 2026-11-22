@@ -30,6 +30,19 @@
     return (n / Math.pow(1024, index)).toFixed(index ? 1 : 0) + " " + units[index];
   }
   let activePreviewUrl = "";
+  let previewZoom = 1;
+  function applyPreviewZoom() {
+    const frame = $("filePreviewFrame");
+    frame.style.width = (previewZoom * 100) + "%";
+    frame.style.height = (previewZoom * 100) + "%";
+    $("previewZoomValue").textContent = Math.round(previewZoom * 100) + " %";
+    $("previewZoomOut").disabled = previewZoom <= 0.5;
+    $("previewZoomIn").disabled = previewZoom >= 2.5;
+  }
+  function changePreviewZoom(delta) {
+    previewZoom = Math.min(2.5, Math.max(0.5, Math.round((previewZoom + delta) * 10) / 10));
+    applyPreviewZoom();
+  }
   function filePreviewUrl(file) {
     const id = file?.file_id || file?.id;
     return id ? String(id) : "";
@@ -43,6 +56,8 @@
     const dialog = $("filePreviewModal");
     const frame = $("filePreviewFrame");
     $("filePreviewTitle").textContent = file.name || file.filename || "Aperçu du fichier";
+    previewZoom = 1;
+    applyPreviewZoom();
     frame.src = "about:blank";
     if (activePreviewUrl) URL.revokeObjectURL(activePreviewUrl);
     activePreviewUrl = "";
@@ -158,6 +173,8 @@
     }
   });
   $("refreshBtn").addEventListener("click", loadOverview);
+  $("previewZoomOut").addEventListener("click", () => changePreviewZoom(-0.1));
+  $("previewZoomIn").addEventListener("click", () => changePreviewZoom(0.1));
   $("closeFilePreview").addEventListener("click", () => {
     $("filePreviewModal").close?.();
     $("filePreviewFrame").src = "about:blank";
