@@ -38,12 +38,13 @@
     files.forEach(file => {
       const row = document.createElement("div"); row.className = "file-row";
       const main = document.createElement("div"); main.className = "file-main";
-      const name = document.createElement("strong"); name.textContent = file.filename || file.name || "Fichier sans nom";
-      const meta = document.createElement("small"); meta.textContent = bytes(file.filesize || file.size) + " · " + (file.created_at ? new Date(file.created_at).toLocaleString("fr-FR") : "Date inconnue");
+      const name = document.createElement("strong"); name.textContent = file.name || file.filename || "Fichier sans nom";
+      const meta = document.createElement("small"); meta.textContent = bytes(file.size || file.filesize) + " · " + (file.created_at ? new Date(file.created_at).toLocaleString("fr-FR") : "Date inconnue");
       main.append(name, meta);
       const actions = document.createElement("div"); actions.className = "file-actions";
-      if (file.file_url) {
-        const open = document.createElement("a"); open.href = file.file_url; open.target = "_blank"; open.rel = "noopener"; open.textContent = "Ouvrir ↗"; actions.append(open);
+      const fileUrl = file.web_view_link || file.file_url;
+      if (fileUrl) {
+        const open = document.createElement("a"); open.href = fileUrl; open.target = "_blank"; open.rel = "noopener"; open.textContent = "Ouvrir ↗"; actions.append(open);
       }
       if (file.id) {
         const remove = document.createElement("button"); remove.className = "btn small ghost"; remove.type = "button"; remove.textContent = "Supprimer";
@@ -68,7 +69,9 @@
     $("filesValue").textContent = String(stats.total_files ?? fileData.total ?? files.length ?? "—");
     $("storageValue").textContent = stats.total_storage_bytes != null ? bytes(stats.total_storage_bytes) : (stats.total_storage_gb != null ? Number(stats.total_storage_gb).toFixed(2) + " Go" : "—");
     $("accountTitle").textContent = account.full_name || account.email || "Vue d'ensemble";
-    $("accountMeta").textContent = account.subscription?.expires_at ? "Abonnement jusqu'au " + new Date(account.subscription.expires_at).toLocaleDateString("fr-FR") : "Données lues directement depuis votre compte UDCShare.";
+    const drive = data.status?.google_drive || {};
+    const usage = data.usage || {};
+    $("accountMeta").textContent = drive.message || (usage.quota ? "Quota API : " + usage.quota.used + " / " + usage.quota.limit : "Données privées lues depuis votre ressource API UDCShare.");
     $("connectionLabel").textContent = data.connection?.label || "API connectée";
     renderFiles(fileData);
   }
@@ -101,7 +104,7 @@
     $("uploadBtn").disabled = true; $("uploadBtn").textContent = "Envoi en cours…";
     try {
       const result = await request("/api/client-demo/upload", { method: "POST", body: form });
-      showMessage("uploadMessage", "Fichier envoyé avec succès. " + (result.data?.filename || file.name));
+      showMessage("uploadMessage", "Fichier envoyé avec succès. " + (result.data?.file?.name || result.data?.filename || file.name));
       $("uploadForm").reset();
       await loadOverview();
     } catch (error) { showMessage("uploadMessage", error.message, true); }
