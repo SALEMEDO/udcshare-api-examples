@@ -68,3 +68,19 @@ Les binaires ne sont pas envoyés dans Supabase Storage par NOVATECH. Ils resten
 - Ne pas téléverser de vrais documents personnels.
 - Vérifier le projet et le Drive sélectionnés avant de lancer les tests.
 - Supprimer les configurations inutilisées depuis son espace personnel.
+
+
+## Configuration Supabase NOVATECH partagée (mise à jour)
+
+Le Playground NOVATECH utilise désormais le schéma PostgreSQL dédié `developer_test` dans le projet Supabase NOVATECH (`aptsndwskxgzadmkylmm`). Les tables historiques `public.userdemo*` restent conservées et ne sont plus la cible des nouvelles requêtes du Playground.
+
+Variables du backend Render :
+- `SUPABASE_URL` : URL du projet Supabase NOVATECH.
+- `SUPABASE_ANON_KEY` : clé publishable du projet.
+- `SUPABASE_DB_SCHEMA=developer_test`.
+- `NOVATECH_CREDENTIALS_ENCRYPTION_KEY` : clé AES-256-GCM dédiée au Playground, 32 octets aléatoires encodés en hexadécimal.
+- `NOVATECH_ALLOWED_ORIGIN` : URL exacte du portail NOVATECH public.
+
+Dans Supabase Dashboard → Project Settings → API → Exposed schemas, ajouter `developer_test`. Les accès REST en lecture utilisent `Accept-Profile: developer_test`; les écritures utilisent `Content-Profile: developer_test`. Les endpoints Auth restent sur le même projet. Les fonctions RPC de compteurs et J'aime restent dans leur schéma actuel.
+
+Ne jamais utiliser le projet UDCShare Production ni ses clés, utilisateurs, données ou credentials. Le fichier `.env.example` est un modèle sans secrets ; les valeurs réelles restent dans Render ou dans un gestionnaire de secrets.
