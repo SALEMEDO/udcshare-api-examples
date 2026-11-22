@@ -129,6 +129,19 @@
       $("fileList").textContent = "Les fichiers seront affichés après connexion à l'API.";
     } finally { $("refreshBtn").disabled = false; }
   }
+  $("clientLogoutBtn").addEventListener("click", async () => {
+    const button = $("clientLogoutBtn");
+    button.disabled = true;
+    button.textContent = "Déconnexion…";
+    try {
+      await request("/api/auth/logout", { method: "POST" });
+      window.location.replace("/app.html");
+    } catch (error) {
+      showMessage("pageMessage", "Impossible de terminer la déconnexion : " + error.message, true);
+      button.disabled = false;
+      button.textContent = "Se déconnecter";
+    }
+  });
   $("refreshBtn").addEventListener("click", loadOverview);
   $("closeFilePreview").addEventListener("click", () => {
     $("filePreviewModal").close?.();
@@ -166,6 +179,7 @@
       const auth = await request("/api/auth/me");
       if (!auth.authenticated) throw new Error("AUTH_REQUIRED");
       $("clientArea").classList.remove("hidden");
+      $("clientLogoutBtn").classList.remove("hidden");
       await loadOverview();
     } catch {
       $("loginRequired").classList.remove("hidden");
