@@ -322,6 +322,9 @@ footer{padding:22px 0;border-top:1px solid #ffffff16;color:#8da69b;font-size:12p
 <footer><span>© NOVATECH · Developer Playground</span><span>Propulsé par <a href="https://udcshare.com">UDCShare</a></span></footer>
 </body></html>`);
 });
+// Public keep-alive endpoints for an external uptime monitor (no secrets, no database work).
+app.get("/ping", (_req, res) => res.status(200).json({ status: "ok", service: "novatech-demo-api", ts: Date.now() }));
+app.get("/wake", (_req, res) => res.status(200).type("text/plain").send("awake"));
 app.get("/health", (_req, res) => res.json({ ok: true, service: "novatech-developer-playground", configured: configured() }));
 app.get("/api/config", (_req, res) => res.json({
   app: "NOVATECH Developer Playground",
