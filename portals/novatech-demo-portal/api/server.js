@@ -13,7 +13,9 @@ const SUPABASE_URL = String(process.env.SUPABASE_URL || "").replace(/\/+$/, "");
 const SUPABASE_ANON_KEY = String(process.env.SUPABASE_ANON_KEY || "");
 const SUPABASE_DB_SCHEMA = String(process.env.SUPABASE_DB_SCHEMA || "developer_test").trim();
 const ENCRYPTION_KEY = String(process.env.NOVATECH_CREDENTIALS_ENCRYPTION_KEY || "");
-const ALLOWED_ORIGIN = String(process.env.NOVATECH_ALLOWED_ORIGIN || "https://novatech-demo-portal-test-61nh.onrender.com");
+const ALLOWED_ORIGINS = new Set(String(process.env.NOVATECH_ALLOWED_ORIGIN || "https://novatech-test.udcshare.com")
+  .split(",").map(value => value.trim()).filter(Boolean));
+const ALLOWED_ORIGIN = [...ALLOWED_ORIGINS][0] || "https://novatech-test.udcshare.com";
 const COOKIE_SECURE = process.env.NODE_ENV !== "development";
 const MAX_API_RESPONSE = 1024 * 1024;
 
@@ -49,7 +51,7 @@ function configured() {
 
 app.use((req, res, next) => {
   const origin = req.get("origin");
-  if (origin && origin !== ALLOWED_ORIGIN) return jsonError(res, 403, "ORIGIN_NOT_ALLOWED", "Origine non autorisée.");
+  if (origin && !ALLOWED_ORIGINS.has(origin)) return jsonError(res, 403, "ORIGIN_NOT_ALLOWED", "Origine non autorisée.");
   if (origin) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -70,16 +72,18 @@ function limit(maximum, windowMs) {
   return (req, res, next) => {
     const key = req.ip || "unknown";
     const now = Date.now();
+    pruneRateLimitWindows(now);
     const entry = windows.get(key);
     if (!entry || now - entry.start >= windowMs) windows.set(key, { start: now, count: 1 });
     else if (++entry.count > maximum) return jsonError(res, 429, "RATE_LIMITED", "Trop de tentatives. Réessayez plus tard.");
     next();
   };
 }
-setInterval(() => {
-  const cutoff = Date.now() - 30 * 60 * 1000;
+function pruneRateLimitWindows(now) {
+  if (windows.size < 5000) return;
+  const cutoff = now - 30 * 60 * 1000;
   for (const [key, value] of windows) if (value.start < cutoff) windows.delete(key);
-}, 10 * 60 * 1000).unref();
+}
 
 async function supabaseFetch(path, options = {}, accessToken = "") {
   const response = await fetch(SUPABASE_URL + path, {
@@ -704,4 +708,8 @@ app.use((error, _req, res, _next) => {
   if (error?.code === "LIMIT_FILE_COUNT" || error?.code === "LIMIT_UNEXPECTED_FILE") return jsonError(res, 400, "UPLOAD_INVALID", "Un seul fichier est accepté à la fois.");
   return jsonError(res, 500, "INTERNAL_ERROR", "Une erreur interne est survenue.");
 });
-app.listen(PORT, () => console.log("NOVATECH Developer Playground listening on " + PORT));
+if (require.main === module) {
+  app.listen(PORT, () => console.log("NOVATECH Developer Playground listening on " + PORT));
+}
+
+module.exports = app;
