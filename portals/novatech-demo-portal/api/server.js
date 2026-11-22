@@ -191,6 +191,11 @@ function encryptionKey() {
   if (!/^[0-9a-f]{64}$/i.test(ENCRYPTION_KEY)) throw new Error("NOVATECH_CREDENTIALS_ENCRYPTION_KEY doit contenir 32 octets hexadécimaux.");
   return Buffer.from(ENCRYPTION_KEY, "hex");
 }
+function externalUserId(userId) {
+  return "novatech-" + crypto.createHmac("sha256", encryptionKey())
+    .update("external-user:" + String(userId))
+    .digest("hex");
+}
 function encryptSecret(value) {
   const iv = crypto.randomBytes(12);
   const cipher = crypto.createCipheriv("aes-256-gcm", encryptionKey(), iv);
@@ -263,7 +268,7 @@ async function callUserApi(connection, userId, suffix, method = "GET", body) {
     method,
     headers: {
       "X-API-Key": apiKey,
-      "X-External-User-ID": "NOVATECH-DEMO-" + userId,
+      "X-External-User-ID": externalUserId(userId),
       ...(body ? { "Content-Type": "application/json" } : {})
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
@@ -654,7 +659,7 @@ app.post("/api/client-demo/upload", requireUser, demoUpload.single("file"), asyn
       method: "POST",
       headers: {
         "X-API-Key": decryptSecret(connection),
-        "X-External-User-ID": "NOVATECH-DEMO-" + req.user.id
+        "X-External-User-ID": externalUserId(req.user.id)
       },
       body: form,
       cache: "no-store",
