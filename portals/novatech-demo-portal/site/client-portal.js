@@ -31,7 +31,7 @@
   function driveFileId(file) {
     if (file?.id) return String(file.id);
     const link = file?.web_view_link || file?.webViewLink || file?.file_url || "";
-    const match = String(link).match(/\\/file\\/d\\/([a-zA-Z0-9_-]+)/);
+    const match = String(link).match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
     return match?.[1] || "";
   }
   function openFilePreview(file) {
