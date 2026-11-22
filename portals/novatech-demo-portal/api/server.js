@@ -690,6 +690,51 @@ app.post("/api/client-demo/upload", requireUser, demoUpload.single("file"), asyn
     return jsonError(res, error.status || 502, error.code || "UPLOAD_FAILED", error.message || "L'envoi a échoué.");
   }
 });
+app.get("/api/client-demo/files/:id/preview", requireUser, async (req, res) => {
+  const fileId = String(req.params.id || "").trim();
+  if (!fileId || fileId.length > 180 || /[/?#]/.test(fileId)) return jsonError(res, 400, "FILE_ID_INVALID", "Identifiant de fichier invalide.");
+  try {
+    const connection = await requireClientDemoConnection(req, res);
+    if (!connection) return;
+    const base = await validateApiBase(connection.api_base_url);
+    const url = base + projectSuffix(connection, "files") + "/" + encodeURIComponent(fileId) + "/download";
+    const upstream = await fetch(url, {
+      method: "GET",
+      headers: {
+        "X-API-Key": decryptSecret(connection),
+        "X-External-User-ID": externalUserId(req.user.id),
+        "Accept": "*/*"
+      },
+      cache: "no-store",
+      redirect: "manual",
+      signal: AbortSignal.timeout(60000)
+    });
+    if (!upstream.ok) {
+      const raw = await upstream.text();
+      let payload = null;
+      try { payload = raw ? JSON.parse(raw) : null; } catch {}
+      const detail = payload?.error?.message || payload?.message || "Impossible de récupérer le fichier depuis UDCShare.";
+      return jsonError(res, upstream.status, payload?.error?.code || payload?.code || "FILE_PREVIEW_FAILED", String(detail).slice(0, 350));
+    }
+    const declaredSize = Number(upstream.headers.get("content-length") || 0);
+    if (declaredSize > 50 * 1024 * 1024) return jsonError(res, 413, "PREVIEW_TOO_LARGE", "Ce fichier dépasse la limite d'aperçu de 50 Mo.");
+    const data = await upstream.arrayBuffer();
+    if (data.byteLength > 50 * 1024 * 1024) return jsonError(res, 413, "PREVIEW_TOO_LARGE", "Ce fichier dépasse la limite d'aperçu de 50 Mo.");
+    const contentType = String(upstream.headers.get("content-type") || "application/octet-stream").split(";")[0].trim().toLowerCase();
+    res.status(200);
+    res.set({
+      "Content-Type": contentType,
+      "Content-Length": String(data.byteLength),
+      "Content-Disposition": "inline",
+      "Cache-Control": "private, no-store, max-age=0",
+      "X-Content-Type-Options": "nosniff",
+      "Cross-Origin-Resource-Policy": "same-origin"
+    });
+    return res.end(Buffer.from(data));
+  } catch (error) {
+    return jsonError(res, error.status || 502, error.code || "FILE_PREVIEW_FAILED", error.message || "Impossible d'afficher ce fichier.");
+  }
+});
 app.delete("/api/client-demo/files/:id", requireUser, async (req, res) => {
   const fileId = String(req.params.id || "").trim();
   if (!fileId || fileId.length > 180 || /[/?#]/.test(fileId)) return jsonError(res, 400, "FILE_ID_INVALID", "Identifiant de fichier invalide.");
