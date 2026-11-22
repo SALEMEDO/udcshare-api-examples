@@ -345,27 +345,34 @@ app.get("/api/health", (_req, res) => res.json({
   authReady: Boolean(SUPABASE_URL && SUPABASE_ANON_KEY),
   credentialVaultReady: /^[0-9a-f]{64}$/i.test(ENCRYPTION_KEY)
 }));
-app.get("/api/openapi.json", (_req, res) => res.json({
-  openapi: "3.1.0",
-  info: { title: "NOVATECH Developer Playground API", version: "1.0.0", description: "API du portail de démonstration NOVATECH." },
-  servers: [{ url: "/" }],
-  paths: {
-    "/health": { get: { summary: "État du service", responses: { "200": { description: "État du service" } } } },
-    "/api/config": { get: { summary: "Configuration publique du portail", responses: { "200": { description: "État de configuration sans secrets" } } } },
-    "/api/auth/signup": { post: { summary: "Créer un compte développeur", responses: { "201": { description: "Compte créé ou confirmation demandée" } } } },
-    "/api/auth/login": { post: { summary: "Ouvrir une session", responses: { "200": { description: "Session ouverte" } } } },
-    "/api/auth/me": { get: { summary: "Consulter la session", responses: { "200": { description: "Utilisateur connecté" }, "401": { description: "Authentification requise" } } } },
-    "/api/connections": {
-      get: { summary: "Lister les connexions API du compte", responses: { "200": { description: "Connexions" } } },
-      post: { summary: "Enregistrer une connexion API", responses: { "201": { description: "Connexion enregistrée" } } }
-    },
-    "/api/history": { get: { summary: "Historique des tests", responses: { "200": { description: "Historique" } } },
-    "/api/demos/{slug}/engagement": { get: { summary: "Lire les vues et J'aime publics", responses: { "200": { description: "Compteurs" } } } },
-    "/api/demos/{slug}/view": { post: { summary: "Enregistrer une vue", responses: { "200": { description: "Compteurs actualisés" } } } },
-    "/api/demos/{slug}/like": { post: { summary: "Ajouter ou retirer un J'aime", responses: { "200": { description: "Compteurs actualisés" } } } },
-    "/api/client-demo/overview": { get: { summary: "Charger le portail client", responses: { "200": { description: "Vue du compte UDCShare" } } }
+app.get("/api/openapi.json", (_req, res) => {
+  const definitions = [
+    ["/health", "get", "État du service"],
+    ["/api/health", "get", "État de configuration et santé de l'API"],
+    ["/api/config", "get", "Configuration publique du portail"],
+    ["/api/auth/signup", "post", "Créer un compte développeur"],
+    ["/api/auth/login", "post", "Ouvrir une session"],
+    ["/api/auth/me", "get", "Consulter la session"],
+    ["/api/connections", "get", "Lister les connexions API"],
+    ["/api/connections", "post", "Enregistrer une connexion API"],
+    ["/api/history", "get", "Historique des tests"],
+    ["/api/demos/{slug}/engagement", "get", "Lire les vues et J'aime publics"],
+    ["/api/demos/{slug}/view", "post", "Enregistrer une vue"],
+    ["/api/demos/{slug}/like", "post", "Ajouter ou retirer un J'aime"],
+    ["/api/client-demo/overview", "get", "Charger le portail client"]
+  ];
+  const paths = {};
+  for (const [route, method, summary] of definitions) {
+    paths[route] ||= {};
+    paths[route][method] = { summary, responses: { "200": { description: summary } } };
   }
-}));
+  res.json({
+    openapi: "3.1.0",
+    info: { title: "NOVATECH Developer Playground API", version: "1.0.0", description: "API du portail de démonstration NOVATECH." },
+    servers: [{ url: "/" }],
+    paths
+  });
+});
 app.get("/api/docs", (_req, res) => res.status(200).type("html").send(`<!doctype html>
 <html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Documentation API NOVATECH</title>
