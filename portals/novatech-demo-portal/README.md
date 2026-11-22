@@ -4,7 +4,7 @@ NOVATECH est un laboratoire public destiné aux développeurs qui souhaitent com
 
 ## Guide détaillé
 
-Le tutoriel en français est disponible dans [docs/NOVATECH_PLAYGROUND_GUIDE_FR.md](../../docs/NOVATECH_PLAYGROUND_GUIDE_FR.md). Le schéma SQL minimal est dans [database/novatech-public-demo.sql](../../database/novatech-public-demo.sql).
+Le tutoriel en français est disponible dans [docs/NOVATECH_PLAYGROUND_GUIDE_FR.md](../../docs/NOVATECH_PLAYGROUND_GUIDE_FR.md). Le schéma SQL isolé est dans [database/novatech-public-demo.sql](../../database/novatech-public-demo.sql). Les tables du Playground sont créées dans le schéma PostgreSQL `developer_test` du projet Supabase NOVATECH partagé.
 
 ## Accès public
 
@@ -17,7 +17,7 @@ Chaque visiteur crée son compte développeur avec son adresse e-mail et son mot
 
 ## Règle de séparation
 
-Chaque compte NOVATECH est un compte de démonstration public, distinct des comptes clients UDCShare. Les tables userdemo, userdemo_api_connections et userdemo_api_test_runs identifient les développeurs et séparent leurs données.
+Chaque compte NOVATECH est un compte de démonstration public, distinct des comptes clients UDCShare. Les tables `developer_test.userdemo`, `developer_test.userdemo_api_connections` et `developer_test.userdemo_api_test_runs` identifient les développeurs et séparent leurs données. Les anciennes tables `public.userdemo*` sont conservées intactes et ne sont plus ciblées par le Playground.
 
 - Le développeur saisit sa propre adresse API, son identifiant de projet et sa clé API dans son espace privé.
 - Le backend utilise cette clé uniquement pour les requêtes du propriétaire de la configuration.
@@ -30,8 +30,9 @@ Chaque compte NOVATECH est un compte de démonstration public, distinct des comp
 **La clé API saisie par un visiteur n'est jamais configurée dans Render.** Elle est envoyée au backend via HTTPS, chiffrée avec AES-256-GCM et stockée sous forme de ciphertext, IV et tag dans userdemo_api_connections. Elle n'est jamais renvoyée au navigateur après enregistrement.
 
 Render conserve uniquement les paramètres techniques du service :
-- SUPABASE_URL : URL du projet Supabase UDCShare.
+- SUPABASE_URL : URL du projet Supabase NOVATECH partagé.
 - SUPABASE_ANON_KEY : clé publishable Supabase (non secrète).
+- SUPABASE_DB_SCHEMA : `developer_test` (schéma PostgreSQL dédié au Playground).
 - NOVATECH_CREDENTIALS_ENCRYPTION_KEY : clé de chiffrement interne de 32 octets encodée en hexadécimal. Ce n'est **pas** une clé API UDCShare.
 - NOVATECH_ALLOWED_ORIGIN : origine exacte du portail public.
 
@@ -61,7 +62,7 @@ Le backend exige HTTPS, refuse les adresses locales/privées et bloque les redir
 
 ## Configuration Render
 
-Le backend Render doit recevoir les variables techniques listées dans « Protection des clés ». Générer NOVATECH_CREDENTIALS_ENCRYPTION_KEY comme 32 octets aléatoires encodés en hexadécimal (64 caractères). Cette clé de chiffrement n'est jamais la clé API du visiteur.
+Le backend Render doit recevoir les variables techniques listées dans « Protection des clés ». Dans Supabase Dashboard → API Settings, ajouter `developer_test` à « Exposed schemas » ; le backend envoie `Accept-Profile` pour les lectures et `Content-Profile` pour les écritures. Les fonctions RPC publiques d'engagement restent dans leur schéma actuel. Générer NOVATECH_CREDENTIALS_ENCRYPTION_KEY comme 32 octets aléatoires encodés en hexadécimal (64 caractères). Cette clé de chiffrement n'est jamais la clé API du visiteur.
 
 Pour activer la création de comptes, vérifier dans Supabase Auth que les inscriptions e-mail sont autorisées et que la confirmation e-mail est configurée selon la politique de l'organisation. Si la confirmation est obligatoire, l'utilisateur confirme son adresse avant sa première connexion.
 
