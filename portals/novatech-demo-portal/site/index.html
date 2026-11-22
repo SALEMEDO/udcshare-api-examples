@@ -7,7 +7,7 @@
   <meta name="description" content="NOVATECH Developer Playground : découvrez, connectez et testez vos propres API UDCShare dans un espace développeur personnel et sécurisé.">
   <title>NOVATECH — Espace développeur</title>
   <style>
-    .demo-showcase{padding:18px 0 64px}.demo-showcase .section-head{text-align:center;max-width:720px;margin:0 auto 28px}.demo-showcase .section-head h2{font-size:30px;margin:10px 0}.demo-showcase .section-head p{color:var(--muted);line-height:1.7}.demo-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.demo-card-public{border:1px solid #ffffff20;border-radius:18px;padding:25px;background:linear-gradient(145deg,#17352b,#0d1d18);display:flex;flex-direction:column;min-height:250px}.demo-card-public h3{font-size:21px;margin:12px 0 7px}.demo-card-public p{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 18px}.demo-card-public .btn{align-self:flex-start;margin-top:auto}.demo-engagement{display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#b7c9bf;font-size:12px;margin:0 0 18px}.demo-engagement button,.demo-engagement a{border:1px solid #ffffff30;border-radius:99px;padding:6px 11px;background:#ffffff0b;color:#eaf8f0;font:inherit;cursor:pointer;text-decoration:none}.demo-engagement button[hidden],.demo-engagement a[hidden]{display:none}.demo-engagement button:disabled{opacity:.6}@media(max-width:760px){.demo-cards{grid-template-columns:1fr}.demo-showcase{padding-bottom:42px}}
+    .demo-showcase{padding:18px 0 64px}.demo-showcase .section-head{text-align:center;max-width:720px;margin:0 auto 28px}.demo-showcase .section-head h2{font-size:30px;margin:10px 0}.demo-showcase .section-head p{color:var(--muted);line-height:1.7}.demo-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.demo-card-public{border:1px solid #ffffff20;border-radius:18px;padding:25px;background:linear-gradient(145deg,#17352b,#0d1d18);display:flex;flex-direction:column;min-height:250px}.demo-card-public h3{font-size:21px;margin:12px 0 7px}.demo-card-public p{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 18px}.demo-card-public .btn{align-self:flex-start;margin-top:auto}.demo-source-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:15px;padding-top:13px;border-top:1px solid #ffffff20;font-size:12px}.demo-source-links a{color:#b7f3d5;font-weight:750;text-decoration:none}.demo-source-links a:hover{text-decoration:underline}.demo-engagement{display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#b7c9bf;font-size:12px;margin:0 0 18px}.demo-engagement button,.demo-engagement a{border:1px solid #ffffff30;border-radius:99px;padding:6px 11px;background:#ffffff0b;color:#eaf8f0;font:inherit;cursor:pointer;text-decoration:none}.demo-engagement button[hidden],.demo-engagement a[hidden]{display:none}.demo-engagement button:disabled{opacity:.6}@media(max-width:760px){.demo-cards{grid-template-columns:1fr}.demo-showcase{padding-bottom:42px}}
     :root{color-scheme:dark;--bg:#0b1715;--panel:#122521;--line:#29443c;--mint:#b7f3d5;--green:#55d69b;--muted:#a8bdb4}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 78% 8%,#1b4538 0,transparent 38%),linear-gradient(145deg,#091411,#10231f 62%,#0b1715);color:#f1faf5;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
     a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
@@ -48,12 +48,20 @@
         <p>Un exemple concret d'application : consulter votre compte UDCShare, envoyer des fichiers, gérer vos fichiers et voir vos statistiques.</p>
         <div class="demo-engagement" data-demo-engagement data-demo-record-view="true" data-demo-slug="portail-client"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2F">Se connecter pour aimer</a><button data-like-toggle hidden type="button">♡ J'aime</button></div>
         <a class="btn primary" href="/client-portal.html">Essayer le portail client →</a>
+        <div class="demo-source-links" aria-label="Code source du portail client">
+          <a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/staging/portals/novatech-demo-portal/site" target="_blank" rel="noopener noreferrer">Voir le code sur GitHub ↗</a>
+          <a href="https://github.com/SALEMEDO/udcshare-api-examples/archive/refs/heads/staging.zip">Télécharger les exemples (ZIP) ↓</a>
+        </div>
       </article>
       <article class="demo-card-public">
         <span class="eyebrow">DÉMO 2 · OUTIL TECHNIQUE</span><h3>Playground API</h3>
         <p>Connectez votre projet, testez les endpoints documentés et retrouvez vos résultats dans votre espace développeur personnel.</p>
         <div class="demo-engagement" data-demo-engagement data-demo-record-view="true" data-demo-slug="playground-api"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2F">Se connecter pour aimer</a><button data-like-toggle hidden type="button">♡ J'aime</button></div>
         <a class="btn secondary" href="/app.html">Ouvrir le Playground →</a>
+        <div class="demo-source-links" aria-label="Code source du Playground API">
+          <a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/staging/portals/novatech-demo-portal/site" target="_blank" rel="noopener noreferrer">Voir le code sur GitHub ↗</a>
+          <a href="https://github.com/SALEMEDO/udcshare-api-examples/archive/refs/heads/staging.zip">Télécharger les exemples (ZIP) ↓</a>
+        </div>
       </article>
     </div>
   </section>
