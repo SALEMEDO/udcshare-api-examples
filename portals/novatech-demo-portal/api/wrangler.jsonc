@@ -3,10 +3,17 @@
   "name": "novatech-api-test",
   "main": "worker.mjs",
   "compatibility_date": "2026-11-22",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "workers_dev": true,
   "preview_urls": true,
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "SUPABASE_URL": "https://aptsndwskxgzadmkylmm.supabase.co",
+    "SUPABASE_DB_SCHEMA": "developer_test",
+    "NOVATECH_ALLOWED_ORIGIN": "https://novatech-test.udcshare.com,https://novatech-test.pages.dev,https://novatech-demo-portal-test-61nh.onrender.com"
   }
 }
