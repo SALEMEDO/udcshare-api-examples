@@ -1,0 +1,99 @@
+/* NOVATECH / UDCShare examples — shared UI/UX Pro Max layer.
+   Visual-only refinements: keeps existing routes, form IDs, API behavior and brand palettes. */
+:root { --uix-radius: 16px; --uix-control: 11px; --uix-ring: 0 0 0 3px color-mix(in srgb, var(--green, #16845a) 18%, transparent); }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { min-width: 320px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+:where(button, input, select, textarea, a) { -webkit-tap-highlight-color: transparent; }
+:where(button, input, select, textarea) { font: inherit; }
+:where(button, .btn, a.btn) { touch-action: manipulation; }
+:where(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]), select, textarea) {
+  max-width: 100%; border-radius: var(--uix-control);
+}
+:where(input, select, textarea):focus-visible, :where(button, a, summary):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--green, #16845a) 48%, transparent);
+  outline-offset: 2px;
+}
+:where(.panel, .card, .demo-card-public, .metric, .tile, article section) {
+  border-radius: var(--uix-radius);
+}
+:where(.panel, .card, .demo-card-public, .metric, .tile) { min-width: 0; }
+:where(.btn, button.btn) {
+  min-height: 42px; border-radius: 11px; font-weight: 750;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background-color .16s ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  :where(.btn, button.btn):not(:disabled):hover { transform: translateY(-1px); }
+}
+:where(.field input, .field select, .field textarea, .upload-row input) {
+  min-height: 46px; border-radius: 10px; transition: border-color .16s ease, box-shadow .16s ease;
+}
+:where(.field input, .field select, .field textarea, .upload-row input):focus {
+  outline: none; box-shadow: var(--uix-ring);
+}
+.topbar { position: sticky; top: 0; z-index: 50; min-height: 64px; height: auto; gap: 14px; backdrop-filter: blur(14px); }
+.brand { min-width: 0; }
+.brand-mark { flex: 0 0 auto; border-radius: 12px; }
+:where(.container, .wrap) { width: min(1160px, calc(100% - 40px)); }
+:where(.hero, .auth-layout, .demo-layout, .layout) { min-width: 0; }
+:where(.hero-copy, .auth-info, .demo-main, .demo-side, .panel) { min-width: 0; }
+:where(.panel, .auth-panel) { box-shadow: var(--shadow, 0 12px 36px rgba(0,0,0,.08)); }
+:where(.file-row, .file-item, .upload-row) { min-width: 0; }
+:where(.file-main, .file-info, .file-name) { min-width: 0; overflow-wrap: anywhere; }
+:where(pre, code, .endpoint, .terminal-body) { overflow-wrap: anywhere; }
+:where(img, video, iframe, svg) { max-width: 100%; }
+:where(.demo-source-links, .actions, .top-actions, .file-actions, .preview-controls) { flex-wrap: wrap; }
+.preview-zoom-btn { min-width: 44px; min-height: 44px; }
+.preview-dialog { overflow: hidden; }
+.preview-dialog-head { min-height: 58px; }
+.preview-dialog-body { min-width: 0; }
+:where(.tabs, .tab) { min-width: 0; }
+:where(.tab, .password-toggle, .remove-file, .file-preview-btn) { min-height: 44px; }
+:where(.message, .connection-help, .note, .warn) { border-radius: 12px; }
+@media (max-width: 850px) {
+  .topbar { padding-inline: 18px; }
+  :where(.hero, .auth-layout, .demo-layout, .layout) { grid-template-columns: minmax(0, 1fr); }
+  .hero { gap: 26px; padding-block: 42px 34px; }
+  .auth-layout { gap: 24px; padding-block: 22px 54px; }
+  .hero-art { min-height: 230px; }
+  .demo-side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  :where(.container, .wrap) { width: min(100% - 28px, 1160px); }
+  .topbar { min-height: 58px; padding-inline: 14px; }
+  .top-actions { gap: 8px; }
+  .top-actions .public-label { display: none; }
+  .brand { font-size: 13px; letter-spacing: .07em; }
+  .brand-mark { width: 34px; height: 34px; }
+  .hero { padding-block: 34px 26px; }
+  .hero h1 { font-size: clamp(34px, 10vw, 48px); }
+  .hero p, .lead, .intro { font-size: 15px; }
+  .hero-art { min-height: 190px; }
+  .terminal { transform: none; }
+  .terminal-body { padding: 17px; font-size: 11px; }
+  .panel, .auth-panel { padding: 16px; }
+  .demo-side { grid-template-columns: minmax(0, 1fr); }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metric { padding: 13px; }
+  .metric strong { font-size: 20px; }
+  .file-row { align-items: flex-start; flex-wrap: wrap; }
+  .file-actions { width: 100%; justify-content: flex-end; }
+  .preview-dialog { width: calc(100% - 12px); height: 88dvh; border-radius: 12px; }
+  .preview-dialog-head { padding: 8px; gap: 6px; }
+  .preview-dialog-title { flex-basis: 100%; }
+  .preview-controls { width: 100%; justify-content: flex-end; }
+  .demo-engagement { gap: 8px; }
+  .demo-engagement button, .demo-engagement a { min-height: 40px; display: inline-flex; align-items: center; }
+}
+@media (max-width: 380px) {
+  :where(.container, .wrap) { width: calc(100% - 22px); }
+  .hero h1 { font-size: 32px; }
+  .actions > .btn { width: 100%; }
+  .metric-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (hover:none) and (pointer:coarse) {
+  :where(button, .btn, a.btn, summary, .tab, .password-toggle, .file-preview-btn) { min-height: 44px; }
+  :where(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]), select, textarea) { min-height: 44px; font-size: max(16px, 1em); }
+}
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
