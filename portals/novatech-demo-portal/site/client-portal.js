@@ -29,20 +29,25 @@
     const index = Math.min(Math.floor(Math.log(n) / Math.log(1024)), units.length - 1);
     return (n / Math.pow(1024, index)).toFixed(index ? 1 : 0) + " " + units[index];
   }
-  function driveFileId(file) {
-    if (file?.id) return String(file.id);
-    const link = file?.web_view_link || file?.webViewLink || file?.file_url || "";
-    const match = String(link).match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-    return match?.[1] || "";
+  function filePreviewUrl(file) {
+    const raw = file?.file_url || file?.url || file?.download_url || "";
+    if (raw) {
+      try {
+        const url = new URL(raw, "https://udcshare.com");
+        if (url.protocol === "https:" && (url.hostname === "udcshare.com" || url.hostname.endsWith(".udcshare.com"))) return url.href;
+      } catch {}
+    }
+    const id = file?.file_id || file?.id;
+    return id ? "https://udcshare.com/d/" + encodeURIComponent(String(id)) : "";
   }
   function openFilePreview(file) {
-    const id = driveFileId(file);
-    if (!id) {
-      showMessage("pageMessage", "Aperçu indisponible : identifiant du fichier introuvable.", true);
+    const url = filePreviewUrl(file);
+    if (!url) {
+      showMessage("pageMessage", "Aperçu indisponible : lien de consultation introuvable.", true);
       return;
     }
     $("filePreviewTitle").textContent = file.name || file.filename || "Aperçu du fichier";
-    $("filePreviewFrame").src = "https://drive.google.com/file/d/" + encodeURIComponent(id) + "/preview";
+    $("filePreviewFrame").src = url;
     const dialog = $("filePreviewModal");
     if (typeof dialog.showModal === "function") dialog.showModal();
     else dialog.setAttribute("open", "");
@@ -56,21 +61,16 @@
     }
     files.forEach(file => {
       const row = document.createElement("div"); row.className = "file-row";
-      const id = driveFileId(file);
+      const previewUrl = filePreviewUrl(file);
       const fileName = file.name || file.filename || "Fichier sans nom";
-      if (id) {
-        const thumb = document.createElement("img");
+      if (previewUrl) {
+        const thumb = document.createElement("button");
+        thumb.type = "button";
         thumb.className = "file-preview-thumb";
-        thumb.alt = "Vignette de " + fileName;
-        thumb.loading = "lazy";
-        thumb.src = "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w240";
-        thumb.addEventListener("error", () => {
-          thumb.removeAttribute("src");
-          thumb.alt = "Aperçu non disponible";
-          thumb.style.display = "none";
-        }, { once: true });
+        thumb.textContent = "↗";
+        thumb.setAttribute("aria-label", "Prévisualiser " + fileName);
+        thumb.title = "Afficher l'aperçu UDCShare";
         thumb.addEventListener("click", () => openFilePreview(file));
-        thumb.title = "Afficher l'aperçu";
         row.append(thumb);
       }
       const main = document.createElement("div"); main.className = "file-main";
