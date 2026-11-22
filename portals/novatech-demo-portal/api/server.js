@@ -483,7 +483,7 @@ app.post("/api/connections", requireUser, limit(10, 60 * 60 * 1000), async (req,
   const label = String(req.body?.label || "Mon API").trim().slice(0, 80) || "Mon API";
   const projectId = String(req.body?.project_id || "").trim().slice(0, 180);
   const apiKey = String(req.body?.api_key || "").trim();
-  if (!projectId || !apiKey || apiKey.length > 2048) return jsonError(res, 400, "CONFIGURATION_INCOMPLETE", "L'identifiant du projet et la clé API sont obligatoires.");
+  if (!projectId || !apiKey || apiKey.length > 2048) return jsonError(res, 400, "CONFIGURATION_INCOMPLETE", "L'identifiant client API (api_client_id) et la clé API sont obligatoires.");
   try {
     const apiBaseUrl = await validateApiBase(req.body?.api_base_url);
     const secret = encryptSecret(apiKey);
