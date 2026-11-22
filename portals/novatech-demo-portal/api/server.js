@@ -385,6 +385,23 @@ app.get("/api/docs", (_req, res) => res.status(200).type("html").send(`<!doctype
 <p><a href="/">Retour à NOVATECH</a></p></html>`));
 
 
+app.post("/api/auth/callback", limit(10, 15 * 60 * 1000), async (req, res) => {
+  if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "Le service de compte NOVATECH n'est pas configuré.");
+  const accessToken = String(req.body?.access_token || "");
+  const refreshToken = String(req.body?.refresh_token || "");
+  if (accessToken.length < 40 || accessToken.length > 10000 || refreshToken.length < 10 || refreshToken.length > 1000) {
+    return jsonError(res, 400, "AUTH_CALLBACK_INVALID", "Lien de confirmation invalide ou incomplet.");
+  }
+  try {
+    const user = await supabaseFetch("/auth/v1/user", { method: "GET" }, accessToken);
+    if (!user?.id || !user.email_confirmed_at) return jsonError(res, 401, "EMAIL_NOT_CONFIRMED", "L'adresse e-mail n'est pas encore confirmée.");
+    setSessionCookies(res, { access_token: accessToken, refresh_token: refreshToken, expires_in: 3600 });
+    return res.json({ authenticated: true, user: { id: user.id, email: user.email, name: user.user_metadata?.full_name || user.user_metadata?.name || "" } });
+  } catch {
+    return jsonError(res, 401, "AUTH_CALLBACK_FAILED", "La confirmation a expiré. Demandez un nouvel e-mail de confirmation.");
+  }
+});
+
 app.post("/api/auth/signup", limit(5, 15 * 60 * 1000), async (req, res) => {
   if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "L'inscription n'est pas encore configurée.");
   const email = String(req.body?.email || "").trim().toLowerCase();
@@ -393,7 +410,8 @@ app.post("/api/auth/signup", limit(5, 15 * 60 * 1000), async (req, res) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return jsonError(res, 400, "EMAIL_INVALID", "Adresse e-mail invalide.");
   if (password.length < 10) return jsonError(res, 400, "PASSWORD_TOO_SHORT", "Choisissez un mot de passe d'au moins 10 caractères.");
   try {
-    const result = await supabaseFetch("/auth/v1/signup", {
+    const confirmationRedirect = "https://novatech-demo-portal-test-61nh.onrender.com/app.html";
+    const result = await supabaseFetch("/auth/v1/signup?redirect_to=" + encodeURIComponent(confirmationRedirect), {
       method: "POST", body: JSON.stringify({ email, password, data: { full_name: displayName } })
     });
     if (result.access_token) {
