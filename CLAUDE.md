@@ -30,3 +30,10 @@
 - Future demo apps get their own schema (for example `<app>_test` or `<app>_demo`) and an entry in `platform_registry.applications`.
 - Never copy production data, real client API keys, sessions, tokens, Google Drive credentials, or files into test schemas. Never store file binaries in Supabase Storage for UDCShare; use Drive Pool or a dedicated test Drive/mock.
 - Do not trigger GitHub Actions or remote tests; the owner's GitHub Free quota is exhausted. Use local checks and commit messages with `[skip ci]`.
+
+## NOVATECH Developer Examples — staging only
+
+- All NOVATECH API Developer Playground examples, demo portals, sample integrations, and their Render deployments must be developed and deployed in the Render project **UDCShare service api développer**, under its **Test** environment (staging).
+- Use the Git branch `staging` for this work. Do not deploy these examples from `main`, push their changes to `main`, merge staging into main, or configure a NOVATECH example service to track `main`.
+- Keep NOVATECH demo services separate from UDCShare production services. Do not change the Production environment or customer-facing production configuration while working on these examples.
+- Promote anything from staging to production only after the owner explicitly reviews and authorizes that specific promotion.
