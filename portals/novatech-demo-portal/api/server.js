@@ -720,7 +720,17 @@ app.get("/api/client-demo/files/:id/preview", requireUser, async (req, res) => {
     if (declaredSize > 50 * 1024 * 1024) return jsonError(res, 413, "PREVIEW_TOO_LARGE", "Ce fichier dépasse la limite d'aperçu de 50 Mo.");
     const data = await upstream.arrayBuffer();
     if (data.byteLength > 50 * 1024 * 1024) return jsonError(res, 413, "PREVIEW_TOO_LARGE", "Ce fichier dépasse la limite d'aperçu de 50 Mo.");
-    const contentType = String(upstream.headers.get("content-type") || "application/octet-stream").split(";")[0].trim().toLowerCase();
+    let contentType = String(upstream.headers.get("content-type") || "application/octet-stream").split(";")[0].trim().toLowerCase();
+    if (!contentType || contentType === "application/octet-stream" || contentType === "binary/octet-stream") {
+      const ext = String(req.query.name || "").split(".").pop().toLowerCase();
+      const knownTypes = {
+        pdf: "application/pdf", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", gif: "image/gif",
+        webp: "image/webp", avif: "image/avif", svg: "image/svg+xml", txt: "text/plain; charset=utf-8",
+        csv: "text/csv; charset=utf-8", mp4: "video/mp4", webm: "video/webm", mp3: "audio/mpeg",
+        wav: "audio/wav", ogg: "audio/ogg"
+      };
+      contentType = knownTypes[ext] || contentType;
+    }
     res.status(200);
     res.set({
       "Content-Type": contentType,
