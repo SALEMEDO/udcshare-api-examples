@@ -13,7 +13,7 @@ const SUPABASE_URL = String(process.env.SUPABASE_URL || "").replace(/\/+$/, "");
 const SUPABASE_ANON_KEY = String(process.env.SUPABASE_ANON_KEY || "");
 const SUPABASE_DB_SCHEMA = String(process.env.SUPABASE_DB_SCHEMA || "developer_test").trim();
 const ENCRYPTION_KEY = String(process.env.NOVATECH_CREDENTIALS_ENCRYPTION_KEY || "");
-const ALLOWED_ORIGIN = String(process.env.NOVATECH_ALLOWED_ORIGIN || "https://novatech-demo-portal-public.onrender.com");
+const ALLOWED_ORIGIN = String(process.env.NOVATECH_ALLOWED_ORIGIN || "https://novatech-demo-portal-test-61nh.onrender.com");
 const COOKIE_SECURE = process.env.NODE_ENV !== "development";
 const MAX_API_RESPONSE = 1024 * 1024;
 
@@ -318,9 +318,9 @@ footer{padding:22px 0;border-top:1px solid #ffffff16;color:#8da69b;font-size:12p
 <body>
 <header><a class="brand" href="/"><span class="mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a><span class="live">● API EN LIGNE</span></header>
 <main>
-<section class="hero"><span class="eyebrow">L'ESPACE DES DÉVELOPPEURS</span><h1>Construisez.<br><span>Testez. Explorez.</span></h1><p>Bienvenue sur NOVATECH Developer Playground, l'environnement public pour découvrir et tester les API UDCShare avec vos propres projets et identifiants.</p><div class="actions"><a class="btn primary" href="https://novatech-demo-portal-public.onrender.com">Accéder à la plateforme <span aria-hidden="true">→</span></a><a class="btn secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md">Lire le guide</a></div></section>
+<section class="hero"><span class="eyebrow">L'ESPACE DES DÉVELOPPEURS</span><h1>Construisez.<br><span>Testez. Explorez.</span></h1><p>Bienvenue sur NOVATECH Developer Playground, l'environnement public pour découvrir et tester les API UDCShare avec vos propres projets et identifiants.</p><div class="actions"><a class="btn primary" href="https://novatech-demo-portal-test-61nh.onrender.com">Accéder à la plateforme <span aria-hidden="true">→</span></a><a class="btn secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md">Lire le guide</a></div></section>
 <aside class="panel"><div class="panel-head"><h2>Ressources NOVATECH</h2><span class="pill">PUBLIC PLAYGROUND</span></div>
-<a class="row" href="https://novatech-demo-portal-public.onrender.com" style="color:inherit;text-decoration:none"><span class="symbol">↗</span><span><strong>Portail développeur</strong><small>Créer un compte et gérer vos connexions</small></span><span class="arrow">→</span></a>
+<a class="row" href="https://novatech-demo-portal-test-61nh.onrender.com" style="color:inherit;text-decoration:none"><span class="symbol">↗</span><span><strong>Portail développeur</strong><small>Créer un compte et gérer vos connexions</small></span><span class="arrow">→</span></a>
 <a class="row" href="/health" style="color:inherit;text-decoration:none"><span class="symbol">✓</span><span><strong>État du service</strong><small>Vérifier la disponibilité de l'API</small></span><span class="arrow">→</span></a>
 <a class="row" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md" style="color:inherit;text-decoration:none"><span class="symbol">⌘</span><span><strong>Documentation</strong><small>Guide de démarrage et exemples</small></span><span class="arrow">→</span></a>
 <p class="note">Chaque visiteur dispose de son propre espace. Les clés API personnelles ne sont pas partagées entre les comptes.</p></aside>
@@ -338,6 +338,45 @@ app.get("/api/config", (_req, res) => res.json({
   credentialVaultReady: /^[0-9a-f]{64}$/i.test(ENCRYPTION_KEY),
   userApiKeysInRender: false
 }));
+app.get("/api/health", (_req, res) => res.json({
+  ok: true,
+  service: "novatech-developer-playground",
+  configured: configured(),
+  authReady: Boolean(SUPABASE_URL && SUPABASE_ANON_KEY),
+  credentialVaultReady: /^[0-9a-f]{64}$/i.test(ENCRYPTION_KEY)
+}));
+app.get("/api/openapi.json", (_req, res) => res.json({
+  openapi: "3.1.0",
+  info: { title: "NOVATECH Developer Playground API", version: "1.0.0", description: "API du portail de démonstration NOVATECH." },
+  servers: [{ url: "/" }],
+  paths: {
+    "/health": { get: { summary: "État du service", responses: { "200": { description: "État du service" } } } },
+    "/api/config": { get: { summary: "Configuration publique du portail", responses: { "200": { description: "État de configuration sans secrets" } } } },
+    "/api/auth/signup": { post: { summary: "Créer un compte développeur", responses: { "201": { description: "Compte créé ou confirmation demandée" } } } },
+    "/api/auth/login": { post: { summary: "Ouvrir une session", responses: { "200": { description: "Session ouverte" } } } },
+    "/api/auth/me": { get: { summary: "Consulter la session", responses: { "200": { description: "Utilisateur connecté" }, "401": { description: "Authentification requise" } } } },
+    "/api/connections": {
+      get: { summary: "Lister les connexions API du compte", responses: { "200": { description: "Connexions" } } },
+      post: { summary: "Enregistrer une connexion API", responses: { "201": { description: "Connexion enregistrée" } } }
+    },
+    "/api/history": { get: { summary: "Historique des tests", responses: { "200": { description: "Historique" } } },
+    "/api/demos/{slug}/engagement": { get: { summary: "Lire les vues et J'aime publics", responses: { "200": { description: "Compteurs" } } } },
+    "/api/demos/{slug}/view": { post: { summary: "Enregistrer une vue", responses: { "200": { description: "Compteurs actualisés" } } } },
+    "/api/demos/{slug}/like": { post: { summary: "Ajouter ou retirer un J'aime", responses: { "200": { description: "Compteurs actualisés" } } } },
+    "/api/client-demo/overview": { get: { summary: "Charger le portail client", responses: { "200": { description: "Vue du compte UDCShare" } } }
+  }
+}));
+app.get("/api/docs", (_req, res) => res.status(200).type("html").send(`<!doctype html>
+<html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Documentation API NOVATECH</title>
+<style>body{font:16px/1.6 system-ui;background:#0b1715;color:#edf8f1;max-width:850px;margin:48px auto;padding:0 20px}a{color:#8bf0bd}code{background:#17352b;padding:3px 6px;border-radius:5px}li{margin:10px 0}</style>
+<h1>NOVATECH — Documentation API</h1><p>API du portail développeur et de ses démonstrations.</p>
+<p><a href="/api/openapi.json">Consulter le document OpenAPI 3.1 (JSON)</a></p>
+<h2>État et configuration</h2><ul><li><code>GET /health</code></li><li><code>GET /api/health</code></li><li><code>GET /api/config</code></li></ul>
+<h2>Authentification</h2><ul><li><code>POST /api/auth/signup</code></li><li><code>POST /api/auth/login</code></li><li><code>GET /api/auth/me</code></li><li><code>POST /api/auth/logout</code></li></ul>
+<h2>Démonstrations</h2><ul><li><code>GET /api/demos/{slug}/engagement</code></li><li><code>POST /api/demos/{slug}/view</code></li><li><code>POST /api/demos/{slug}/like</code></li><li><code>GET /api/client-demo/overview</code></li></ul>
+<p><a href="/">Retour à NOVATECH</a></p></html>`));
+
 
 app.post("/api/auth/signup", limit(5, 15 * 60 * 1000), async (req, res) => {
   if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "L'inscription n'est pas encore configurée.");
