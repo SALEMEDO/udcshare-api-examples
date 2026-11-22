@@ -49,7 +49,7 @@ Le projet Supabase doit autoriser les inscriptions e-mail dans Auth. Le mode de 
 
 NOVATECH utilise les routes de l'API fichiers liées à une ressource de projet. Le champ saisi dans le Playground est l'identifiant public api_client_id de la ressource API, et non l'UUID interne du projet Developer Console.
 
-Base : https://udcshare.com/api/v1
+Base : https://www.udcshare.com/api/v1
 
 - Diagnostic de la ressource et du Drive : GET /apps/{clientId}/status
 - Liste des fichiers : GET /apps/{clientId}/files?limit=50

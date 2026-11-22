@@ -31,7 +31,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#06110e;border:1px so
 <section id="objectif"><h2>1. Comprendre ce que fournit l'API</h2>
 <p>Une API REST permet à ton application de demander à UDCShare d'effectuer des opérations sans reproduire toute la plateforme. Ton application envoie une requête HTTP ; l'API répond généralement avec des données JSON.</p>
 <div class="grid"><div class="tile"><b>Ton application</b><p class="small">Interface, comptes de tes utilisateurs, règles métier et expérience utilisateur.</p></div><div class="tile"><b>API UDCShare</b><p class="small">Opérations de fichiers et services UDCShare accessibles selon ta clé et ta formule.</p></div></div>
-<p>Le point d'entrée API v1 est <code>https://udcshare.com/api/v1</code>. NOVATECH est conçu pour les clés Developer Console liées à une ressource API de projet.</p>
+<p>Le point d'entrée API v1 est <code>https://www.udcshare.com/api/v1</code>. NOVATECH est conçu pour les clés Developer Console liées à une ressource API de projet.</p>
 <p>La documentation interactive et le schéma OpenAPI décrivent les routes, paramètres, champs requis et réponses à jour. Consulte-les avant d'intégrer une opération.</p>
 <p><a href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Ouvrir Swagger — documentation interactive</a> · <a href="https://udcshare.com/api/openapi.json" target="_blank" rel="noopener">Consulter OpenAPI JSON</a></p>
 </section>
@@ -42,13 +42,13 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#06110e;border:1px so
 </section>
 <section id="premier-appel"><h2>3. Effectuer ton premier appel API</h2>
 <p>Pour une clé Developer Console liée à un projet, commence par lire les quotas puis vérifie la ressource API :</p>
-<pre>curl https://udcshare.com/api/v1/usage \
+<pre>curl https://www.udcshare.com/api/v1/usage \
   -H "X-API-Key: VOTRE_CLE_API"
 
-curl "https://udcshare.com/api/v1/apps/VOTRE_API_CLIENT_ID/status" \
+curl "https://www.udcshare.com/api/v1/apps/VOTRE_API_CLIENT_ID/status" \
   -H "X-API-Key: VOTRE_CLE_API"</pre>
 <p>Exemple JavaScript côté serveur (Node.js 18+) :</p>
-<pre>const API_BASE = "https://udcshare.com/api/v1";
+<pre>const API_BASE = "https://www.udcshare.com/api/v1";
 const API_CLIENT_ID = process.env.UDCSHARE_API_CLIENT_ID;
 
 const response = await fetch(`${API_BASE}/apps/${encodeURIComponent(API_CLIENT_ID)}/status`, {
@@ -74,7 +74,7 @@ console.log(data);</pre>
 </section>
 <section id="upload"><h2>5. Envoyer un fichier</h2>
 <p>Pour une ressource de projet, l'envoi utilise <code>POST /apps/{clientId}/files</code> avec un corps <code>multipart/form-data</code> et un champ nommé <code>file</code>. En mode API-only / Drive individuel, le backend doit également fournir un <code>X-External-User-ID</code> stable, opaque et calculé côté serveur.</p>
-<pre>curl -X POST "https://udcshare.com/api/v1/apps/VOTRE_API_CLIENT_ID/files" \
+<pre>curl -X POST "https://www.udcshare.com/api/v1/apps/VOTRE_API_CLIENT_ID/files" \
   -H "X-API-Key: VOTRE_CLE_API" \
   -H "X-External-User-ID: identifiant-utilisateur-stable" \
   -F "file=@./document.pdf"</pre>
@@ -93,7 +93,7 @@ const app = express();
 app.get("/api/udcshare/account", async (req, res) => {
   try {
     const upstream = await fetch(
-      "https://udcshare.com/api/v1/account",
+      "https://www.udcshare.com/api/v1/account",
       {
         headers: {
           "X-API-Key": process.env.UDCSHARE_API_KEY

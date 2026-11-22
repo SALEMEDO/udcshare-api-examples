@@ -191,7 +191,7 @@
       $("apiKey").value = "";
       $("connectionForm").reset();
       $("connectionLabel").value = "Mon projet UDCShare";
-      $("apiBase").value = "https://udcshare.com/api/v1";
+      $("apiBase").value = "https://www.udcshare.com/api/v1";
       message("connectionMessage", result.message);
       await loadConnections();
       selectedConnection = result.connection.id;
