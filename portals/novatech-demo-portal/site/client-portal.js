@@ -1,3 +1,4 @@
+// Cloudflare Pages deployment commit; GitHub Actions intentionally skipped for this change.
 (() => {
   const API = window.NOVATECH_API_BASE;
   const $ = id => document.getElementById(id);
