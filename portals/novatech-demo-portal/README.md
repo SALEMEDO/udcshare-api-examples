@@ -50,8 +50,14 @@ Les politiques RLS imposent auth.uid() = userdemo_id (ou id pour userdemo). Les 
 
 ## Démonstrations présentes
 
-1. État du projet : GET /apps/{projectId}/status.
-2. Fichiers du projet : GET /apps/{projectId}/files?limit=10.
+1. Diagnostic de la ressource : GET /apps/{clientId}/status.
+2. Fichiers du projet : GET /apps/{clientId}/files?limit=10.
+3. Statistiques privées : GET /stats.
+4. Quotas et consommation : GET /usage.
+5. Envoi : POST /apps/{clientId}/files (multipart, champ file).
+6. Suppression : DELETE /apps/{clientId}/files/{fileId}.
+
+L'identifiant attendu est le api_client_id public de la ressource API, et non l'UUID interne du projet Developer Console.
 3. Consommation : GET /usage.
 
 Les requêtes sont exécutées côté serveur avec la clé personnelle du visiteur. Les erreurs sont journalisées dans son historique, sans stocker sa clé.
@@ -76,7 +82,7 @@ Utilisez un projet Sandbox ou un projet dont vous êtes propriétaire, des fichi
 - Démo 1 — Portail client : https://novatech-demo-portal-public.onrender.com/client-portal.html
 - Démo 2 — Playground API : https://novatech-demo-portal-public.onrender.com/app.html
 
-Le portail client est une vraie intégration des routes UDCShare documentées : `GET /account`, `GET /files`, `POST /upload`, `DELETE /files/:id` et `GET /stats`. Il réutilise une configuration API appartenant au compte NOVATECH connecté. La clé API est déchiffrée uniquement côté serveur au moment de l'appel et n'est jamais envoyée au navigateur. Cette démonstration limite les uploads à 50 Mo par fichier pour maîtriser la mémoire du service.
+Le portail client utilise les routes UDCShare documentées pour une ressource Developer Console liée à un projet : diagnostic `GET /apps/{clientId}/status`, liste `GET /apps/{clientId}/files`, statistiques `GET /stats`, quotas `GET /usage`, dépôt `POST /apps/{clientId}/files` et suppression `DELETE /apps/{clientId}/files/{fileId}`. Il réutilise une configuration API appartenant au compte NOVATECH connecté. La clé API est déchiffrée uniquement côté serveur au moment de l'appel et n'est jamais envoyée au navigateur. Cette démonstration limite les uploads à 50 Mo par fichier pour maîtriser la mémoire du service. Les anciennes routes `/account`, `/upload` et `/files` ne sont pas utilisées, car elles sont réservées aux clés historiques non liées à un projet.
 
 ### Vues et J'aime publics
 
