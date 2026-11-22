@@ -49,7 +49,8 @@
     if (typeof dialog.showModal === "function" && !dialog.open) dialog.showModal();
     else dialog.setAttribute("open", "");
     try {
-      const response = await fetch(API + "/api/client-demo/files/" + encodeURIComponent(id) + "/preview", {
+      const previewName = file.name || file.filename || "fichier";
+      const response = await fetch(API + "/api/client-demo/files/" + encodeURIComponent(id) + "/preview?name=" + encodeURIComponent(previewName), {
         method: "GET", credentials: "include", cache: "no-store"
       });
       if (!response.ok) {
@@ -167,10 +168,14 @@
     if (event.target === $("filePreviewModal")) {
       $("filePreviewModal").close?.();
       $("filePreviewFrame").src = "about:blank";
+      if (activePreviewUrl) URL.revokeObjectURL(activePreviewUrl);
+      activePreviewUrl = "";
     }
   });
   $("filePreviewModal").addEventListener("close", () => {
     $("filePreviewFrame").src = "about:blank";
+    if (activePreviewUrl) URL.revokeObjectURL(activePreviewUrl);
+    activePreviewUrl = "";
   });
   $("uploadForm").addEventListener("submit", async event => {
     event.preventDefault();
