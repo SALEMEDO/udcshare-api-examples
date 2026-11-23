@@ -1,6 +1,6 @@
 # UDCShare API — Exemples développeurs
 
-**Playground public NOVATECH (Cloudflare Pages) :** https://novatech-test.udcshare.com.
+**Playground public NOVATECH :** https://novatech-test.udcshare.com.
 
 <p align="center">
   <a href="https://udcshare.com"><img src="assets/banner.svg" alt="API UDCShare — exemples de code officiels" width="100%"></a>
@@ -26,7 +26,7 @@
 **[UDCShare](https://udcshare.com)** est un service de partage de fichiers volumineux pour les
 particuliers, les étudiants et les professionnels. Vous connectez votre propre Google Drive :
 vos fichiers restent chez vous, UDCShare se charge du lien, de l'expiration, du mot de passe,
-des notifications et du suivi des téléchargements.
+des notifications et du suivi des téléchargements. Le service est proposé sans publicité.
 
 L'**API REST** permet d'intégrer tout cela dans votre propre application : votre produit SaaS,
 votre intranet, votre script de sauvegarde ou votre site web.
@@ -73,11 +73,6 @@ Le guide [NOVATECH Developer Playground](./portals/novatech-demo-portal/README.m
 Quatre exemples serveur contiennent du code source complet, commenté et prêt à adapter.
 Chaque dossier a son propre `README.md`, son `.env.example` et ses dépendances.
 
-### Côté navigateur et interfaces
-
-| Langage | Exemple | Ce que vous obtenez |
-|---|---|---|
-
 ### Côté serveur
 
 | Langage | Exemple | Ce que vous obtenez |
@@ -86,15 +81,6 @@ Chaque dossier a son propre `README.md`, son `.env.example` et ses dépendances.
 | **Python** | [`python-backup-system/`](./python-backup-system/) | Sauvegarde planifiée avec journalisation, SQLite et reprise sur erreur |
 | **PHP 8** | [`php-upload-service/`](./php-upload-service/) | Classe `Client` compatible Composer, intégrable à Laravel ou Symfony |
 | **Go 1.21+** | [`go-backup-service/`](./go-backup-service/) | Paquet `udcshare` et service de sauvegarde concurrent |
-
-### En préparation
-
-Les dossiers [`ruby-upload-gem/`](./ruby-upload-gem/) et
-[`angular-upload-module/`](./angular-upload-module/) ne contiennent pour l'instant que
-leur documentation et leur manifeste, **sans code source**. Leur README décrit l'intention,
-pas un code livré. Les contributions sont bienvenues.
-
----
 
 ## Installation
 
@@ -110,45 +96,39 @@ commande exacte et la façon de lancer l'exemple.
 
 ---
 
-## Limites de l'API par formule
+## Tarifs UDCShare — offres Web
 
-L'accès à l'API REST est inclus dans les formules **Essentials**, **Pro** et **Business**.
-Ces valeurs viennent directement du catalogue de formules du produit.
+Les prix ci-dessous correspondent au catalogue actuel de l’application UDCShare. Les forfaits Web sont facturés pour **30 jours**. Le prix de référence est en USD ; le montant en CDF est calculé au taux BCC au moment du paiement.
 
-<!-- PLAN_LIMITS:START -->
-| Plan | Prix | Taille max par fichier web | Quota total par jour (UTC) | Limite par semaine (lundi 0 h, Kinshasa) | Quota web/mois | Envois/mois | Stockage | Drives | Uploads simultanés | Expiration lien (défaut; maximum) | Téléchargements/jour | Quotas API (taille/fichier; req/min/IP; fichiers/jour) |
-|---|---:|---:|---:|---|---:|---:|---|---:|---:|---|---|---|
-| Free | Gratuit | 2 Go | Non plafonné | 3 envois; 5 Go | 15 Go | 10 | Fourni par le Drive connecté | 1 | 1 | 1 jour (max. 7 jours) | Aucun plafond par plan | Non incluse |
-| Essentials | 8 500 CDF | 10 Go | Non plafonné | 15 envois; 25 Go | 75 Go | 50 | Fourni par le Drive connecté | 3 | 1 | 7 jours (max. 30 jours) | Aucun plafond par plan | 5 Go; 100 req/min/IP; 50 fichiers/jour |
-| Pro | 20 000 CDF | 100 Go | 100 Go | 30 envois; 250 Go | 750 Go | 100 | Fourni par le Drive connecté | 10 | 10 | 7 jours (max. 30 jours) | Aucun plafond par plan | 25 Go; 300 req/min/IP; 200 fichiers/jour |
-| Business | 57 000 CDF | 1 To | Illimité | Aucune | 5 To | 1000 | Fourni par le Drive connecté | Selon configuration | 50 | Aucune expiration automatique (max. sans plafond) | Aucun plafond par plan | 1 To; 1000 req/min/IP; 1000 fichiers/jour |
-<!-- PLAN_LIMITS:END -->
+| Formule Web | Prix / 30 jours | Taille max. par fichier | Volume mensuel | Envois / mois | Drives connectés |
+|---|---:|---:|---:|---:|---:|
+| Free | Gratuit | 2 Go | 15 Go | 10 | 1 |
+| Essentials | 4 USD | 10 Go | 75 Go | 50 | 3 |
+| Pro | 9 USD | 100 Go | 750 Go | 100 | 10 |
+| Business | 25 USD | 1 To | 5 To | 1 000 | Selon configuration |
 
-Les quotas API REST sont comptés par clé : taille par fichier, nombre de fichiers enregistrés
-par jour UTC et débit par minute. Un dépassement renvoie un code `429`.
-<details>
-<summary>Politique détaillée par canal (web et API REST)</summary>
+Les limites hebdomadaires et journalières supplémentaires sont appliquées dans l’application. Les fichiers sont stockés sur le Google Drive connecté au compte.
 
-<!-- PLAN_CHANNEL_POLICIES:START -->
-| Plan | Canal | Accès | Max par fichier | Quota total en octets/jour | Quota total en octets/mois | Transferts/mois | Uploads simultanés | Fichiers/jour | Requêtes/minute |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| Guest | Web | Oui | 500 Mo | Aucun plafond | 500 Mo | 5 | 1 | — | — |
-| Guest | API REST par clé | Non incluse | — | — | — | — | — | — | — |
-| Free | Web | Oui | 2 Go | Aucun plafond | 15 Go | 10 | 1 | — | — |
-| Free | API REST par clé | Non incluse | — | — | — | — | — | — | — |
-| Essentials | Web | Oui | 10 Go | Aucun plafond | 75 Go | 50 | 1 | — | — |
-| Essentials | API REST par clé | Oui | 5 Go | Non appliqué | Non appliqué | — | — | 50 (UTC) | 100/IP |
-| Pro | Web | Oui | 100 Go | 100 Go (UTC) | 750 Go | 100 | 10 | — | — |
-| Pro | API REST par clé | Oui | 25 Go | Non appliqué | Non appliqué | — | — | 200 (UTC) | 300/IP |
-| Business | Web | Oui | 1 To | Aucun plafond | 5 To | 1000 | 50 | — | — |
-| Business | API REST par clé | Oui | 1 To | Non appliqué | Non appliqué | — | — | 1000 (UTC) | 1000/IP |
+## Tarifs Developer Console et API UDCShare
 
-Politique : les limites Web s’appliquent aux uploads de transfert Web ; les quotas en octets et le nombre de transferts mensuels sont cumulés par compte. Le quota journalier Web utilise la date UTC et se réinitialise à 00:00 UTC. Les quotas API REST v1 par clé sont indépendants : taille par fichier, nombre de fichiers enregistrés par jour UTC et débit par minute compté par clé API sur toutes les routes API limitées (30 clés invalides au plus par IP et par 15 minutes). Cette API n’a pas de plafond journalier ou mensuel en octets. Ses limites affichées comme « Non incluse » ne sont pas applicables aux plans sans accès API. Les endpoints de session `/api/transfers/*` et `/api/dashboard/reports/*` utilisent séparément un limiteur générique de 30 requêtes/minute/IP ; les autres endpoints d’application ne sont pas couverts par ce limiteur.
-<!-- PLAN_CHANNEL_POLICIES:END -->
+**L’API développeur possède son propre abonnement.** Les formules Web Free, Essentials, Pro et Business ne donnent pas à elles seules accès à l’API. Un seul abonnement Developer Console comprend la console, les organisations, les projets, les clés API, les quotas API et les webhooks. Il n’existe pas de deuxième abonnement API à acheter.
 
-</details>
+| Offre développeur | Prix / 30 jours | Organisations | Projets au total (max./organisation) | Fichiers API / mois | Taille max. / fichier | Requêtes / min | Clés API | Webhooks |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Sandbox | Gratuit, sans échéance | 1 | 2 (2) | 10 | 200 Mo | 30 | 1 | 0 |
+| Starter | 9 USD | 2 | 10 (5) | 1 500 | 10 Go | 120 | 3 | 3 |
+| Growth | 29 USD | 5 | 30 (10) | 10 000 | 50 Go | 300 | 10 | 10 |
+| Scale | 99 USD | 10 | 100 (25) | 60 000 | 100 Go | 900 | 25 | 25 |
 
-Tarifs et limites à jour : **[udcshare.com/pricing](https://udcshare.com/pricing)**.
+Les offres Starter, Growth et Scale durent 30 jours. Sandbox est gratuit et sans échéance. Le passage en Production nécessite également l’approbation technique du projet par UDCShare.
+
+### Utiliser l’API UDCShare avec Zapier
+
+La documentation explique comment connecter Zapier à l’API UDCShare à l’aide d’une clé API transmise dans l’en-tête `X-API-Key`. Les appels effectués depuis Zapier sont comptabilisés dans les quotas de l’offre Developer Console active. Aucun supplément UDCShare ni abonnement API distinct n’est ajouté pour cette connexion. L’abonnement Zapier éventuellement requis est facturé séparément par Zapier et n’est pas inclus dans les tarifs UDCShare.
+
+> Les clés API sont des secrets : conservez-les côté serveur ou dans une connexion sécurisée Zapier. Ne les publiez jamais dans un dépôt Git ni dans du code exécuté dans le navigateur.
+
+Tarifs et conditions à jour : **[udcshare.com/pricing](https://udcshare.com/pricing)** et [Developer Console](https://udcshare.com/developers/dashboard).
 
 ---
 
