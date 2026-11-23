@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f8f5">
+  <meta name="description" content="NOVATECH — Démonstration d'un portail client construit avec l'API UDCShare.">
+  <title>NOVATECH — Démo 1 · Portail client</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .demo-hero{padding:38px 0 20px}.demo-hero h1{font-size:clamp(32px,4vw,48px);line-height:1.08;letter-spacing:-.05em;margin:10px 0}.demo-hero p{color:var(--muted);max-width:760px}
+    .demo-layout{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start;padding:16px 0 60px}.demo-main{display:grid;gap:16px}.demo-side{display:grid;gap:16px}
+    .metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.metric{padding:17px;border:1px solid var(--line);border-radius:13px;background:#fbfdfb}.metric small{display:block;color:var(--muted);font-size:11px}.metric strong{display:block;font-size:23px;margin-top:4px;overflow-wrap:anywhere}
+    .upload-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.upload-row input{flex:1;min-width:180px;border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff;font:inherit}
+    .file-list{display:grid;gap:8px}.file-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:11px;padding:12px}.file-main{min-width:0}.file-main strong{display:block;overflow-wrap:anywhere;font-size:13px}.file-main small{color:var(--muted);font-size:11px}.file-actions{display:flex;gap:7px;flex-shrink:0;align-items:center}.file-actions a{font-size:11px;color:var(--green);font-weight:800;text-decoration:none}.connection-help{background:#f2f8f3;border:1px solid #d9eadf;border-radius:12px;padding:14px;color:var(--ink);font-size:12px;line-height:1.6}.connection-help a{color:var(--green);font-weight:800}.demo-engagement{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px}.demo-engagement button,.demo-engagement a{border:1px solid var(--line);border-radius:99px;padding:6px 11px;background:#fff;color:var(--ink);font:inherit;text-decoration:none;cursor:pointer}.demo-engagement [hidden]{display:none!important}
+    .file-preview-thumb{width:58px;height:58px;flex:0 0 58px;object-fit:cover;border:1px solid var(--line);border-radius:9px;background:#f2f6f3;cursor:pointer}
+    .file-row{justify-content:flex-start}.file-main{flex:1}
+    .file-preview-btn{border:0;background:transparent;color:var(--green);font:inherit;font-size:11px;font-weight:800;cursor:pointer;padding:7px}
+    .preview-dialog{width:min(920px,calc(100% - 24px));max-width:920px;height:min(760px,calc(100% - 24px));max-height:760px;padding:0;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 24px 80px #0005}
+    .preview-dialog::backdrop{background:rgba(7,19,15,.78);-webkit-backdrop-filter:none;backdrop-filter:none}
+    .preview-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+    .preview-dialog-title{min-width:0;overflow-wrap:anywhere;font-size:13px;font-weight:800;flex:1}
+    .preview-controls{display:flex;align-items:center;gap:7px;flex-shrink:0}
+    .preview-zoom-btn{width:34px;height:32px;border:1px solid var(--line);border-radius:8px;background:#f4f8f5;color:#17352b;font-size:20px;font-weight:700;line-height:1;cursor:pointer}
+    .preview-zoom-btn:disabled{opacity:.4;cursor:not-allowed}
+    .preview-zoom-value{min-width:48px;text-align:center;color:#314b40;font-size:12px;font-weight:750}
+    .preview-dialog-body{height:calc(100% - 58px);background:#fff;overflow:auto;isolation:isolate;display:flex;justify-content:center;align-items:flex-start}
+    .preview-dialog-body iframe{display:block;flex:0 0 auto;width:100%;height:100%;border:0;background:#fff;opacity:1;filter:none;mix-blend-mode:normal}
+    @media(max-width:560px){.file-preview-thumb{width:48px;height:48px;flex-basis:48px}.preview-dialog{height:85dvh}}
+
+    @media(max-width:850px){.demo-layout{grid-template-columns:1fr}.demo-side{grid-template-columns:1fr 1fr}}@media(max-width:560px){.metric-grid{grid-template-columns:1fr 1fr}.demo-side{grid-template-columns:1fr}.file-row{align-items:flex-start;flex-direction:column}.file-actions{width:100%;justify-content:flex-end}}
+  
+    .preview-zoom-btn{min-width:44px;min-height:44px}
+    @media(max-width:600px){
+      .topbar{height:auto;min-height:64px;padding:10px 14px;gap:10px;flex-wrap:wrap}
+      .top-actions{width:100%;display:flex;flex-wrap:wrap;gap:8px}
+      .top-actions .btn{flex:1;justify-content:center;min-height:44px;padding:10px 8px;font-size:11px}
+      .demo-hero{padding:26px 0 12px}.demo-hero h1{font-size:clamp(29px,8vw,38px)}
+      .demo-layout{padding:12px 0 40px;gap:12px}.demo-main,.demo-side{gap:12px}
+      .panel{padding:15px;border-radius:14px}.panel-title{align-items:flex-start;gap:8px}
+      .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.metric{padding:13px}.metric strong{font-size:20px}
+      .file-row{align-items:flex-start;flex-wrap:wrap}.file-main{width:calc(100% - 68px);min-width:0}
+      .file-actions{width:100%;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}
+      .file-actions a,.file-actions button,.upload-row button{min-height:44px;padding:10px 12px}
+      .upload-row{align-items:stretch}.upload-row input{width:100%;min-width:0;flex-basis:100%}.upload-row button{width:100%}
+      .demo-engagement{gap:8px}.preview-dialog{width:calc(100% - 12px);height:88dvh;max-height:88dvh;border-radius:12px}
+      .preview-dialog-head{align-items:flex-start;padding:9px;gap:8px}.preview-dialog-title{flex-basis:100%}
+      .preview-controls{width:100%;justify-content:flex-end}.preview-zoom-btn{min-width:44px;min-height:44px}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+  </style>
+  <link rel="stylesheet" href="/uix-pro-max.css?v=20261122">
+  <style>
+    .brand-mark{background:none!important;padding:0!important;overflow:hidden;width:auto;height:auto;border-radius:0}
+    .brand-mark-svg{display:block;border-radius:12px;box-shadow:0 6px 18px rgba(183,139,57,.3)}
+    .powered-by{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+    .powered-by-icon{width:16px;height:16px;flex:none}
+    .powered-by strong{color:var(--green);font-weight:700}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><svg class="brand-mark-svg" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="38" height="38">
+  <defs><linearGradient id="ng-l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3d98e"/><stop offset="100%" stop-color="#b78b39"/></linearGradient></defs>
+  <rect width="38" height="38" rx="10" fill="url(#ng-l)"/>
+  <path d="M8 29V9h4.3l9 13V9H25.7v20h-4.3L12 16v13z" fill="#0a1f18"/>
+</svg><span>NOVATECH<small>DÉMONSTRATIONS API</small></span></a>
+  <div class="top-actions"><a class="btn ghost" href="/app.html">Playground API</a><a class="btn ghost" href="/guide.html">Tutoriel</a><a class="btn primary" href="/app.html">Espace développeur</a><button id="clientLogoutBtn" class="btn ghost hidden" type="button">Se déconnecter</button></div>
+</header>
+<main class="container">
+  <section class="demo-hero">
+    <span class="eyebrow">DÉMO 1 · APPLICATION CLIENTE</span>
+    <h1>Votre espace de fichiers, connecté à UDCShare.</h1>
+    <p>Cette application de démonstration utilise les vrais endpoints de l'API UDCShare. Connectez votre propre clé API dans le Playground : elle reste chiffrée côté serveur et n'est jamais affichée dans cette page.</p>
+    <div class="demo-engagement" data-demo-engagement data-demo-record-view="true" data-demo-slug="portail-client">
+      <span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span>
+      <a data-like-login href="/app.html?next=%2Fclient-portal.html">Se connecter pour aimer</a><button data-like-toggle hidden type="button">J'aime</button>
+    </div>
+  </section>
+
+  <section id="loginRequired" class="panel hidden">
+    <h3>Connectez-vous pour utiliser le portail client</h3>
+    <p class="subtle">Les vues sont publiques. Pour gérer vos propres fichiers, vous devez avoir un compte NOVATECH et connecter votre clé API UDCShare.</p>
+    <a class="btn primary" href="/app.html?next=%2Fclient-portal.html">Connexion / Inscription →</a>
+  </section>
+
+  <section id="clientArea" class="demo-layout hidden">
+    <div class="demo-main">
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">VOTRE COMPTE UDCSHARE</span><h3 id="accountTitle">Vue d'ensemble</h3></div><button id="refreshBtn" class="btn small ghost" type="button">Actualiser</button></div>
+        <div class="metric-grid">
+          <div class="metric"><small>Environnement</small><strong id="planValue">—</strong></div>
+          <div class="metric"><small>Fichiers enregistrés</small><strong id="filesValue">—</strong></div>
+          <div class="metric"><small>Stockage utilisé</small><strong id="storageValue">—</strong></div>
+        </div>
+        <p id="accountMeta" class="subtle"></p>
+      </section>
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">AJOUTER UN FICHIER</span><h3>Envoyer vers votre espace UDCShare</h3></div><span class="step-icon">01</span></div>
+        <form id="uploadForm">
+          <div class="upload-row"><input id="fileInput" type="file" required><button id="uploadBtn" class="btn primary" type="submit">Envoyer le fichier →</button></div>
+          <p class="subtle">Limite locale de cette démonstration : 50 Mo par fichier. L'API applique aussi les limites de votre offre Developer Console.</p>
+        </form>
+        <p id="uploadMessage" class="message hidden" role="status"></p>
+      </section>
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">VOS FICHIERS</span><h3>Fichiers enregistrés</h3></div><span class="step-icon">02</span></div>
+        <div id="fileList" class="file-list"><div class="empty-state">Chargement de vos fichiers…</div></div>
+      </section>
+    </div>
+    <aside class="demo-side">
+      <section class="panel">
+        <span class="eyebrow">DÉMONSTRATION RÉELLE</span>
+        <h3>Votre propre espace</h3>
+        <p class="subtle">Les fichiers restent dans le Drive associé à la ressource API de votre projet. NOVATECH ne copie aucun fichier dans Supabase Storage.</p>
+        <div class="connection-help">Configuration API : <b id="connectionLabel">—</b><br><a href="/app.html#connectionForm">Gérer ma connexion API →</a></div>
+      </section>
+      <section class="panel">
+        <span class="eyebrow">ENDPOINTS UTILISÉS</span>
+        <p class="subtle"><b>GET /apps/{clientId}/status</b> — diagnostic projet / Drive</p>
+        <p class="subtle"><b>GET /apps/{clientId}/files</b> — liste des fichiers</p>
+        <p class="subtle"><b>POST /apps/{clientId}/files</b> — envoi multipart (champ file)</p>
+        <p class="subtle"><b>DELETE /apps/{clientId}/files/{fileId}</b> — suppression</p>
+        <p class="subtle"><b>GET /stats</b> et <b>GET /usage</b> — statistiques privées et quotas</p>
+        <a class="btn small ghost" href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Documentation API Developer ↗</a>
+      </section>
+    </aside>
+  </section>
+  <p id="pageMessage" class="message hidden" role="status"></p>
+</main>
+<dialog id="filePreviewModal" class="preview-dialog" aria-label="Aperçu du fichier">
+  <div class="preview-dialog-head">
+    <strong id="filePreviewTitle" class="preview-dialog-title">Aperçu du fichier</strong>
+    <div class="preview-controls" aria-label="Contrôles du zoom">
+      <button id="previewZoomOut" class="preview-zoom-btn" type="button" aria-label="Dézoomer" title="Dézoomer">−</button>
+      <span id="previewZoomValue" class="preview-zoom-value" aria-live="polite">100 %</span>
+      <button id="previewZoomIn" class="preview-zoom-btn" type="button" aria-label="Zoomer" title="Zoomer">+</button>
+      <button id="closeFilePreview" class="btn small ghost" type="button" aria-label="Fermer l'aperçu">Fermer</button>
+    </div>
+  </div>
+  <div class="preview-dialog-body">
+    <iframe id="filePreviewFrame" title="Aperçu du fichier" src="about:blank" allow="autoplay"></iframe>
+  </div>
+</dialog>
+<footer><div class="container footer-inner"><span><b>NOVATECH</b> · Démo 1 — Portail client</span>
+        <span class="powered-by"><svg class="powered-by-icon" viewBox="0 0 26 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M13 2L3 7L13 12L23 7L13 2Z" fill="#FF3366"/>
+  <path d="M3 12L13 17L23 12" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg><span>Propulsé par <strong>UDCShare</strong></span></span>
+        <span><a href="/">Toutes les démonstrations</a> · <a href="/app.html">Playground API</a></span></div></footer>
+<script src="/config.js"></script>
+<script src="/engagement.js" defer></script>
+<script src="/client-portal.js" defer></script>
+</body>
+</html>
