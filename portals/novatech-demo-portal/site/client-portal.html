@@ -51,10 +51,21 @@
 
   </style>
   <link rel="stylesheet" href="/uix-pro-max.css?v=20261122">
+  <style>
+    .brand-mark{background:none!important;padding:0!important;overflow:hidden;width:auto;height:auto;border-radius:0}
+    .brand-mark-svg{display:block;border-radius:12px;box-shadow:0 6px 18px rgba(183,139,57,.3)}
+    .powered-by{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+    .powered-by-icon{width:16px;height:16px;flex:none}
+    .powered-by strong{color:var(--green);font-weight:700}
+  </style>
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="/"><span class="brand-mark">N</span><span>NOVATECH<small>DÉMONSTRATIONS API</small></span></a>
+  <a class="brand" href="/"><svg class="brand-mark-svg" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="38" height="38">
+  <defs><linearGradient id="ng-l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3d98e"/><stop offset="100%" stop-color="#b78b39"/></linearGradient></defs>
+  <rect width="38" height="38" rx="10" fill="url(#ng-l)"/>
+  <path d="M8 29V9h4.3l9 13V9H25.7v20h-4.3L12 16v13z" fill="#0a1f18"/>
+</svg><span>NOVATECH<small>DÉMONSTRATIONS API</small></span></a>
   <div class="top-actions"><a class="btn ghost" href="/app.html">Playground API</a><a class="btn ghost" href="/guide.html">Tutoriel</a><a class="btn primary" href="/app.html">Espace développeur</a><button id="clientLogoutBtn" class="btn ghost hidden" type="button">Se déconnecter</button></div>
 </header>
 <main class="container">
@@ -132,7 +143,13 @@
     <iframe id="filePreviewFrame" title="Aperçu du fichier" src="about:blank" allow="autoplay"></iframe>
   </div>
 </dialog>
-<footer><div class="container footer-inner"><span><b>NOVATECH</b> · Démo 1 — Portail client</span><span><a href="/">Toutes les démonstrations</a> · <a href="/app.html">Playground API</a></span></div></footer>
+<footer><div class="container footer-inner"><span><b>NOVATECH</b> · Démo 1 — Portail client</span>
+        <span class="powered-by"><svg class="powered-by-icon" viewBox="0 0 26 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M13 2L3 7L13 12L23 7L13 2Z" fill="#FF3366"/>
+  <path d="M3 12L13 17L23 12" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg><span>Propulsé par <strong>UDCShare</strong></span></span>
+        <span><a href="/">Toutes les démonstrations</a> · <a href="/app.html">Playground API</a></span></div></footer>
 <script src="/config.js"></script>
 <script src="/engagement.js" defer></script>
 <script src="/client-portal.js" defer></script>

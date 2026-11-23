@@ -6,14 +6,25 @@
   <meta name="theme-color" content="#050b0a">
   <meta name="description" content="NOVATECH Developer Playground : découvrez, connectez et testez vos propres API UDCShare dans un espace développeur personnel et sécurisé.">
   <title>NOVATECH — Espace développeur</title>
-  <link rel="stylesheet" href="/home.css?v=20261123">
+  <link rel="stylesheet" href="/home.css?v=20261123b">
+  <style>
+    .mark{background:none!important;box-shadow:none!important;padding:0!important;overflow:hidden}
+    .mark-svg{display:block;border-radius:12px;box-shadow:0 8px 24px rgba(183,139,57,.35)}
+    .powered-by{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+    .powered-by-icon{width:18px;height:18px;flex:none}
+    .powered-by strong{color:var(--accent-2);font-weight:700}
+  </style>
 </head>
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 
 <header class="top">
   <div class="wrap top__in">
-    <a class="brand" href="/" aria-label="NOVATECH, accueil"><span class="mark" aria-hidden="true">N</span><span class="brand__name">NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
+    <a class="brand" href="/" aria-label="NOVATECH, accueil"><svg class="mark-svg" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="40" height="40">
+  <defs><linearGradient id="ng-h" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3d98e"/><stop offset="100%" stop-color="#b78b39"/></linearGradient></defs>
+  <rect width="40" height="40" rx="10" fill="url(#ng-h)"/>
+  <path d="M9 30V10h4.5l9.5 13.5V10H27v20h-4.5L13 16.5V30z" fill="#0a1f18"/>
+</svg><span class="brand__name">NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
     <nav class="nav" aria-label="Navigation principale">
       <a href="#demonstrations">Démonstrations</a>
       <a href="#fonctionnement">Comment ça marche</a>
@@ -131,7 +142,12 @@
 <footer>
   <div class="wrap">
     <span>© NOVATECH · Developer Playground</span>
-    <span>Un environnement public <a href="https://udcshare.com" target="_blank" rel="noopener">UDCShare</a> · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source</a></span>
+    <span class="powered-by" aria-label="Propulsé par UDCShare"><svg class="powered-by-icon" viewBox="0 0 26 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M13 2L3 7L13 12L23 7L13 2Z" fill="#FF3366"/>
+  <path d="M3 12L13 17L23 12" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg><span>Propulsé par <strong>UDCShare</strong></span></span>
+    <span>Un environnement public · <a href="https://udcshare.com" target="_blank" rel="noopener">udcshare.com</a> · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source</a></span>
   </div>
 </footer>
 

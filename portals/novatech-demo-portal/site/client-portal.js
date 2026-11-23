@@ -33,8 +33,30 @@
   let previewZoom = 1;
   function applyPreviewZoom() {
     const frame = $("filePreviewFrame");
-    frame.style.width = (previewZoom * 100) + "%";
-    frame.style.height = (previewZoom * 100) + "%";
+    const body = frame.closest(".preview-dialog-body") || frame.parentElement;
+    const pct = (previewZoom * 100) + "%";
+    if (previewZoom === 1) {
+      // Position absolue : remplit exactement la zone
+      body.classList.remove("zoomed");
+      frame.style.removeProperty("width");
+      frame.style.removeProperty("height");
+      frame.style.removeProperty("min-width");
+      frame.style.removeProperty("min-height");
+    } else if (previewZoom < 1) {
+      // Réduction : centré dans la zone
+      body.classList.remove("zoomed");
+      frame.style.width = pct;
+      frame.style.height = pct;
+      frame.style.removeProperty("min-width");
+      frame.style.removeProperty("min-height");
+    } else {
+      // Agrandissement : scrollable
+      body.classList.add("zoomed");
+      frame.style.width = pct;
+      frame.style.height = pct;
+      frame.style.minWidth = pct;
+      frame.style.minHeight = pct;
+    }
     $("previewZoomValue").textContent = Math.round(previewZoom * 100) + " %";
     $("previewZoomOut").disabled = previewZoom <= 0.5;
     $("previewZoomIn").disabled = previewZoom >= 2.5;

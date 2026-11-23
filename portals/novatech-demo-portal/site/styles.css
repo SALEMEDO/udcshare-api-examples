@@ -34,3 +34,97 @@
 .footer-inner{gap:8px}.workspace-foot{padding-bottom:24px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ===== CORRECTIONS PREVIEW IFRAME + MOBILE (patch 20261123) ===== */
+
+/* Logo Novatech dans topbar */
+.brand-mark{padding:0;overflow:hidden;display:grid;place-items:center}
+.brand-mark img,.brand-mark svg{width:38px;height:38px;border-radius:12px;display:block}
+
+/* Propulsé par UDCShare — footer */
+.powered-by{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);flex-wrap:wrap}
+.powered-by-icon{width:16px;height:16px;flex:none;display:block}
+.powered-by strong{color:var(--green);font-weight:700}
+
+/* ---- FIX CRITIQUE : iframe aperçu ne remplit pas la zone ---- */
+/* Avant : flex + flex:0 0 auto faisaient rester l'iframe à gauche */
+.preview-dialog-body{
+  height:calc(100% - 58px);
+  background:#fff;
+  overflow:auto;
+  isolation:isolate;
+  display:block;        /* ← remplace flex */
+  position:relative;
+}
+.preview-dialog-body iframe{
+  display:block;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff;
+  transition:width .15s ease, height .15s ease;
+}
+
+/* Zoom : override du JS — centré et scrollable */
+.preview-dialog-body.zoomed{position:static;overflow:auto}
+.preview-dialog-body.zoomed iframe{position:static;min-width:100%;min-height:100%}
+
+/* Noms de fichiers longs : ne débordent plus */
+.file-main{min-width:0;max-width:100%;word-break:break-word;overflow-wrap:anywhere}
+.file-main strong{display:block;word-break:break-word;overflow-wrap:anywhere;white-space:normal;max-width:100%;font-size:13px}
+.file-main small{display:block;overflow-wrap:anywhere;max-width:100%;font-size:11px;color:var(--muted)}
+.file-row{max-width:100%;overflow:hidden;min-width:0}
+
+/* Overflow horizontal global */
+html,body{max-width:100%;overflow-x:hidden}
+.container,.topbar{max-width:100%}
+
+/* ---- MOBILE ≤ 600px ---- */
+@media(max-width:600px){
+  /* Topbar ne déborde plus */
+  .topbar{height:auto;min-height:56px;padding:10px 14px;flex-wrap:wrap;gap:8px}
+  .top-actions{width:100%;gap:7px;flex-wrap:wrap}
+  .top-actions .btn{flex:1 1 auto;min-width:0;justify-content:center;padding:9px 8px;font-size:11px;white-space:nowrap}
+
+  /* Bouton Actualiser visible */
+  .panel-title{flex-wrap:wrap;gap:8px}
+  .panel-title .btn{flex:0 0 auto}
+
+  /* Zone d'upload — empilée verticalement */
+  .upload-row{flex-direction:column;gap:8px}
+  .upload-row input{width:100%;min-width:0}
+  .upload-row button{width:100%;min-height:44px}
+
+  /* File row — nom + meta sur toute la largeur */
+  .file-row{flex-wrap:wrap;gap:8px}
+  .file-preview-thumb{width:44px;height:44px;flex-basis:44px}
+  .file-main{flex:1 1 calc(100% - 60px);min-width:0}
+  .file-actions{width:100%;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+  .file-actions a,.file-actions button,.file-preview-btn,.btn.small{min-height:44px;padding:10px 12px}
+
+  /* Métriques — 2 colonnes */
+  .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metric strong{font-size:19px;overflow-wrap:anywhere}
+
+  /* Aside — full width */
+  .demo-side{grid-template-columns:1fr}
+
+  /* Dialog preview — plein écran mobile */
+  .preview-dialog{width:calc(100% - 8px);height:92dvh;max-height:92dvh;border-radius:12px;margin:auto}
+  .preview-dialog-head{flex-wrap:wrap;padding:8px;gap:6px;min-height:auto}
+  .preview-dialog-title{flex-basis:100%;font-size:12px}
+  .preview-controls{width:100%;justify-content:flex-end;gap:6px}
+  .preview-zoom-btn{min-width:44px;min-height:44px;font-size:18px}
+}
+
+/* Workspace (app.html) mobile */
+@media(max-width:600px){
+  .workspace-head{padding:18px 0 12px;flex-direction:column;align-items:flex-start}
+  .workspace-head h2{font-size:24px}
+  .workspace-grid{grid-template-columns:1fr;gap:12px}
+  .connection-panel{position:static}
+  .demo-grid{grid-template-columns:1fr;gap:8px}
+  .demo-card{min-height:80px}
+}
