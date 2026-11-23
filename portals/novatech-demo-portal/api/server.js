@@ -491,29 +491,41 @@ app.get("/api/auth/me", requireUser, (req, res) => res.json({ authenticated: tru
 
 app.get("/api/connections", requireUser, async (req, res) => {
   try {
-    const rows = await db(req, "userdemo_api_connections?select=id,label,api_base_url,project_id,is_active,last_verified_at,last_status,created_at&order=created_at.desc");
+    // Une seule configuration API globale active par compte NOVATECH.
+    const rows = await db(req, "userdemo_api_connections?select=id,label,api_base_url,project_id,is_active,last_verified_at,last_status,created_at&is_active=eq.true&order=created_at.desc&limit=1");
     res.json({ connections: (rows || []).map(cleanConnection) });
-  } catch (error) { jsonError(res, 502, "CONNECTIONS_READ_FAILED", "Impossible de charger vos configurations API."); }
+  } catch (error) { jsonError(res, 502, "CONNECTIONS_READ_FAILED", "Impossible de charger la configuration API globale."); }
 });
 app.post("/api/connections", requireUser, limit(10, 60 * 60 * 1000), async (req, res) => {
-  const label = String(req.body?.label || "Mon API").trim().slice(0, 80) || "Mon API";
+  const label = String(req.body?.label || "Configuration API globale").trim().slice(0, 80) || "Configuration API globale";
   const projectId = String(req.body?.project_id || "").trim().slice(0, 180);
   const apiKey = String(req.body?.api_key || "").trim();
   if (!projectId || !apiKey || apiKey.length > 2048) return jsonError(res, 400, "CONFIGURATION_INCOMPLETE", "L'identifiant client API (api_client_id) et la clé API sont obligatoires.");
   try {
     const apiBaseUrl = await validateApiBase(req.body?.api_base_url);
     const secret = encryptSecret(apiKey);
-    const rows = await db(req, "userdemo_api_connections", {
-      method: "POST", headers: { Prefer: "return=representation" },
-      body: JSON.stringify({
-        userdemo_id: req.user.id, label, api_base_url: apiBaseUrl, project_id: projectId,
-        ...secret, is_active: true
-      })
-    });
-    if (!rows?.[0]) throw new Error("La configuration n'a pas été enregistrée.");
-    res.status(201).json({ connection: cleanConnection(rows[0]), message: "Configuration enregistrée et clé chiffrée." });
+    // Réutilise la ligne la plus récente pour conserver l'identifiant et l'historique liés.
+    const existing = await db(req, "userdemo_api_connections?select=id&order=created_at.desc&limit=1");
+    let rows;
+    if (existing?.[0]?.id) {
+      rows = await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(existing[0].id), {
+        method: "PATCH", headers: { Prefer: "return=representation" },
+        body: JSON.stringify({ label, api_base_url: apiBaseUrl, project_id: projectId, ...secret, is_active: true, last_status: "pending" })
+      });
+      // Désactive les anciennes lignes éventuelles sans supprimer les historiques de tests.
+      await db(req, "userdemo_api_connections?userdemo_id=eq." + encodeURIComponent(req.user.id) + "&id=neq." + encodeURIComponent(existing[0].id) + "&is_active=eq.true", {
+        method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ is_active: false })
+      });
+    } else {
+      rows = await db(req, "userdemo_api_connections", {
+        method: "POST", headers: { Prefer: "return=representation" },
+        body: JSON.stringify({ userdemo_id: req.user.id, label, api_base_url: apiBaseUrl, project_id: projectId, ...secret, is_active: true })
+      });
+    }
+    if (!rows?.[0]) throw new Error("La configuration globale n'a pas été enregistrée.");
+    res.status(200).json({ connection: cleanConnection(rows[0]), message: "Configuration API globale enregistrée. Elle sera utilisée par toutes les démonstrations." });
   } catch (error) {
-    jsonError(res, error.status || 400, error.code || "CONNECTION_SAVE_FAILED", error.message || "Impossible d'enregistrer cette configuration.");
+    jsonError(res, error.status || 400, error.code || "CONNECTION_SAVE_FAILED", error.message || "Impossible d'enregistrer la configuration globale.");
   }
 });
 app.delete("/api/connections/:id", requireUser, async (req, res) => {
