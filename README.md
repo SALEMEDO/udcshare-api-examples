@@ -122,12 +122,6 @@ Les limites hebdomadaires et journalières supplémentaires sont appliquées dan
 
 Les offres Starter, Growth et Scale durent 30 jours. Sandbox est gratuit et sans échéance. Le passage en Production nécessite également l’approbation technique du projet par UDCShare.
 
-### Utiliser l’API UDCShare avec Zapier
-
-La documentation explique comment connecter Zapier à l’API UDCShare à l’aide d’une clé API transmise dans l’en-tête `X-API-Key`. Les appels effectués depuis Zapier sont comptabilisés dans les quotas de l’offre Developer Console active. Aucun supplément UDCShare ni abonnement API distinct n’est ajouté pour cette connexion. L’abonnement Zapier éventuellement requis est facturé séparément par Zapier et n’est pas inclus dans les tarifs UDCShare.
-
-> Les clés API sont des secrets : conservez-les côté serveur ou dans une connexion sécurisée Zapier. Ne les publiez jamais dans un dépôt Git ni dans du code exécuté dans le navigateur.
-
 Tarifs et conditions à jour : **[udcshare.com/pricing](https://udcshare.com/pricing)** et [Developer Console](https://udcshare.com/developers/dashboard).
 
 ---
