@@ -247,7 +247,7 @@ async function validateApiBase(value) {
   return url.toString().replace(/\/+$/, "");
 }
 async function getConnection(req, id) {
-  const rows = await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(id) + "&select=*");
+  const rows = await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(id) + "&userdemo_id=eq." + encodeURIComponent(req.user.id) + "&select=*");
   return rows?.[0] || null;
 }
 async function recordTest(req, connectionId, label, method, success, status, code, duration, summary) {
@@ -508,7 +508,7 @@ app.post("/api/connections", requireUser, limit(10, 60 * 60 * 1000), async (req,
     const existing = await db(req, "userdemo_api_connections?select=id&userdemo_id=eq." + encodeURIComponent(req.user.id) + "&order=created_at.desc&limit=1");
     let rows;
     if (existing?.[0]?.id) {
-      rows = await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(existing[0].id), {
+      rows = await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(existing[0].id) + "&userdemo_id=eq." + encodeURIComponent(req.user.id), {
         method: "PATCH", headers: { Prefer: "return=representation" },
         body: JSON.stringify({ label, api_base_url: apiBaseUrl, project_id: projectId, ...secret, is_active: true, last_status: "pending" })
       });
@@ -530,7 +530,7 @@ app.post("/api/connections", requireUser, limit(10, 60 * 60 * 1000), async (req,
 });
 app.delete("/api/connections/:id", requireUser, async (req, res) => {
   try {
-    await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(req.params.id), { method: "DELETE", headers: { Prefer: "return=minimal" } });
+    await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(req.params.id) + "&userdemo_id=eq." + encodeURIComponent(req.user.id), { method: "DELETE", headers: { Prefer: "return=minimal" } });
     res.json({ deleted: true });
   } catch { jsonError(res, 502, "CONNECTION_DELETE_FAILED", "Impossible de supprimer cette configuration."); }
 });
@@ -645,7 +645,7 @@ app.post("/api/demos/:slug/like", requireUser, limit(30, 60 * 60 * 1000), async 
 });
 
 async function clientDemoConnection(req) {
-  const rows = await db(req, "userdemo_api_connections?select=*&is_active=eq.true&order=created_at.desc&limit=1");
+  const rows = await db(req, "userdemo_api_connections?select=*&userdemo_id=eq." + encodeURIComponent(req.user.id) + "&is_active=eq.true&order=created_at.desc&limit=1");
   return rows?.[0] || null;
 }
 async function requireClientDemoConnection(req, res) {
