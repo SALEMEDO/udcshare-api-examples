@@ -3,84 +3,139 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0b1715">
+  <meta name="theme-color" content="#050b0a">
   <meta name="description" content="NOVATECH Developer Playground : découvrez, connectez et testez vos propres API UDCShare dans un espace développeur personnel et sécurisé.">
   <title>NOVATECH — Espace développeur</title>
-  <style>
-    .demo-showcase{padding:18px 0 64px}.demo-showcase .section-head{text-align:center;max-width:720px;margin:0 auto 28px}.demo-showcase .section-head h2{font-size:30px;margin:10px 0}.demo-showcase .section-head p{color:var(--muted);line-height:1.7}.demo-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.demo-card-public{border:1px solid #ffffff20;border-radius:18px;padding:25px;background:linear-gradient(145deg,#17352b,#0d1d18);display:flex;flex-direction:column;min-height:250px}.demo-card-public h3{font-size:21px;margin:12px 0 7px}.demo-card-public p{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 18px}.demo-card-public .btn{align-self:flex-start;margin-top:auto}.demo-source-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:15px;padding-top:13px;border-top:1px solid #ffffff20;font-size:12px}.demo-source-links a{color:#b7f3d5;font-weight:750;text-decoration:none}.demo-source-links a:hover{text-decoration:underline}.demo-engagement{display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#b7c9bf;font-size:12px;margin:0 0 18px}.demo-engagement button,.demo-engagement a{border:1px solid #ffffff30;border-radius:99px;padding:6px 11px;background:#ffffff0b;color:#eaf8f0;font:inherit;cursor:pointer;text-decoration:none}.demo-engagement button[hidden],.demo-engagement a[hidden]{display:none}.demo-engagement button:disabled{opacity:.6}@media(max-width:760px){.demo-cards{grid-template-columns:1fr}.demo-showcase{padding-bottom:42px}}
-    :root{color-scheme:dark;--bg:#0b1715;--panel:#122521;--line:#29443c;--mint:#b7f3d5;--green:#55d69b;--muted:#a8bdb4}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 78% 8%,#1b4538 0,transparent 38%),linear-gradient(145deg,#091411,#10231f 62%,#0b1715);color:#f1faf5;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
-    header{height:82px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff13}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.12em}.mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#8bf0bd,#2b9d70);color:#092219;display:grid;place-items:center;font-size:23px;box-shadow:0 8px 28px #55d69b30}.brand small{display:block;font-size:9px;letter-spacing:.2em;color:#a8bdb4;margin-top:3px}
-    .nav{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:13px}.nav a:hover{color:var(--mint)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:750;transition:transform .2s,background .2s}.btn:hover{transform:translateY(-2px)}.primary{background:var(--green);color:#082219;box-shadow:0 12px 30px #55d69b22}.secondary{border:1px solid #ffffff2a;background:#ffffff08;color:#e8f5ee}
-    .hero{display:grid;grid-template-columns:1.12fr .88fr;align-items:center;gap:55px;padding:90px 0 76px}.eyebrow{font-size:11px;letter-spacing:.19em;font-weight:800;color:var(--green)}h1{font-size:clamp(44px,6.2vw,72px);line-height:1.04;letter-spacing:-.055em;margin:18px 0 22px}h1 span{color:var(--mint)}.lead{font-size:17px;line-height:1.8;color:#b6c9c0;max-width:610px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px;color:#a8bdb4;font-size:12px}.trust span{display:inline-flex;align-items:center;gap:7px}.trust svg{width:15px;height:15px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-    .visual{position:relative;min-height:360px;display:grid;place-items:center}.glow{position:absolute;width:290px;height:290px;border-radius:50%;background:#45d99a1c;filter:blur(36px)}.orb{position:absolute;width:300px;height:300px;border:1px solid #8cefc044;border-radius:50%;transform:rotate(-24deg) scaleY(.58)}.orb.two{width:350px;height:350px;transform:rotate(48deg) scaleY(.58);border-color:#8cefc026}.console{position:relative;width:min(100%,390px);padding:0;border:1px solid #ffffff24;border-radius:18px;background:#0c1916;box-shadow:0 28px 90px #0008;overflow:hidden;transform:rotate(-2deg)}.console-head{height:43px;border-bottom:1px solid #ffffff16;display:flex;align-items:center;padding:0 15px;gap:7px;color:#91a99e;font-size:11px}.dot{width:7px;height:7px;border-radius:50%;background:#5a776b}.console-body{padding:25px;font:12px/2.1 ui-monospace,SFMono-Regular,monospace;color:#c0d8cb}.dim{color:#668478}.green{color:#70e6aa}.codebox{margin-top:18px;padding:14px;border:1px solid #29443c;border-radius:10px;background:#10231f}
-    .features{padding:35px 0 85px}.section-head{text-align:center;max-width:650px;margin:0 auto 32px}.section-head h2{font-size:30px;letter-spacing:-.03em;margin:12px 0}.section-head p{color:var(--muted);line-height:1.7}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{border:1px solid #ffffff17;background:linear-gradient(145deg,#142a24,#0e1c18);border-radius:16px;padding:23px}.icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:#55d69b18;color:var(--mint)}.icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.card h3{font-size:16px;margin:18px 0 8px}.card p{font-size:13px;line-height:1.7;color:var(--muted);margin:0}
-    .cta{margin:0 0 75px;border:1px solid #55d69b3b;border-radius:20px;padding:32px 36px;background:linear-gradient(110deg,#17382d,#10231f);display:flex;align-items:center;justify-content:space-between;gap:25px}.cta h2{margin:0 0 8px;font-size:24px}.cta p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
-    footer{border-top:1px solid #ffffff16;padding:24px 0;color:#8da69b;font-size:12px}footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}footer a{color:var(--mint)}
-    @media(max-width:760px){.wrap{width:min(100% - 30px,1120px)}header{height:70px}.nav>a:not(.btn){display:none}.hero{grid-template-columns:1fr;gap:20px;padding:58px 0 48px}.visual{min-height:290px}.console{max-width:350px}.cards{grid-template-columns:1fr}.features{padding-bottom:55px}.cta{padding:25px;align-items:flex-start;flex-direction:column}.brand{font-size:13px}}@media(max-width:520px){.wrap{width:calc(100% - 28px)}header{height:auto;min-height:66px;flex-wrap:wrap;gap:8px;padding:10px 0}.nav{width:100%;justify-content:space-between;gap:8px}.nav>a:not(.btn){display:inline-flex}.nav .btn{min-height:44px;padding:10px 12px}.hero{padding:34px 0 28px}.hero h1{font-size:clamp(36px,10vw,44px)}.lead{font-size:15px}.visual{min-height:210px}.console{transform:none}.cards,.demo-cards{grid-template-columns:1fr}.demo-card-public{padding:20px}.actions .btn{width:100%}.cta{padding:22px}.cta .btn{width:100%}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
-  
-    :where(a,button):focus-visible{outline:3px solid #8cefc0;outline-offset:3px}.btn{min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-</style>
-  <link rel="stylesheet" href="/uix-pro-max.css?v=20261122">
+  <link rel="stylesheet" href="/home.css?v=20261123">
 </head>
 <body>
-<header class="wrap">
-  <a class="brand" href="/"><span class="mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
-  <nav class="nav" aria-label="Navigation principale"><a href="#fonctionnalites">Fonctionnalités</a><a href="/guide.html">Guide</a><a class="btn secondary" href="/app.html">Connexion <span>↗</span></a></nav>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header class="top">
+  <div class="wrap top__in">
+    <a class="brand" href="/" aria-label="NOVATECH, accueil"><span class="mark" aria-hidden="true">N</span><span class="brand__name">NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#demonstrations">Démonstrations</a>
+      <a href="#fonctionnement">Comment ça marche</a>
+      <a href="/guide.html">Guide</a>
+      <a class="btn btn--primary btn--sm" href="/app.html">Connexion</a>
+    </nav>
+  </div>
 </header>
-<main>
-  <section class="hero wrap">
+
+<main id="contenu">
+  <section class="wrap hero" aria-labelledby="titre">
     <div>
-      <span class="eyebrow">L'ENVIRONNEMENT DES DÉVELOPPEURS</span>
-      <h1>Vos API.<br><span>Vos projets. Vos tests.</span></h1>
-      <p class="lead">Bienvenue sur NOVATECH, le laboratoire public pour découvrir et tester les API UDCShare. Créez votre espace personnel, connectez votre propre projet et explorez les fonctionnalités en toute sécurité.</p>
-      <div class="actions"><a class="btn primary" href="/client-portal.html">Essayer le portail client <span>→</span></a><a class="btn secondary" href="/app.html">Playground API</a></div>
-      <div class="trust"><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Inscription gratuite</span><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Espaces indépendants</span><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Clés chiffrées</span></div>
+      <span class="eyebrow">L'environnement des développeurs</span>
+      <h1 id="titre">Vos API.<br><em>Vos projets. Vos tests.</em></h1>
+      <p class="lead">NOVATECH est le laboratoire public pour découvrir et tester les API UDCShare. Créez votre espace personnel, connectez votre propre projet et explorez chaque fonctionnalité en toute sécurité.</p>
+      <div class="actions">
+        <a class="btn btn--primary" href="/client-portal.html">Essayer le portail client <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost" href="/app.html">Ouvrir le Playground API</a>
+      </div>
+      <ul class="ticks">
+        <li><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Inscription gratuite</li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Espaces indépendants</li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Clés chiffrées</li>
+      </ul>
     </div>
-    <div class="visual" aria-hidden="true"><div class="glow"></div><div class="orb"></div><div class="orb two"></div><div class="console"><div class="console-head"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span style="margin-left:8px">novatech / developer-console</span></div><div class="console-body"><span class="dim">$</span> novatech connect --project <span class="green">my-project</span><br><span class="green">OK</span> espace personnel prêt<br><span class="green">OK</span> identifiants protégés<br><span class="green">OK</span> environnement de test actif<div class="codebox"><span class="dim">API STATUS</span><br><span class="green">●</span> Ready to explore <span class="dim">_</span></div></div></div></div>
-  </section>
 
-  <section class="demo-showcase wrap" id="demonstrations">
-    <div class="section-head"><span class="eyebrow">LES DÉMONSTRATIONS NOVATECH</span><h2>Découvrez ce que l'API permet de construire.</h2><p>Essayez une application cliente complète ou explorez les requêtes techniques dans le Playground.</p></div>
-    <div class="demo-cards">
-      <article class="demo-card-public">
-        <span class="eyebrow">DÉMO 1 · APPLICATION CLIENTE</span><h3>Portail client</h3>
-        <p>Un exemple concret d'application : consulter votre compte UDCShare, envoyer des fichiers, gérer vos fichiers et voir vos statistiques.</p>
-        <div class="demo-engagement" data-demo-engagement data-demo-record-view="true" data-demo-slug="portail-client"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2F">Se connecter pour aimer</a><button data-like-toggle hidden type="button">J'aime</button></div>
-        <a class="btn primary" href="/client-portal.html">Essayer le portail client →</a>
-        <div class="demo-source-links" aria-label="Code source du portail client">
-          <a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/staging/portals/novatech-demo-portal/site" target="_blank" rel="noopener noreferrer">Voir le code sur GitHub ↗</a>
-          <a href="https://github.com/SALEMEDO/udcshare-api-examples/archive/refs/heads/staging.zip">Télécharger les exemples (ZIP) ↓</a>
-        </div>
-      </article>
-      <article class="demo-card-public">
-        <span class="eyebrow">DÉMO 2 · OUTIL TECHNIQUE</span><h3>Playground API</h3>
-        <p>Connectez votre projet, testez les endpoints documentés et retrouvez vos résultats dans votre espace développeur personnel.</p>
-        <div class="demo-engagement" data-demo-engagement data-demo-record-view="true" data-demo-slug="playground-api"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2F">Se connecter pour aimer</a><button data-like-toggle hidden type="button">J'aime</button></div>
-        <a class="btn secondary" href="/app.html">Ouvrir le Playground →</a>
-        <div class="demo-source-links" aria-label="Code source du Playground API">
-          <a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/staging/portals/novatech-demo-portal/site" target="_blank" rel="noopener noreferrer">Voir le code sur GitHub ↗</a>
-          <a href="https://github.com/SALEMEDO/udcshare-api-examples/archive/refs/heads/staging.zip">Télécharger les exemples (ZIP) ↓</a>
-        </div>
-      </article>
+    <div class="term" role="img" aria-label="Exemple de commande : connexion d'un projet à l'API de test et état prêt">
+      <div class="term__bar" aria-hidden="true"><i></i><i></i><i></i><span>novatech / developer-console</span></div>
+      <pre aria-hidden="true"><span class="c-dim">$</span> novatech connect <span class="c-key">--project</span> <span class="c-str">mon-projet</span>
+<span class="c-ok">✓</span> espace personnel prêt
+<span class="c-ok">✓</span> identifiants protégés
+<span class="c-ok">✓</span> environnement de test actif
+
+<span class="c-dim">GET</span> /v1/apps/<span class="c-str">{clientId}</span>/status
+<span class="c-dim">→</span> <span class="c-ok">200 OK</span>  { <span class="c-key">"drive"</span>: <span class="c-str">"connected"</span> }</pre>
+      <div class="term__status" aria-hidden="true"><span class="pulse">API prête à explorer</span><span>sandbox</span></div>
     </div>
   </section>
 
-  <section class="features wrap" id="fonctionnalites">
-    <div class="section-head"><span class="eyebrow">UN ESPACE FAIT POUR EXPÉRIMENTER</span><h2>Tout commence dans votre espace.</h2><p>Un environnement simple pour configurer vos accès, lancer vos essais et retrouver vos résultats.</p></div>
-    <div class="cards">
-      <article class="card"><span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 8 4 12l4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span><h3>Connectez votre API</h3><p>Ajoutez l'adresse de votre API, l'identifiant de votre projet et votre propre clé d'accès.</p></article>
-      <article class="card"><span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg></span><h3>Testez les fonctionnalités</h3><p>Vérifiez l'état du projet, consultez les fichiers et explorez les informations de consommation disponibles.</p></article>
-      <article class="card"><span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></span><h3>Gardez votre historique</h3><p>Retrouvez vos configurations et vos résultats lors de vos prochaines connexions.</p></article>
+  <section class="wrap sec sec--tight" id="demonstrations" aria-labelledby="t-demos">
+    <div class="head">
+      <span class="eyebrow">Les démonstrations NOVATECH</span>
+      <h2 id="t-demos">Découvrez ce que l'API permet de construire.</h2>
+      <p>Essayez une application cliente complète ou explorez les requêtes techniques dans le Playground.</p>
+    </div>
+    <div class="demos">
+      <article class="demo">
+        <div class="demo__shot" aria-hidden="true">
+          <div class="mini"><b></b><b></b><b></b><div class="row"><i></i><i></i><i></i></div><code>portail-client</code></div>
+        </div>
+        <div class="demo__body">
+          <span class="tag">Démo 1 · Application cliente</span>
+          <h3>Portail client</h3>
+          <p>Un exemple concret d'application : consultez votre compte UDCShare, envoyez des fichiers, gérez-les et suivez vos statistiques.</p>
+          <div class="stats" data-demo-engagement data-demo-record-view="true" data-demo-slug="portail-client"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2F">Se connecter pour aimer</a><button data-like-toggle hidden type="button">J'aime</button></div>
+          <div class="demo__cta"><a class="btn btn--primary" href="/client-portal.html">Essayer le portail client <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+          <div class="links" aria-label="Code source du portail client">
+            <a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/staging/portals/novatech-demo-portal/site" target="_blank" rel="noopener noreferrer">Voir le code sur GitHub ↗</a>
+            <a href="https://github.com/SALEMEDO/udcshare-api-examples/archive/refs/heads/staging.zip">Télécharger les exemples (ZIP) ↓</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="demo">
+        <div class="demo__shot" aria-hidden="true">
+          <div class="mini"><b></b><b></b><b></b><div class="row"><i></i><i></i></div><code>GET /v1/apps/{clientId}/files</code></div>
+        </div>
+        <div class="demo__body">
+          <span class="tag">Démo 2 · Outil technique</span>
+          <h3>Playground API</h3>
+          <p>Connectez votre projet, testez les endpoints documentés et retrouvez vos résultats dans votre espace développeur personnel.</p>
+          <div class="stats" data-demo-engagement data-demo-record-view="true" data-demo-slug="playground-api"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2F">Se connecter pour aimer</a><button data-like-toggle hidden type="button">J'aime</button></div>
+          <div class="demo__cta"><a class="btn btn--ghost" href="/app.html">Ouvrir le Playground <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+          <div class="links" aria-label="Code source du Playground API">
+            <a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/staging/portals/novatech-demo-portal/site" target="_blank" rel="noopener noreferrer">Voir le code sur GitHub ↗</a>
+            <a href="https://github.com/SALEMEDO/udcshare-api-examples/archive/refs/heads/staging.zip">Télécharger les exemples (ZIP) ↓</a>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
-  <section class="cta wrap"><div><h2>Prêt à commencer ?</h2><p>Créez votre compte NOVATECH et accédez à votre espace développeur personnel.</p></div><a class="btn primary" href="/app.html">Ouvrir mon espace <span>→</span></a></section>
+
+  <section class="wrap sec" id="fonctionnement" aria-labelledby="t-steps">
+    <div class="head">
+      <span class="eyebrow">En trois étapes</span>
+      <h2 id="t-steps">De l'inscription au premier appel.</h2>
+      <p>Un parcours court, pensé pour tester sans rien casser.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Créez votre espace</h3><p>Inscrivez-vous gratuitement : votre espace NOVATECH est personnel et indépendant des autres développeurs.</p></li>
+      <li><h3>Connectez votre projet</h3><p>Ajoutez l'adresse de votre API, l'identifiant <code>api_client_id</code> et votre propre clé d'accès.</p></li>
+      <li><h3>Testez et gardez la trace</h3><p>Vérifiez l'état du projet, consultez les fichiers et retrouvez vos résultats à la prochaine connexion.</p></li>
+    </ol>
+  </section>
+
+  <section class="wrap sec sec--tight" id="fonctionnalites" aria-labelledby="t-feat">
+    <div class="head">
+      <span class="eyebrow">Un espace fait pour expérimenter</span>
+      <h2 id="t-feat">Tout commence dans votre espace.</h2>
+      <p>Un environnement simple pour configurer vos accès, lancer vos essais et retrouver vos résultats.</p>
+    </div>
+    <div class="feats">
+      <article class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 8 4 12l4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span><h3>Connectez votre API</h3><p>Ajoutez l'adresse de votre API, l'identifiant de votre projet et votre propre clé d'accès.</p></article>
+      <article class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg></span><h3>Testez les fonctionnalités</h3><p>Vérifiez l'état du projet, consultez les fichiers et explorez les informations de consommation disponibles.</p></article>
+      <article class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></span><h3>Gardez votre historique</h3><p>Retrouvez vos configurations et vos résultats lors de vos prochaines connexions.</p></article>
+    </div>
+  </section>
+
+  <section class="wrap cta" aria-labelledby="t-cta">
+    <div><h2 id="t-cta">Prêt à commencer ?</h2><p>Créez votre compte NOVATECH et accédez à votre espace développeur personnel.</p></div>
+    <a class="btn btn--primary" href="/app.html">Ouvrir mon espace <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </section>
 </main>
-<footer><div class="wrap"><span>© NOVATECH · Developer Playground</span><span>Un environnement public <a href="https://udcshare.com" target="_blank" rel="noopener">UDCShare</a> · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source</a></span></div></footer>
-  <script src="/config.js" defer></script>
-  <script src="/engagement.js" defer></script>
+
+<footer>
+  <div class="wrap">
+    <span>© NOVATECH · Developer Playground</span>
+    <span>Un environnement public <a href="https://udcshare.com" target="_blank" rel="noopener">UDCShare</a> · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source</a></span>
+  </div>
+</footer>
+
+<script src="/config.js" defer></script>
+<script src="/engagement.js" defer></script>
 </body>
 </html>
