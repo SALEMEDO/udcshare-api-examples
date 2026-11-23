@@ -38,7 +38,7 @@ votre intranet, votre script de sauvegarde ou votre site web.
 | 🧪 **Exemples en ligne** | [udcshare.com/examples/](https://udcshare.com/examples/) |
 | 🔑 **Obtenir une clé API** | [Tableau de bord → Développeur](https://udcshare.com/dashboard?tab=developer) |
 | 📄 **Spécification OpenAPI 3.0** | [udcshare.com/api/openapi.json](https://udcshare.com/api/openapi.json) |
-| 📦 **SDK JavaScript officiel** | [udcshare.com/sdk/udcshare-sdk.js](https://udcshare.com/sdk/udcshare-sdk.js) |
+| 📦 **SDK JavaScript backend (Node.js uniquement)** | [udcshare.com/sdk/udcshare-sdk.js](https://udcshare.com/sdk/udcshare-sdk.js) |
 
 ---
 
@@ -48,20 +48,13 @@ Toutes les requêtes portent votre clé API dans l'en-tête **`X-API-Key`**
 (et non `Authorization: Bearer`).
 
 ```bash
-curl https://udcshare.com/api/v1/account \
+curl https://udcshare.com/api/v1/usage \
   -H "X-API-Key: VOTRE_CLE_API"
-```
 
-```javascript
-const r = await fetch('https://udcshare.com/api/v1/account', {
-  headers: { 'X-API-Key': process.env.UDCSHARE_API_KEY },
-});
-const compte = await r.json();
-```
+curl https://udcshare.com/api/v1/stats \
+  -H "X-API-Key: VOTRE_CLE_API"
 
-> **Gardez la clé côté serveur.** Ne la placez jamais dans du code livré au navigateur
-> ni dans un dépôt Git. Chaque exemple de ce dépôt lit la clé depuis une variable
-> d'environnement et fournit un `.env.example`.
+> **Gardez la clé côté serveur.** Ne la placez jamais dans du code livré au navigateur, dans une variable publique ou dans un dépôt Git. Les interfaces HTML, JavaScript, React, Vue et Angular appellent votre propre backend relais. Le SDK JavaScript UDCShare est réservé à Node.js côté serveur.
 
 ---
 
@@ -88,12 +81,6 @@ Chaque dossier a son propre `README.md`, son `.env.example` et ses dépendances.
 | **Python** | [`python-backup-system/`](./python-backup-system/) | Sauvegarde planifiée avec journalisation, SQLite et reprise sur erreur |
 | **PHP 8** | [`php-upload-service/`](./php-upload-service/) | Classe `Client` compatible Composer, intégrable à Laravel ou Symfony |
 | **Go 1.21+** | [`go-backup-service/`](./go-backup-service/) | Paquet `udcshare` et service de sauvegarde concurrent |
-
-### En préparation
-
-Le dossier [`ruby-upload-gem/`](./ruby-upload-gem/) ne contient pour l'instant que sa documentation et son manifeste, **sans code source**.
-
----
 
 ## Installation
 
