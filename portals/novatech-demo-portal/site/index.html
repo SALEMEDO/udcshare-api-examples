@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#050b0a">
+  <meta name="theme-color" content="#050b0a" id="theme-color-meta">
+  <script>(function(){try{var saved=localStorage.getItem("novatech-theme");var mode=["auto","light","dark"].includes(saved)?saved:"auto";var dark=mode==="dark"||(mode==="auto"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=dark?"dark":"light";document.documentElement.dataset.themeMode=mode;}catch(e){document.documentElement.dataset.theme=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.themeMode="auto";}})();</script>
   <meta name="description" content="NOVATECH Developer Playground : découvrez, connectez et testez vos propres API UDCShare dans un espace développeur personnel et sécurisé.">
   <title>NOVATECH — Espace développeur</title>
   <link rel="stylesheet" href="/home.css?v=20261123b">
@@ -29,6 +30,7 @@
       <a href="#demonstrations">Démonstrations</a>
       <a href="#fonctionnement">Comment ça marche</a>
       <a href="/guide.html">Guide</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème" title="Thème automatique, clair ou sombre">Auto</button>
       <a class="btn btn--primary btn--sm" href="/app.html">Connexion</a>
     </nav>
   </div>
@@ -145,5 +147,15 @@
 
 <script src="/config.js" defer></script>
 <script src="/engagement.js" defer></script>
+<script>
+(function(){
+  var root=document.documentElement,button=document.querySelector("[data-theme-toggle]"),meta=document.getElementById("theme-color-meta");
+  var modes=["auto","light","dark"],labels={auto:"Auto",light:"Clair",dark:"Sombre"};
+  function apply(mode,save){var dark=mode==="dark"||(mode==="auto"&&window.matchMedia("(prefers-color-scheme: dark)").matches);root.dataset.theme=dark?"dark":"light";root.dataset.themeMode=mode;if(button){button.textContent=labels[mode];button.setAttribute("aria-label","Thème : "+labels[mode]+". Changer le thème");button.title="Thème : "+labels[mode];}if(meta)meta.content=dark?"#050b0a":"#f5faf7";if(save)try{localStorage.setItem("novatech-theme",mode)}catch(e){}}
+  var current=modes.includes(root.dataset.themeMode)?root.dataset.themeMode:"auto";apply(current,false);
+  if(button)button.addEventListener("click",function(){current=modes[(modes.indexOf(current)+1)%modes.length];apply(current,true)});
+  var media=window.matchMedia("(prefers-color-scheme: dark)");if(media.addEventListener)media.addEventListener("change",function(){if(current==="auto")apply("auto",false)});
+})();
+</script>
 </body>
 </html>
