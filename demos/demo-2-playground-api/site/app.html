@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#102a25">
+  <meta name="description" content="NOVATECH Developer Playground — testez votre propre API UDCShare avec vos identifiants et vos ressources.">
+  <title>NOVATECH — Developer Playground</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/uix-pro-max.css?v=20261122">
+  <style>
+    .brand-mark{background:none!important;padding:0!important;overflow:hidden;width:auto;height:auto;border-radius:0}
+    .brand-mark-svg{display:block;border-radius:12px;box-shadow:0 6px 18px rgba(183,139,57,.3)}
+    .powered-by{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);flex-wrap:wrap}
+    .powered-by-icon{width:16px;height:16px;flex:none}
+    .powered-by strong{color:var(--green);font-weight:700}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><svg class="brand-mark-svg" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="38" height="38">
+  <defs><linearGradient id="ng-l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3d98e"/><stop offset="100%" stop-color="#b78b39"/></linearGradient></defs>
+  <rect width="38" height="38" rx="10" fill="url(#ng-l)"/>
+  <path d="M8 29V9h4.3l9 13V9H25.7v20h-4.3L12 16v13z" fill="#0a1f18"/>
+</svg><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a>
+  <div class="top-actions"><a class="btn ghost" href="/guide.html">Guide / Tutoriel</a><span class="public-label">LABORATOIRE PUBLIC</span><button id="logoutBtn" class="btn ghost hidden" type="button">Déconnexion</button></div>
+</header>
+<main class="container">
+  <section class="panel" style="margin:22px 0 0">
+    <div class="panel-title"><div><span class="eyebrow">DÉMO 2 · PLAYGROUND API</span><h3>Une démonstration publique</h3></div><a class="btn small ghost" href="/client-portal.html">Voir le portail client →</a></div>
+    <div class="demo-engagement" data-demo-engagement data-demo-record-view="true" data-demo-slug="playground-api"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2Fapp.html">Se connecter pour aimer</a><button data-like-toggle hidden type="button">J'aime</button></div>
+  </section>
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">UDCSHARE API · ENVIRONNEMENT DE TEST</span>
+      <h1>Votre API.<br><em>Votre Drive. Vos essais.</em></h1>
+      <p>Connectez votre propre projet UDCShare, vérifiez sa disponibilité et explorez les fonctionnalités avec vos propres identifiants. Vos configurations et vos historiques vous attendent à votre prochaine connexion.</p>
+      <div class="hero-points"><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Espace personnel</span><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Clés chiffrées</span><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7"/></svg>Données isolées</span></div>
+    </div>
+    <div class="hero-art"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="terminal"><div class="terminal-head"><i></i><i></i><i></i><span>developer-console</span></div><div class="terminal-body"><span class="muted">$</span> connect --project <b>your-project</b><br><span class="green">OK</span> credentials secured<br><span class="green">OK</span> personal workspace ready<br><span class="muted">$</span> <span class="cursor"></span></div></div></div>
+  </section>
+
+  <section id="authView" class="auth-layout">
+    <div class="auth-info"><span class="eyebrow">COMMENCEZ ICI</span><h2>Un espace développeur qui vous suit.</h2><p>Créez votre compte gratuit. Vos paramètres API et vos tests sont associés à votre compte, jamais à celui d'un autre visiteur.</p><ul><li>Retrouvez vos connexions après déconnexion.</li><li>Testez Sandbox ou vos projets autorisés.</li><li>Supprimez vos configurations quand vous le souhaitez.</li></ul></div>
+    <div class="panel auth-panel">
+      <div class="tabs"><button id="loginTab" class="tab active" type="button">Connexion</button><button id="signupTab" class="tab" type="button">Créer un compte</button></div>
+      <form id="authForm">
+        <div id="nameField" class="field hidden"><label for="displayName">Nom ou pseudo</label><input id="displayName" maxlength="100" autocomplete="name" placeholder="Votre nom"></div>
+        <div class="field"><label for="email">Adresse e-mail</label><input id="email" type="email" required autocomplete="email" placeholder="vous@exemple.com"></div>
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <div class="password-control">
+            <input id="password" type="password" required minlength="10" autocomplete="current-password" placeholder="10 caractères minimum">
+            <button class="password-toggle" type="button" data-toggle-password="password" aria-label="Afficher le mot de passe" aria-pressed="false">Afficher</button>
+          </div>
+          <small>10 caractères minimum, avec une minuscule, une majuscule, un chiffre et un symbole.</small>
+        </div>
+        <div id="confirmPasswordField" class="field hidden">
+          <label for="confirmPassword">Confirmer le mot de passe</label>
+          <div class="password-control">
+            <input id="confirmPassword" type="password" minlength="10" autocomplete="new-password" placeholder="Saisissez à nouveau le mot de passe" disabled>
+            <button class="password-toggle" type="button" data-toggle-password="confirmPassword" aria-label="Afficher la confirmation du mot de passe" aria-pressed="false">Afficher</button>
+          </div>
+        </div>
+        <p id="authMessage" class="message hidden" role="status"></p>
+        <button id="resendConfirmation" class="resend-link hidden" type="button">Renvoyer l'e-mail de confirmation</button>
+        <button id="authSubmit" class="btn primary full" type="submit">Se connecter <span>→</span></button>
+      </form>
+      <p class="tiny">En créant un compte, vous acceptez de n'utiliser que des projets et des fichiers de test dont vous avez l'autorisation.</p>
+    </div>
+  </section>
+
+  <section id="workspace" class="hidden">
+    <div class="workspace-head"><div><span class="eyebrow">MON ESPACE DÉVELOPPEUR</span><h2>Bonjour, <span id="userLabel">développeur</span></h2><p>Vos configurations personnelles et votre historique de tests.</p></div><div class="account-chip"><span class="online-dot"></span><span id="userEmail"></span></div></div>
+    <div class="workspace-grid">
+      <aside class="panel connection-panel">
+        <div class="panel-title"><div><span class="eyebrow">CONFIGURATION</span><h3>Connecter une API</h3></div><span class="step-icon">01</span></div>
+        <form id="connectionForm">
+          <div class="field"><label for="connectionLabel">Nom de la configuration</label><input id="connectionLabel" maxlength="80" value="Mon projet UDCShare" required></div>
+          <div class="field"><label for="apiBase">Adresse de l'API</label><input id="apiBase" type="url" value="https://www.udcshare.com/api/v1" required placeholder="https://www.udcshare.com/api/v1"><small>Adresse HTTPS de votre API, sans paramètres.</small></div>
+          <div class="field"><label for="projectId">Identifiant client API (api_client_id)</label><input id="projectId" required maxlength="180" placeholder="Votre api_client_id"><small>Identifiant public de la ressource API liée à votre projet — pas l'UUID du projet.</small></div>
+          <div class="field"><label for="apiKey">Votre clé API privée</label><input id="apiKey" type="password" required autocomplete="off" placeholder="Collez votre propre clé API"><small>Chiffrée avant stockage. Jamais ajoutée aux variables Render ni envoyée au navigateur après l'enregistrement.</small></div>
+          <p id="connectionMessage" class="message hidden" role="status"></p>
+          <button id="saveConnection" class="btn primary full" type="submit">Enregistrer ma configuration <span>→</span></button>
+        </form>
+        <div class="security-note"><span>⌑</span><div><b>Vos identifiants restent privés</b><small>La clé est chiffrée AES-256-GCM côté serveur. Seul votre compte peut accéder à cette configuration.</small></div></div>
+      </aside>
+
+      <div class="main-column">
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">MES PROJETS</span><h3>Connexions enregistrées</h3></div><button id="reloadConnections" class="btn small ghost" type="button">Actualiser</button></div>
+          <div id="connectionsList" class="connection-list"><div class="empty-state">Connectez votre première API pour commencer.</div></div>
+        </section>
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">API PLAYGROUND</span><h3>Démonstrations disponibles</h3></div><span class="step-icon">02</span></div>
+          <p class="subtle">Sélectionnez une connexion puis lancez un test. Les requêtes utilisent votre clé et votre projet, pas ceux de NOVATECH.</p>
+          <div class="demo-grid">
+            <button class="demo-card" data-endpoint="status" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span><b>État du projet</b><small>Vérifier API, projet et Drive</small><span class="demo-run">Tester →</span></button>
+            <button class="demo-card" data-endpoint="files" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v6h5M8 13h8M8 17h8"/></svg></span><b>Mes fichiers</b><small>Afficher les fichiers du projet</small><span class="demo-run">Tester →</span></button>
+            <button class="demo-card" data-endpoint="usage" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19V5M4 19h16"/><path d="M8 16v-5M13 16V7M18 16v-8"/></svg></span><b>Consommation API</b><small>Lire plan, quotas et usage</small><span class="demo-run">Tester →</span></button>
+          </div>
+          <p id="testMessage" class="message hidden" role="status"></p>
+          <div id="resultPanel" class="result-panel hidden"><div class="result-head"><b id="resultTitle">Résultat du test</b><span id="resultStatus" class="status-pill"></span></div><pre id="resultBody"></pre></div>
+        </section>
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">MES ACTIVITÉS</span><h3>Historique des tests</h3></div><button id="reloadHistory" class="btn small ghost" type="button">Actualiser</button></div>
+          <div id="historyList" class="history-list"><div class="empty-state">Vos tests apparaîtront ici.</div></div>
+        </section>
+      </div>
+    </div>
+    <p class="workspace-foot">NOVATECH est un environnement pédagogique public. Utilisez des données fictives et un projet Sandbox ou un projet dont vous êtes propriétaire. Les quotas et actions exécutés sur votre API sont réels.</p>
+  </section>
+</main>
+<footer><div class="container footer-inner"><span><b>NOVATECH</b> Developer Playground</span><span class="powered-by"><svg class="powered-by-icon" viewBox="0 0 26 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M13 2L3 7L13 12L23 7L13 2Z" fill="#FF3366"/>
+  <path d="M3 12L13 17L23 12" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg><span>Propulsé par <strong>UDCShare</strong></span></span>
+      <span>Démonstration publique · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source GitHub ↗</a></span></div></footer>
+<script src="/config.js"></script>
+<script src="/engagement.js" defer></script>
+<script src="/app.js" defer></script>
+</body>
+</html>
