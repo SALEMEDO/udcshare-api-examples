@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081714">
+<title>Tutoriel API UDCShare — NOVATECH</title>
+<style>
+:root{color-scheme:dark;--bg:#081714;--panel:#10231e;--panel2:#0b1b17;--line:#244238;--mint:#b8f5d7;--green:#55d6a0;--muted:#a7bdb3;--text:#edf8f2}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 85% 0%,#1b4939 0,transparent 36%),var(--bg);color:var(--text);font:15px/1.75 Inter,system-ui,sans-serif}
+.wrap{width:min(1000px,calc(100% - 32px));margin:auto}header{height:72px;border-bottom:1px solid #ffffff18;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:900;letter-spacing:.13em;color:var(--text);text-decoration:none}.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:.2em}
+.btn{display:inline-flex;padding:9px 14px;border-radius:10px;text-decoration:none;font-weight:750;font-size:13px}.primary{background:var(--green);color:#082219}.secondary{border:1px solid #ffffff2b;color:#eaf7f0}
+main{padding:48px 0 80px}.eyebrow{color:var(--green);font-size:11px;font-weight:850;letter-spacing:.18em}h1{font-size:clamp(34px,6vw,56px);line-height:1.08;letter-spacing:-.045em;margin:13px 0}h1 span{color:var(--mint)}.intro{color:#b6c9c0;font-size:17px;max-width:780px}
+.layout{display:grid;grid-template-columns:225px minmax(0,1fr);gap:22px;align-items:start;margin-top:30px}.toc{position:sticky;top:16px;background:#10231edb;border:1px solid var(--line);border-radius:15px;padding:18px}.toc b{display:block;margin-bottom:10px}.toc a{display:block;color:#b8d9ca;text-decoration:none;font-size:13px;padding:5px 0}.toc a:hover{color:var(--green)}
+article section{background:linear-gradient(145deg,#122820,#0c1c17);border:1px solid #ffffff19;border-radius:16px;padding:23px;margin:0 0 18px;scroll-margin-top:20px}h2{font-size:23px;letter-spacing:-.025em;margin:0 0 10px}h3{font-size:16px;margin:20px 0 7px;color:var(--mint)}p,li{color:#b6c9c0}li{margin:7px 0}ol,ul{padding-left:22px}a{color:var(--mint)}.note{border-left:3px solid var(--green);padding:12px 15px;background:#55d69b12;border-radius:0 10px 10px 0;color:#d8eee2;margin:15px 0}.warn{border-left-color:#e6b85c;background:#e6b85c12}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#06110e;border:1px solid #28443a;border-radius:11px;padding:15px;color:#c6f5dc;font:12.5px/1.65 ui-monospace,SFMono-Regular,monospace;overflow-x:auto}code{font-family:ui-monospace,monospace;color:#a8f0c8;background:#07120f;padding:2px 5px;border-radius:5px}.method{display:inline-block;border:1px solid #3d7b61;border-radius:6px;padding:2px 7px;color:#a8f0c8;font:11px ui-monospace,monospace;margin-right:7px}.endpoint{display:block;margin:8px 0;padding:9px 11px;background:#07130f;border:1px solid #29443c;border-radius:8px;font:13px ui-monospace,monospace;color:#b7f3d5;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tile{background:#0a1915;border:1px solid #29443c;border-radius:10px;padding:13px}.tile b{color:#e9f7ef}.small{font-size:12px;color:#91aaa0}footer{border-top:1px solid #ffffff18;padding:22px 0;color:#8da69b;font-size:12px}footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.toc{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 12px}.toc b{grid-column:1/-1}.grid{grid-template-columns:1fr}main{padding-top:35px}article section{padding:18px}}
+</style>
+  <link rel="stylesheet" href="/uix-pro-max.css?v=20261122">
+</head>
+<body>
+<header class="wrap"><a class="brand" href="/">NOVATECH<small>DEVELOPER PLAYGROUND</small></a><a class="btn primary" href="/app.html">Ouvrir NOVATECH →</a></header>
+<main class="wrap">
+<span class="eyebrow">TUTORIEL PRATIQUE · INTÉGRATION API</span>
+<h1>Construire avec <span>l’API UDCShare.</span></h1>
+<p class="intro">Ce cours accompagne un développeur qui télécharge le code des exemples et veut intégrer UDCShare dans sa propre application : site web, application mobile, outil métier, service SaaS ou script d’automatisation. Tu choisis ton langage, ton hébergeur et ta base de données.</p>
+<div class="note">NOVATECH présente ce tutoriel et permet d'expérimenter. <b>Aucun hébergeur ni service de base de données particulier n'est requis</b> pour utiliser l’API UDCShare. Tu peux héberger ton application où tu veux, ou l’exécuter localement.</div>
+<div class="layout">
+<nav class="toc"><b>Sommaire du cours</b>
+<a href="#objectif">1. Comprendre l'API</a><a href="#acces">2. Obtenir l'accès</a><a href="#premier-appel">3. Premier appel</a><a href="#requetes">4. Lire les requêtes</a><a href="#upload">5. Envoyer un fichier</a><a href="#application">6. Créer ton application</a><a href="#reponses">7. Réponses et erreurs</a><a href="#securite">8. Sécurité</a><a href="#exemples">9. Code à télécharger</a><a href="#parcours">10. Parcours pratique</a>
+</nav>
+<article>
+<section id="objectif"><h2>1. Comprendre ce que fournit l'API</h2>
+<p>Une API REST permet à ton application de demander à UDCShare d'effectuer des opérations sans reproduire toute la plateforme. Ton application envoie une requête HTTP ; l'API répond généralement avec des données JSON.</p>
+<div class="grid"><div class="tile"><b>Ton application</b><p class="small">Interface, comptes de tes utilisateurs, règles métier et expérience utilisateur.</p></div><div class="tile"><b>API UDCShare</b><p class="small">Opérations de fichiers et services UDCShare accessibles selon ta clé et ta formule.</p></div></div>
+<p>Le point d'entrée API v1 est <code>https://www.udcshare.com/api/v1</code>. NOVATECH est conçu pour les clés Developer Console liées à une ressource API de projet.</p>
+<p>La documentation interactive et le schéma OpenAPI décrivent les routes, paramètres, champs requis et réponses à jour. Consulte-les avant d'intégrer une opération.</p>
+<p><a href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Ouvrir Swagger — documentation interactive</a> · <a href="https://udcshare.com/api/openapi.json" target="_blank" rel="noopener">Consulter OpenAPI JSON</a></p>
+</section>
+<section id="acces"><h2>2. Obtenir tes identifiants API</h2>
+<ol><li>Connecte-toi à ton compte UDCShare.</li><li>Ouvre le tableau de bord, rubrique Développeur.</li><li>Crée ou consulte une clé API selon les options proposées par ton compte.</li><li>Copie la clé et conserve-la dans un gestionnaire de secrets ou dans un fichier local <code>.env</code> non versionné.</li></ol>
+<p><a href="https://udcshare.com/dashboard?tab=developer" target="_blank" rel="noopener">Accéder à la rubrique Développeur UDCShare</a></p>
+<div class="note"><b>Pour NOVATECH :</b> enregistre la clé API et l'identifiant public <code>api_client_id</code> de la ressource API du projet. Cet identifiant n'est pas l'UUID interne du projet. Les routes de fichiers projet utilisent <code>/apps/{clientId}/...</code>. Les anciennes routes <code>/account</code>, <code>/upload</code> et <code>/files</code> restent réservées aux clés historiques non liées à un projet.</div>
+</section>
+<section id="premier-appel"><h2>3. Effectuer ton premier appel API</h2>
+<p>Pour une clé Developer Console liée à un projet, commence par lire les quotas puis vérifie la ressource API :</p>
+<pre>curl https://www.udcshare.com/api/v1/usage \
+  -H "X-API-Key: VOTRE_CLE_API"
+
+curl "https://www.udcshare.com/api/v1/apps/VOTRE_API_CLIENT_ID/status" \
+  -H "X-API-Key: VOTRE_CLE_API"</pre>
+<p>Exemple JavaScript côté serveur (Node.js 18+) :</p>
+<pre>const API_BASE = "https://www.udcshare.com/api/v1";
+const API_CLIENT_ID = process.env.UDCSHARE_API_CLIENT_ID;
+
+const response = await fetch(`${API_BASE}/apps/${encodeURIComponent(API_CLIENT_ID)}/status`, {
+  headers: {
+    "X-API-Key": process.env.UDCSHARE_API_KEY
+  }
+});
+
+const data = await response.json();
+if (!response.ok) throw new Error(`Erreur API : HTTP ${response.status}`);
+console.log(data);</pre>
+<p>Dans ton fichier local <code>.env</code>, définis <code>UDCSHARE_API_KEY=ta_cle</code>, puis charge les variables avec l'outil adapté à ton environnement. Ne publie jamais ce fichier.</p>
+</section>
+<section id="requetes"><h2>4. Comprendre les méthodes HTTP</h2>
+<p>Les méthodes indiquent le type d'action demandé. Les routes et leurs paramètres exacts sont définis dans Swagger.</p>
+<div class="tile"><span class="method">GET</span><b>Lire</b><p class="small">Consulter le compte, une liste de fichiers ou des statistiques.</p></div>
+<div class="tile"><span class="method">POST</span><b>Créer ou envoyer</b><p class="small">Envoyer un fichier ou déclencher une opération de création, selon la route.</p></div>
+<div class="tile"><span class="method">PUT / PATCH</span><b>Modifier</b><p class="small">Mettre à jour une ressource uniquement si la route correspondante est documentée.</p></div>
+<div class="tile"><span class="method">DELETE</span><b>Supprimer</b><p class="small">Supprimer une ressource en utilisant son identifiant et les droits associés.</p></div>
+<p>Routes utilisées par NOVATECH pour une clé de projet :</p>
+<span class="endpoint">GET /api/v1/apps/{clientId}/status</span><span class="endpoint">GET /api/v1/apps/{clientId}/files</span><span class="endpoint">POST /api/v1/apps/{clientId}/files</span><span class="endpoint">DELETE /api/v1/apps/{clientId}/files/{fileId}</span><span class="endpoint">GET /api/v1/stats</span><span class="endpoint">GET /api/v1/usage</span>
+<div class="note warn">Ne devine jamais une route PUT, PATCH ou une route de création de transfert à partir de son nom. Si elle n'apparaît pas dans Swagger/OpenAPI, ne la considère pas comme une opération prise en charge.</div>
+</section>
+<section id="upload"><h2>5. Envoyer un fichier</h2>
+<p>Pour une ressource de projet, l'envoi utilise <code>POST /apps/{clientId}/files</code> avec un corps <code>multipart/form-data</code> et un champ nommé <code>file</code>. En mode API-only / Drive individuel, le backend doit également fournir un <code>X-External-User-ID</code> stable, opaque et calculé côté serveur.</p>
+<pre>curl -X POST "https://www.udcshare.com/api/v1/apps/VOTRE_API_CLIENT_ID/files" \
+  -H "X-API-Key: VOTRE_CLE_API" \
+  -H "X-External-User-ID: identifiant-utilisateur-stable" \
+  -F "file=@./document.pdf"</pre>
+<p>Les anciennes clés historiques non liées à un projet utilisent encore <code>POST /upload</code> ; ne mélange pas les deux contrats.</p>
+<p>Pour l'envoi, ne définis pas toi-même l'en-tête <code>Content-Type</code> avec une boundary fixe : laisse cURL ou ton client HTTP générer le bon multipart. Pour les fichiers volumineux, respecte les tailles maximales, quotas, délais et mécanismes de transfert indiqués par la documentation de l'API.</p>
+<p>Le résultat peut contenir un identifiant ou un lien selon le contrat de réponse réel de la route. Lis le JSON reçu et utilise les noms de champs documentés ; ne suppose pas leur forme.</p>
+</section>
+<section id="application"><h2>6. Intégrer l'API dans ta propre application</h2>
+<h3>Architecture recommandée</h3>
+<ol><li>Ton interface (React, Vue, HTML, application mobile) envoie une demande à ton propre backend.</li><li>Ton backend authentifie l'utilisateur de ton application et vérifie ses droits.</li><li>Le backend appelle UDCShare avec la clé API conservée côté serveur.</li><li>Ton backend renvoie à l'interface uniquement les données nécessaires.</li><li>Tu peux enregistrer dans ta propre base les métadonnées utiles à ton produit.</li></ol>
+<h3>Exemple de route backend Express</h3>
+<pre>import express from "express";
+
+const app = express();
+const API_CLIENT_ID = process.env.UDCSHARE_API_CLIENT_ID;
+
+app.get("/api/udcshare/status", async (req, res) => {
+  try {
+    const upstream = await fetch(
+      `https://www.udcshare.com/api/v1/apps/${encodeURIComponent(API_CLIENT_ID)}/status`,
+      {
+        headers: {
+          "X-API-Key": process.env.UDCSHARE_API_KEY
+        }
+      }
+    );
+
+    const body = await upstream.json();
+    res.status(upstream.status).json(body);
+  } catch {
+    res.status(502).json({ error: "UDCShare temporairement inaccessible" });
+  }
+});
+
+app.listen(3000);</pre>
+<p>Le code est un squelette pédagogique : ajoute l'authentification de tes utilisateurs, la validation des entrées, la limitation de débit et une gestion d'erreurs adaptée avant la mise en production.</p>
+<h3>Langages disponibles dans le dépôt</h3>
+<p>Les exemples téléchargeables présentent des intégrations côté serveur en Node.js, Python, PHP et Go. Si ton interface utilise JavaScript, React ou Vue, elle doit appeler ton propre backend relais : la clé secrète UDCShare reste exclusivement côté serveur. Tu peux adapter cette architecture à Laravel, Symfony, Django, FastAPI, .NET ou à un autre environnement HTTP.</p>
+</section>
+<section id="reponses"><h2>7. Lire les réponses et traiter les erreurs</h2>
+<p>Une réponse HTTP contient un code de statut et, souvent, un corps JSON. Vérifie toujours <code>response.ok</code> ou le code HTTP avant d'utiliser le résultat.</p>
+<div class="grid">
+<div class="tile"><b>200 / 201</b><p class="small">Requête réussie ou ressource créée. Lis le corps de réponse.</p></div>
+<div class="tile"><b>400 / 422</b><p class="small">Entrée invalide ou paramètres manquants. Corrige la requête.</p></div>
+<div class="tile"><b>401 / 403</b><p class="small">Clé non valide, accès ou formule insuffisante. Vérifie les droits.</p></div>
+<div class="tile"><b>413 / 429</b><p class="small">Fichier trop volumineux ou limite de requêtes/quota atteinte.</p></div>
+<div class="tile"><b>5xx</b><p class="small">Erreur serveur ou service temporairement indisponible. Réessaie prudemment.</p></div>
+</div>
+<p>Le format précis des erreurs dépend de la route. Affiche un message compréhensible à l'utilisateur, conserve le code HTTP pour le diagnostic et évite d'exposer les secrets ou les détails internes du serveur.</p>
+</section>
+<section id="securite"><h2>8. Sécuriser ton intégration</h2>
+<ul><li><b>Clé API :</b> conserve-la côté serveur dans une variable d'environnement ou un gestionnaire de secrets.</li><li><b>Navigateur :</b> ne mets jamais une clé secrète dans React, Vue, JavaScript public, HTML ou une application mobile distribuée.</li><li><b>Git :</b> ajoute <code>.env</code> à <code>.gitignore</code> ; ne commite jamais une clé.</li><li><b>Comptes :</b> authentifie les utilisateurs de ton application et vérifie qu'ils ne peuvent accéder qu'à leurs propres ressources.</li><li><b>Quotas :</b> contrôle les appels et évite les boucles de retry agressives.</li><li><b>Transport :</b> utilise HTTPS et masque les clés dans les logs.</li></ul>
+</section>
+<section id="exemples"><h2>9. Télécharger les exemples de code</h2>
+<p>Le dépôt public contient des projets de départ. Clone-le, ouvre le dossier du langage choisi et suis son README. Chaque exemple peut être adapté à ton infrastructure ; tu n'es pas obligé d'utiliser NOVATECH.</p>
+<pre>git clone https://github.com/SALEMEDO/udcshare-api-examples.git
+cd udcshare-api-examples
+# Choisir ensuite le dossier de l'exemple voulu</pre>
+<ul><li><a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/nodejs-upload-api" target="_blank" rel="noopener">Backend Node.js</a></li><li><a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/python-backup-system" target="_blank" rel="noopener">Backend Python</a></li><li><a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/php-upload-service" target="_blank" rel="noopener">Backend PHP</a></li><li><a href="https://github.com/SALEMEDO/udcshare-api-examples/tree/main/go-backup-service" target="_blank" rel="noopener">Backend Go</a></li></ul>
+</section>
+<section id="parcours"><h2>10. Ton parcours de réalisation</h2>
+<ol><li>Crée un projet et sa ressource API dans Developer Console, puis récupère la clé et le <code>api_client_id</code>.</li><li>Lis <code>GET /usage</code> et vérifie <code>GET /apps/{clientId}/status</code>.</li><li>Liste les fichiers avec <code>GET /apps/{clientId}/files</code>.</li><li>Ajoute un fichier avec <code>POST /apps/{clientId}/files</code>.</li><li>Teste la suppression avec <code>DELETE /apps/{clientId}/files/{fileId}</code> sur un fichier de test.</li><li>Consulte <code>GET /stats</code>, puis teste les erreurs, quotas et droits.</li><li>Garde la clé et l'identifiant externe côté backend, jamais dans le navigateur.</li></ol>
+<div class="note">Besoin d'une réponse précise ? Ouvre Swagger, sélectionne une route, regarde ses paramètres et son exemple de réponse, puis reproduis-la dans ton langage. C'est la référence à suivre pour la version actuelle de l'API.</div>
+<p><a class="btn primary" href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Explorer l'API dans Swagger →</a> <a class="btn secondary" href="/app.html">Essayer NOVATECH</a></p>
+</section>
+</article>
+</div>
+</main>
+<footer><div class="wrap"><span>© NOVATECH · Tutoriel d'intégration API UDCShare</span><span><a href="/">Accueil</a> · <a href="/app.html">Espace développeur</a> · <a href="https://udcshare.com/api/docs">Swagger UDCShare</a></span></div></footer>
+</body></html>
