@@ -1,6 +1,6 @@
 # UDCShare API — Exemples développeurs
 
-**Catalogue web public :** https://udcshare-developer-examples.onrender.com — le code source et les guides restent disponibles dans ce dépôt.
+**Playground public NOVATECH (Cloudflare Pages) :** https://novatech-test.udcshare.com.
 
 <p align="center">
   <a href="https://udcshare.com"><img src="assets/banner.svg" alt="API UDCShare — exemples de code officiels" width="100%"></a>
