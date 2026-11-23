@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-label="NOVATECH">
+  <defs>
+    <linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3d98e"/>
+      <stop offset="100%" stop-color="#b78b39"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="10" fill="url(#ng)"/>
+  <path d="M9 30V10h4.5l9.5 13.5V10H27v20h-4.5L13 16.5V30z" fill="#0a1f18" fill-rule="evenodd"/>
+  <circle cx="31" cy="10" r="3" fill="#0a1f18" opacity="0.5"/>
+</svg>
