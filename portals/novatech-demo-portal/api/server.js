@@ -500,23 +500,25 @@ app.post("/api/connections", requireUser, limit(10, 60 * 60 * 1000), async (req,
   const label = String(req.body?.label || "Configuration API globale").trim().slice(0, 80) || "Configuration API globale";
   const projectId = String(req.body?.project_id || "").trim().slice(0, 180);
   const apiKey = String(req.body?.api_key || "").trim();
-  if (!projectId || !apiKey || apiKey.length > 2048) return jsonError(res, 400, "CONFIGURATION_INCOMPLETE", "L'identifiant client API (api_client_id) et la clé API sont obligatoires.");
+  if (!projectId || apiKey.length > 2048) return jsonError(res, 400, "CONFIGURATION_INCOMPLETE", "L'identifiant client API (api_client_id) est obligatoire.");
   try {
     const apiBaseUrl = await validateApiBase(req.body?.api_base_url);
-    const secret = encryptSecret(apiKey);
+    // Une clé vide lors d'une mise à jour conserve le secret déjà chiffré.
+    const secret = apiKey ? encryptSecret(apiKey) : null;
     // Réutilise la ligne la plus récente pour conserver l'identifiant et l'historique liés.
     const existing = await db(req, "userdemo_api_connections?select=id&userdemo_id=eq." + encodeURIComponent(req.user.id) + "&order=created_at.desc&limit=1");
     let rows;
     if (existing?.[0]?.id) {
       rows = await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(existing[0].id) + "&userdemo_id=eq." + encodeURIComponent(req.user.id), {
         method: "PATCH", headers: { Prefer: "return=representation" },
-        body: JSON.stringify({ label, api_base_url: apiBaseUrl, project_id: projectId, ...secret, is_active: true, last_status: "pending" })
+        body: JSON.stringify({ label, api_base_url: apiBaseUrl, project_id: projectId, ...(secret || {}), is_active: true, last_status: "pending" })
       });
       // Désactive les anciennes lignes éventuelles sans supprimer les historiques de tests.
       await db(req, "userdemo_api_connections?userdemo_id=eq." + encodeURIComponent(req.user.id) + "&id=neq." + encodeURIComponent(existing[0].id) + "&is_active=eq.true", {
         method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ is_active: false })
       });
     } else {
+      if (!secret) return jsonError(res, 400, "API_KEY_REQUIRED", "La clé API privée est obligatoire pour le premier enregistrement.");
       rows = await db(req, "userdemo_api_connections", {
         method: "POST", headers: { Prefer: "return=representation" },
         body: JSON.stringify({ userdemo_id: req.user.id, label, api_base_url: apiBaseUrl, project_id: projectId, ...secret, is_active: true })
