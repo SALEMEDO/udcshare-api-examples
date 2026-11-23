@@ -575,7 +575,13 @@ const demoUpload = multer({
 });
 
 function validDemoSlug(slug) {
-  return slug === "portail-client" || slug === "playground-api";
+  return /^[a-z0-9][a-z0-9-]{1,79}$/.test(String(slug || ""));
+}
+async function publicDemoCatalog() {
+  return supabaseFetch("/rest/v1/rpc/novatech_public_demos", {
+    method: "POST",
+    body: "{}"
+  });
 }
 async function engagementStats(slug, visitorHash, accessToken = "") {
   return supabaseFetch("/rest/v1/rpc/novatech_demo_engagement", {
@@ -583,13 +589,21 @@ async function engagementStats(slug, visitorHash, accessToken = "") {
     body: JSON.stringify({ p_demo_slug: slug, p_visitor_hash: visitorHash || null })
   }, accessToken);
 }
+app.get("/api/demos", limit(60, 60 * 1000), async (req, res) => {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "Le catalogue public n'est pas configuré.");
+  try {
+    return res.json(await publicDemoCatalog());
+  } catch {
+    return jsonError(res, 502, "DEMO_CATALOG_UNAVAILABLE", "Impossible de charger les démonstrations.");
+  }
+});
 app.get("/api/demos/:slug/engagement", optionalUser, async (req, res) => {
   if (!validDemoSlug(req.params.slug)) return jsonError(res, 404, "DEMO_NOT_FOUND", "Démonstration inconnue.");
   if (!configured()) return jsonError(res, 503, "SERVICE_NOT_CONFIGURED", "Les compteurs publics ne sont pas configurés.");
   try {
     return res.json(await engagementStats(req.params.slug, null, req.accessToken || ""));
-  } catch {
-    return jsonError(res, 502, "ENGAGEMENT_UNAVAILABLE", "Impossible de charger les compteurs.");
+  } catch (error) {
+    return jsonError(res, error.code === "22023" ? 404 : 502, error.code === "22023" ? "DEMO_NOT_FOUND" : "ENGAGEMENT_UNAVAILABLE", error.code === "22023" ? "Démonstration inconnue." : "Impossible de charger les compteurs.");
   }
 });
 app.post("/api/demos/:slug/view", limit(120, 60 * 60 * 1000), optionalUser, async (req, res) => {
@@ -600,8 +614,8 @@ app.post("/api/demos/:slug/view", limit(120, 60 * 60 * 1000), optionalUser, asyn
   const visitorHash = crypto.createHash("sha256").update(visitorKey).digest("hex");
   try {
     return res.json(await engagementStats(req.params.slug, visitorHash, req.accessToken || ""));
-  } catch {
-    return jsonError(res, 502, "VIEW_NOT_RECORDED", "La vue n'a pas pu être enregistrée.");
+  } catch (error) {
+    return jsonError(res, error.code === "22023" ? 404 : 502, error.code === "22023" ? "DEMO_NOT_FOUND" : "VIEW_NOT_RECORDED", error.code === "22023" ? "Démonstration inconnue." : "La vue n'a pas pu être enregistrée.");
   }
 });
 app.post("/api/demos/:slug/like", requireUser, limit(30, 60 * 60 * 1000), async (req, res) => {
@@ -613,8 +627,8 @@ app.post("/api/demos/:slug/like", requireUser, limit(30, 60 * 60 * 1000), async 
       body: JSON.stringify({ p_demo_slug: req.params.slug, p_liked: req.body.liked })
     });
     return res.json(result);
-  } catch {
-    return jsonError(res, 502, "LIKE_NOT_SAVED", "Impossible d'enregistrer votre J'aime.");
+  } catch (error) {
+    return jsonError(res, error.code === "22023" ? 404 : 502, error.code === "22023" ? "DEMO_NOT_FOUND" : "LIKE_NOT_SAVED", error.code === "22023" ? "Démonstration inconnue." : "Impossible d'enregistrer votre J'aime.");
   }
 });
 
