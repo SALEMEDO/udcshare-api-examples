@@ -124,7 +124,7 @@ Les offres Starter, Growth et Scale durent 30 jours. Sandbox est gratuit et sans
 
 ### Utiliser l’API UDCShare avec Zapier
 
-Les intégrations Zapier peuvent appeler l’API UDCShare avec une clé API dans l’en-tête `X-API-Key` (par exemple avec **API by Zapier** ou **Webhooks by Zapier**). Elles utilisent les quotas de l’offre Developer Console active : il n’y a pas de supplément UDCShare spécifique à Zapier ni de forfait API additionnel. **L’abonnement Zapier, s’il est nécessaire, est facturé séparément par Zapier** et n’est pas inclus dans les prix UDCShare.
+La documentation explique comment connecter Zapier à l’API UDCShare à l’aide d’une clé API transmise dans l’en-tête `X-API-Key`. Les appels effectués depuis Zapier sont comptabilisés dans les quotas de l’offre Developer Console active. Aucun supplément UDCShare ni abonnement API distinct n’est ajouté pour cette connexion. L’abonnement Zapier éventuellement requis est facturé séparément par Zapier et n’est pas inclus dans les tarifs UDCShare.
 
 > Les clés API sont des secrets : conservez-les côté serveur ou dans une connexion sécurisée Zapier. Ne les publiez jamais dans un dépôt Git ni dans du code exécuté dans le navigateur.
 
