@@ -492,7 +492,7 @@ app.get("/api/auth/me", requireUser, (req, res) => res.json({ authenticated: tru
 app.get("/api/connections", requireUser, async (req, res) => {
   try {
     // Une seule configuration API globale active par compte NOVATECH.
-    const rows = await db(req, "userdemo_api_connections?select=id,label,api_base_url,project_id,is_active,last_verified_at,last_status,created_at&is_active=eq.true&order=created_at.desc&limit=1");
+    const rows = await db(req, "userdemo_api_connections?select=id,label,api_base_url,project_id,is_active,last_verified_at,last_status,created_at&userdemo_id=eq." + encodeURIComponent(req.user.id) + "&is_active=eq.true&order=created_at.desc&limit=1");
     res.json({ connections: (rows || []).map(cleanConnection) });
   } catch (error) { jsonError(res, 502, "CONNECTIONS_READ_FAILED", "Impossible de charger la configuration API globale."); }
 });
@@ -505,7 +505,7 @@ app.post("/api/connections", requireUser, limit(10, 60 * 60 * 1000), async (req,
     const apiBaseUrl = await validateApiBase(req.body?.api_base_url);
     const secret = encryptSecret(apiKey);
     // Réutilise la ligne la plus récente pour conserver l'identifiant et l'historique liés.
-    const existing = await db(req, "userdemo_api_connections?select=id&order=created_at.desc&limit=1");
+    const existing = await db(req, "userdemo_api_connections?select=id&userdemo_id=eq." + encodeURIComponent(req.user.id) + "&order=created_at.desc&limit=1");
     let rows;
     if (existing?.[0]?.id) {
       rows = await db(req, "userdemo_api_connections?id=eq." + encodeURIComponent(existing[0].id), {
