@@ -90,11 +90,12 @@ console.log(data);</pre>
 <pre>import express from "express";
 
 const app = express();
+const API_CLIENT_ID = process.env.UDCSHARE_API_CLIENT_ID;
 
-app.get("/api/udcshare/account", async (req, res) => {
+app.get("/api/udcshare/status", async (req, res) => {
   try {
     const upstream = await fetch(
-      "https://www.udcshare.com/api/v1/account",
+      `https://www.udcshare.com/api/v1/apps/${encodeURIComponent(API_CLIENT_ID)}/status`,
       {
         headers: {
           "X-API-Key": process.env.UDCSHARE_API_KEY
