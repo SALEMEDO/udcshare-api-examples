@@ -14,6 +14,6 @@
   "vars": {
     "SUPABASE_URL": "https://aptsndwskxgzadmkylmm.supabase.co",
     "SUPABASE_DB_SCHEMA": "developer_test",
-    "NOVATECH_ALLOWED_ORIGIN": "https://novatech-test.udcshare.com,https://novatech-test.pages.dev,https://novatech-demo-portal-test-61nh.onrender.com"
+    "NOVATECH_ALLOWED_ORIGIN": "https://novatech-test.udcshare.com,https://novatech-test.pages.dev,https://novatech-demo-portal-test-61nh.onrender.com,https://www.udcshare.com,https://udcshare.com"
   }
 }
