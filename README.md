@@ -91,10 +91,7 @@ Chaque dossier a son propre `README.md`, son `.env.example` et ses dépendances.
 
 ### En préparation
 
-Les dossiers [`ruby-upload-gem/`](./ruby-upload-gem/) et
-[`angular-upload-module/`](./angular-upload-module/) ne contiennent pour l'instant que
-leur documentation et leur manifeste, **sans code source**. Leur README décrit l'intention,
-pas un code livré. Les contributions sont bienvenues.
+Le dossier [`ruby-upload-gem/`](./ruby-upload-gem/) ne contient pour l'instant que sa documentation et son manifeste, **sans code source**.
 
 ---
 
