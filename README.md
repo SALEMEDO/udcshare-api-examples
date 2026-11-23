@@ -1,6 +1,6 @@
 # UDCShare API — Exemples développeurs
 
-**Catalogue web public :** https://udcshare-developer-examples.onrender.com — le code source et les guides restent disponibles dans ce dépôt.
+**Playground public NOVATECH (Cloudflare Pages) :** https://novatech-test.udcshare.com.
 
 <p align="center">
   <a href="https://udcshare.com"><img src="assets/banner.svg" alt="API UDCShare — exemples de code officiels" width="100%"></a>
@@ -10,7 +10,7 @@
 
 <p align="center">
   Envoyez des fichiers volumineux depuis votre application, en quelques lignes de code.<br>
-  <strong>JavaScript · React · Vue · Node.js · Python · PHP · Go</strong>
+  <strong>Node.js · Python · PHP · Go</strong>
 </p>
 
 <p align="center">
@@ -77,16 +77,13 @@ Le guide [NOVATECH Developer Playground](./portals/novatech-demo-portal/README.m
 
 ## Les exemples
 
-Sept exemples contiennent du code source complet, commenté et prêt à adapter.
+Quatre exemples serveur contiennent du code source complet, commenté et prêt à adapter.
 Chaque dossier a son propre `README.md`, son `.env.example` et ses dépendances.
 
 ### Côté navigateur et interfaces
 
 | Langage | Exemple | Ce que vous obtenez |
 |---|---|---|
-| **JavaScript** | [`javascript-client/`](./javascript-client/) | Client autonome navigateur + Node.js, glisser-déposer, progression d'envoi, zéro dépendance |
-| **React** | [`react-upload-component/`](./react-upload-component/) | Hook `useUDCShareUpload` : progression, annulation, gestion d'erreurs |
-| **Vue 3** | [`vue-upload-component/`](./vue-upload-component/) | Composable `useUDCShare` pour la Composition API (compatible Nuxt) |
 
 ### Côté serveur
 
