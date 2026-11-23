@@ -43,7 +43,8 @@
     const slug = root.dataset.demoSlug;
     if (!slug) return;
     try {
-      const recordView = root.dataset.demoRecordView === "true";
+      const embeddedPreview = new URLSearchParams(window.location.search).get("embed") === "1";
+      const recordView = root.dataset.demoRecordView === "true" && !embeddedPreview;
       const stats = await call("/api/demos/" + encodeURIComponent(slug) + (recordView ? "/view" : "/engagement"), recordView
         ? { method: "POST", body: JSON.stringify({ visitor_key: visitorKey() }) }
         : { method: "GET" });
