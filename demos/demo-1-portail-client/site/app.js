@@ -149,33 +149,25 @@
   }
   function renderConnections() {
     const host = $("connectionsList");
-    if (!connections.length) {
-      host.innerHTML = '<div class="empty-state">Aucune configuration. Ajoutez votre API dans le formulaire.</div>';
+    host.replaceChildren();
+    const item = connections[0];
+    if (!item) {
+      host.innerHTML = '<div class="empty-state">Aucune configuration globale. Enregistrez votre API une seule fois pour toutes les démonstrations.</div>';
       document.querySelectorAll(".demo-card").forEach(button => button.disabled = true);
       return;
     }
+    selectedConnection = item.id;
     document.querySelectorAll(".demo-card").forEach(button => button.disabled = false);
-    host.replaceChildren();
-    connections.forEach(item => {
-      const row = document.createElement("div");
-      row.className = "connection-item" + (item.id === selectedConnection ? " selected" : "");
-      const info = document.createElement("div");
-      const name = document.createElement("div"); name.className = "connection-name"; name.textContent = item.label;
-      const meta = document.createElement("div"); meta.className = "connection-meta"; meta.textContent = item.api_base_url + " · API client ID " + item.project_id;
-      const state = document.createElement("span"); state.className = "status-pill " + (item.last_status === "connected" ? "ok" : item.last_status === "invalid_key" ? "bad" : "");
-      state.textContent = item.last_status === "connected" ? "Connecté" : item.last_status === "invalid_key" ? "Clé invalide" : "À tester";
-      info.append(name, meta, state);
-      const actions = document.createElement("div"); actions.className = "connection-actions";
-      const choose = document.createElement("button"); choose.className = "btn small"; choose.type = "button"; choose.textContent = item.id === selectedConnection ? "Sélectionnée" : "Choisir";
-      choose.addEventListener("click", () => { selectedConnection = item.id; renderConnections(); });
-      const del = document.createElement("button"); del.className = "btn small ghost"; del.type = "button"; del.textContent = "Supprimer";
-      del.addEventListener("click", async () => {
-        if (!confirm("Supprimer cette configuration API et sa clé chiffrée ?")) return;
-        try { await request("/api/connections/" + encodeURIComponent(item.id), { method: "DELETE" }); if (selectedConnection === item.id) selectedConnection = null; await loadConnections(); }
-        catch (error) { message("connectionMessage", error.message, true); }
-      });
-      actions.append(choose, del); row.append(info, actions); host.append(row);
-    });
+    const row = document.createElement("div");
+    row.className = "connection-item selected";
+    const info = document.createElement("div");
+    const name = document.createElement("div"); name.className = "connection-name"; name.textContent = "Configuration API globale · " + item.label;
+    const meta = document.createElement("div"); meta.className = "connection-meta"; meta.textContent = item.api_base_url + " · API client ID " + item.project_id;
+    const state = document.createElement("span"); state.className = "status-pill " + (item.last_status === "connected" ? "ok" : item.last_status === "invalid_key" || item.last_status === "error" ? "bad" : "");
+    state.textContent = item.last_status === "connected" ? "Connectée" : item.last_status === "invalid_key" ? "Clé invalide" : item.last_status === "error" ? "Erreur" : "À vérifier";
+    const note = document.createElement("small"); note.textContent = "Cette configuration est partagée par toutes vos démonstrations NOVATECH.";
+    info.append(name, meta, state, note);
+    row.append(info); host.append(row);
   }
   $("connectionForm").addEventListener("submit", async (event) => {
     event.preventDefault(); hideMessage("connectionMessage");
