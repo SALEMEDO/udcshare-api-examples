@@ -182,7 +182,7 @@
       const result = await request("/api/connections", { method: "POST", body: JSON.stringify(payload) });
       $("apiKey").value = "";
       $("connectionForm").reset();
-      $("connectionLabel").value = "Mon projet UDCShare";
+      $("connectionLabel").value = "Configuration globale UDCShare";
       $("apiBase").value = "https://www.udcshare.com/api/v1";
       message("connectionMessage", result.message);
       await loadConnections();
