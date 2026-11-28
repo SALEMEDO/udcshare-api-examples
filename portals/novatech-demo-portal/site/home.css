@@ -261,3 +261,13 @@ footer .flinks a{display:inline-flex;align-items:center;min-height:44px}
 .doc h2{font-size:1.2rem;margin-top:32px}
 .doc p,.doc li{color:var(--muted)}
 .doc a{color:var(--accent);text-decoration:underline;display:inline}
+
+/* Pied de page toujours en bas de l'écran, même sur une page courte. */
+body { display:flex; flex-direction:column; min-height:100vh; min-height:100dvh; }
+body > main:not(.wrap) { width:100%; }
+body > main.wrap { margin-inline:auto; }
+body > main { flex:1 0 auto; }
+body > footer { margin-top:auto; }
+/* Liens du pied de page : tons neutres NOVATECH, la couleur d'accent seulement au survol. */
+body > footer a, :root[data-theme="light"] body > footer a { color:var(--muted); font-weight:500; }
+body > footer a:hover, :root[data-theme="light"] body > footer a:hover { color:var(--accent); }

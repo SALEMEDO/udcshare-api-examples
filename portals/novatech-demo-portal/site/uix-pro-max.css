@@ -110,3 +110,12 @@ body { min-width: 320px; -webkit-font-smoothing: antialiased; text-rendering: op
 .footer-inner { flex-wrap: wrap; }
 .flinks { display: flex; flex-wrap: wrap; gap: 4px 16px; width: 100%; }
 .flinks a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* Pied de page toujours en bas de l'écran, même sur une page courte. */
+body { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+body > main { flex: 1 0 auto; margin-inline: auto; }
+body > main.container { width: min(1160px, calc(100% - 40px)); }
+@media (max-width: 600px) { body > main.container { width: calc(100% - 28px); } }
+body > footer { margin-top: auto; }
+body > footer a { color: var(--muted); font-weight: 500; text-decoration: none; }
+body > footer a:hover { text-decoration: underline; }
