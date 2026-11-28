@@ -97,3 +97,12 @@ body { min-width: 320px; -webkit-font-smoothing: antialiased; text-rendering: op
 @media (prefers-reduced-motion:reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Boutons d'en-tête : le libellé passe à la ligne ou le bouton descend, il n'est jamais coupé. */
+@media (max-width: 600px) {
+  .topbar .top-actions > .btn:not(.hidden) { display: flex; flex: 1 1 auto; min-width: max-content; align-items: center; justify-content: center; text-align: center; }
+}
+/* Vues et « J'aime » : même présentation sur toutes les pages. */
+.demo-engagement { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+.demo-engagement a, .demo-engagement button { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 99px; background: #fff; color: var(--ink); font: inherit; text-decoration: none; cursor: pointer; }
+.demo-engagement [hidden] { display: none; }

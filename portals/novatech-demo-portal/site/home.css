@@ -229,3 +229,19 @@ html,body{max-width:100%;overflow-x:hidden}
 .theme-toggle:hover { border-color:var(--accent); }
 @media(min-width:701px) { footer .wrap { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:12px 20px; } footer .wrap > :last-child { justify-self:end; text-align:right; } }
 @media(max-width:700px) { .theme-toggle { min-height:44px; } }
+
+/* En-tête mobile : « Auto » et « Connexion » sur une ligne, texte du bouton lisible dans les deux thèmes. */
+.nav a.btn, :root[data-theme="light"] .nav a.btn { color:var(--on-accent); }
+.nav a.btn:hover, :root[data-theme="light"] .nav a.btn:hover { color:var(--on-accent); background:var(--accent-2); }
+@media(max-width:700px) {
+  .top__in { gap:10px; }
+  .nav { flex:none; flex-wrap:nowrap; gap:8px; }
+  .nav .btn--primary { width:auto; }
+  .theme-toggle { min-width:56px; padding:0 10px; }
+}
+@media(max-width:359px) {
+  .brand { gap:8px; }
+  .brand__name { font-size:12px; letter-spacing:.04em; }
+  .nav { gap:6px; }
+  .nav .btn--sm { padding:0 10px; }
+}
