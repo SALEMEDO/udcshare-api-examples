@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#050b0a" id="theme-color-meta">
+  <meta name="description" content="Données enregistrées par la démonstration NOVATECH et mesures de protection.">
+  <title>Confidentialité et sécurité — NOVATECH</title>
+  <link rel="icon" href="/novatech-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/home.css?v=20261128b">
+  <script src="/theme.js"></script>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header class="top"><div class="wrap top__in">
+  <a class="brand" href="/" aria-label="NOVATECH, accueil"><img src="/novatech-logo.svg" width="40" height="40" alt=""><span class="brand__name">NOVATECH</span></a>
+  <nav class="nav" aria-label="Navigation principale"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer le thème">Auto</button><a class="btn btn--primary btn--sm" href="/app.html">Connexion</a></nav>
+</div></header>
+<main id="contenu" class="wrap doc">
+<h1>Confidentialité et sécurité</h1>
+<p>NOVATECH est une démonstration publique de l'API UDCShare. Cette page décrit ce que fait son code. Mise à jour : 28 novembre 2026.</p>
+<h2>Données enregistrées</h2>
+<ul>
+<li>Compte : adresse e-mail, nom affiché s'il est saisi, date de dernière connexion. Le mot de passe est géré par le service d'authentification Supabase.</li>
+<li>Configuration : adresse de l'API, identifiant api_client_id et clé API chiffrée.</li>
+<li>Historique des tests : type d'appel, résultat, durée et un résumé court, sans la clé.</li>
+<li>Vues et mentions J'aime : pour les vues, un identifiant aléatoire de votre navigateur, haché côté serveur.</li>
+</ul>
+<h2>Fichiers</h2>
+<p>Les fichiers restent dans le Google Drive connecté à votre projet UDCShare. Le serveur de démonstration les relaie sans les enregistrer.</p>
+<h2>Cookies et stockage du navigateur</h2>
+<p>Deux cookies de session, inaccessibles aux scripts de la page : accès (environ 1 heure) et renouvellement (30 jours). Le navigateur garde aussi votre choix de thème et l'identifiant utilisé pour compter les vues.</p>
+<h2>Protections</h2>
+<ul>
+<li>Échanges en HTTPS.</li>
+<li>Clé API chiffrée en AES-256-GCM, jamais renvoyée au navigateur.</li>
+<li>Limitation du nombre de tentatives de connexion et d'inscription.</li>
+<li>Politique de sécurité du contenu qui bloque les scripts extérieurs au site.</li>
+</ul>
+<h2>Supprimer des données ou signaler une faille</h2>
+<p>Écrivez via la <a href="https://udcshare.com/contact">page de contact UDCShare</a>. Pour une faille, décrivez les étapes pour la reproduire et n'accédez pas aux données d'autres personnes.</p>
+</main>
+<footer><div class="wrap"><nav class="flinks" aria-label="Aide et informations"><a href="/guide.html">Guide</a><a href="/confidentialite.html">Confidentialité et sécurité</a><a href="/conditions.html">Conditions</a><a href="https://udcshare.com/contact" target="_blank" rel="noopener">Contact</a></nav></div></footer>
+</body>
+</html>

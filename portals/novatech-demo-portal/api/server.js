@@ -27,7 +27,8 @@ function safeEqual(a, b) {
 function parseCookies(header = "") {
   return Object.fromEntries(header.split(";").map(x => x.trim()).filter(Boolean).map(x => {
     const i = x.indexOf("=");
-    return i < 0 ? [x, ""] : [x.slice(0, i), decodeURIComponent(x.slice(i + 1))];
+    if (i < 0) return [x, ""];
+    try { return [x.slice(0, i), decodeURIComponent(x.slice(i + 1))]; } catch { return [x.slice(0, i), ""]; }
   }));
 }
 function cookie(name, value, maxAge) {
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Strict-Transport-Security", "max-age=31536000");
   if (req.method === "OPTIONS") return res.status(204).end();
   next();
 });
@@ -70,7 +72,7 @@ app.use(express.json({ limit: "128kb" }));
 const windows = new Map();
 function limit(maximum, windowMs) {
   return (req, res, next) => {
-    const key = req.ip || "unknown";
+    const key = req.path + "|" + (req.get("cf-connecting-ip") || req.ip || "unknown");
     const now = Date.now();
     pruneRateLimitWindows(now);
     const entry = windows.get(key);
@@ -328,13 +330,13 @@ footer{padding:22px 0;border-top:1px solid #ffffff16;color:#8da69b;font-size:12p
 </style>
 </head>
 <body>
-<header><a class="brand" href="/"><span class="mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a><span class="live">● API EN LIGNE</span></header>
+<header><a class="brand" href="/"><span class="mark">N</span><span>NOVATECH<small>DEVELOPER PLAYGROUND</small></span></a><span class="live">API EN LIGNE</span></header>
 <main>
-<section class="hero"><span class="eyebrow">L'ESPACE DES DÉVELOPPEURS</span><h1>Construisez.<br><span>Testez. Explorez.</span></h1><p>Bienvenue sur NOVATECH Developer Playground, l'environnement public pour découvrir et tester les API UDCShare avec vos propres projets et identifiants.</p><div class="actions"><a class="btn primary" href="https://novatech-demo-portal-test-61nh.onrender.com">Accéder à la plateforme <span aria-hidden="true">→</span></a><a class="btn secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md">Lire le guide</a></div></section>
+<section class="hero"><span class="eyebrow">L'ESPACE DES DÉVELOPPEURS</span><h1>Construisez.<br><span>Testez. Explorez.</span></h1><p>Bienvenue sur NOVATECH Developer Playground, l'environnement public pour découvrir et tester les API UDCShare avec vos propres projets et identifiants.</p><div class="actions"><a class="btn primary" href="https://novatech-test.udcshare.com">Accéder à la plateforme</a><a class="btn secondary" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md">Lire le guide</a></div></section>
 <aside class="panel"><div class="panel-head"><h2>Ressources NOVATECH</h2><span class="pill">PUBLIC PLAYGROUND</span></div>
-<a class="row" href="https://novatech-demo-portal-test-61nh.onrender.com" style="color:inherit;text-decoration:none"><span class="symbol">↗</span><span><strong>Portail développeur</strong><small>Créer un compte et gérer vos connexions</small></span><span class="arrow">→</span></a>
-<a class="row" href="/health" style="color:inherit;text-decoration:none"><span class="symbol">✓</span><span><strong>État du service</strong><small>Vérifier la disponibilité de l'API</small></span><span class="arrow">→</span></a>
-<a class="row" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md" style="color:inherit;text-decoration:none"><span class="symbol">⌘</span><span><strong>Documentation</strong><small>Guide de démarrage et exemples</small></span><span class="arrow">→</span></a>
+<a class="row" href="https://novatech-test.udcshare.com" style="color:inherit;text-decoration:none"><span class="symbol" aria-hidden="true">P</span><span><strong>Portail développeur</strong><small>Créer un compte et gérer vos connexions</small></span></a>
+<a class="row" href="/health" style="color:inherit;text-decoration:none"><span class="symbol" aria-hidden="true">S</span><span><strong>État du service</strong><small>Vérifier la disponibilité de l'API</small></span></a>
+<a class="row" href="https://github.com/SALEMEDO/udcshare-api-examples/blob/main/docs/NOVATECH_PLAYGROUND_GUIDE_FR.md" style="color:inherit;text-decoration:none"><span class="symbol" aria-hidden="true">D</span><span><strong>Documentation</strong><small>Guide de démarrage et exemples</small></span></a>
 <p class="note">Chaque visiteur dispose de son propre espace. Les clés API personnelles ne sont pas partagées entre les comptes.</p></aside>
 </main>
 <footer><span>© NOVATECH · Developer Playground</span><span>Propulsé par <a href="https://udcshare.com">UDCShare</a></span></footer>
@@ -759,6 +761,8 @@ app.get("/api/client-demo/files/:id/preview", requireUser, async (req, res) => {
       };
       contentType = knownTypes[ext] || contentType;
     }
+    // Seuls les formats inertes sont rendus tels quels ; HTML, SVG, XML et le reste deviennent du texte.
+    if (!/^(image\/(png|jpe?g|gif|webp|avif)|application\/pdf|audio\/[\w.+-]+|video\/[\w.+-]+)$/.test(contentType)) contentType = "text/plain; charset=utf-8";
     res.status(200);
     res.set({
       "Content-Type": contentType,

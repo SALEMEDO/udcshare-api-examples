@@ -33,15 +33,16 @@
     $("confirmPassword").disabled = mode !== "signup";
     if (mode !== "signup") $("confirmPassword").value = "";
     if (mode === "signup") $("resendConfirmation").classList.add("hidden");
-    $("authSubmit").innerHTML = mode === "login" ? "Se connecter <span>→</span>" : "Créer mon espace <span>→</span>";
+    $("authSubmit").innerHTML = mode === "login" ? "Se connecter" : "Créer mon espace";
     $("password").autocomplete = mode === "login" ? "current-password" : "new-password";
     $("password").minLength = mode === "login" ? 1 : 10;
     hideMessage("authMessage");
   }
   function showWorkspace(user) {
     const next = new URLSearchParams(window.location.search).get("next");
-    if (next && next.startsWith("/") && !next.startsWith("//")) {
-      window.location.replace(next);
+    const target = next && next.startsWith("/") ? new URL(next, window.location.origin) : null;
+    if (target && target.origin === window.location.origin) {
+      window.location.replace(target.pathname + target.search);
       return;
     }
     currentUser = user;

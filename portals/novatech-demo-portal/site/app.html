@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#102a25">
   <meta name="description" content="NOVATECH Developer Playground — testez votre propre API UDCShare avec vos identifiants et vos ressources.">
   <title>NOVATECH — Developer Playground</title>
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/uix-pro-max.css?v=20261128">
+  <link rel="stylesheet" href="/styles.css?v=20261128b">
+  <link rel="stylesheet" href="/uix-pro-max.css?v=20261128b">
   <style>
     .brand-mark{background:none!important;padding:0!important;overflow:hidden;width:auto;height:auto;border-radius:0}
     .brand-mark-svg{display:block;border-radius:12px;box-shadow:0 6px 18px rgba(183,139,57,.3)}
@@ -15,6 +15,7 @@
     .powered-by-icon{width:16px;height:16px;flex:none}
     .powered-by strong{color:var(--green);font-weight:700}
   </style>
+  <link rel="icon" href="/novatech-logo.svg" type="image/svg+xml">
 </head>
 <body>
 <header class="topbar">
@@ -27,7 +28,7 @@
 </header>
 <main class="container">
   <section class="panel" style="margin:22px 0 0">
-    <div class="panel-title"><div><span class="eyebrow">DÉMO 2 · PLAYGROUND API</span><h3>Une démonstration publique</h3></div><a class="btn small ghost" href="/client-portal.html">Voir le portail client →</a></div>
+    <div class="panel-title"><div><span class="eyebrow">DÉMO 2 · PLAYGROUND API</span><h3>Une démonstration publique</h3></div><a class="btn small ghost" href="/client-portal.html">Voir le portail client</a></div>
     <div class="demo-engagement" data-demo-engagement data-demo-record-view="true" data-demo-slug="playground-api"><span data-views>Chargement des vues…</span><span data-likes>Chargement des J'aime…</span><a data-like-login href="/app.html?next=%2Fapp.html">Se connecter pour aimer</a><button data-like-toggle hidden type="button">J'aime</button></div>
   </section>
   <section class="hero">
@@ -64,7 +65,7 @@
         </div>
         <p id="authMessage" class="message hidden" role="status"></p>
         <button id="resendConfirmation" class="resend-link hidden" type="button">Renvoyer l'e-mail de confirmation</button>
-        <button id="authSubmit" class="btn primary full" type="submit">Se connecter <span>→</span></button>
+        <button id="authSubmit" class="btn primary full" type="submit">Se connecter</button>
       </form>
       <p class="tiny">En créant un compte, vous acceptez de n'utiliser que des projets et des fichiers de test dont vous avez l'autorisation.</p>
     </div>
@@ -81,9 +82,9 @@
           <div class="field"><label for="projectId">Identifiant client API (api_client_id)</label><input id="projectId" required maxlength="180" placeholder="Votre api_client_id"><small>Identifiant public de la ressource API liée à votre projet — pas l'UUID du projet.</small></div>
           <div class="field"><label for="apiKey">Votre clé API privée</label><input id="apiKey" type="password" autocomplete="off" placeholder="Clé privée (laisser vide pour conserver la clé actuelle)"><small>Obligatoire au premier enregistrement. Pour mettre à jour l'adresse ou le projet, laissez vide pour conserver la clé chiffrée ; saisissez une nouvelle clé uniquement pour la remplacer.</small></div>
           <p id="connectionMessage" class="message hidden" role="status"></p>
-          <button id="saveConnection" class="btn primary full" type="submit">Enregistrer la configuration globale <span>→</span></button>
+          <button id="saveConnection" class="btn primary full" type="submit">Enregistrer la configuration globale</button>
         </form>
-        <div class="security-note"><span>⌑</span><div><b>Une configuration pour toutes les démos</b><small>La clé est chiffrée AES-256-GCM côté serveur. Toutes vos démonstrations utilisent cette configuration, sans exposer la clé dans le navigateur.</small></div></div>
+        <div class="security-note"><div><b>Une configuration pour toutes les démos</b><small>La clé est chiffrée AES-256-GCM côté serveur. Toutes vos démonstrations utilisent cette configuration, sans exposer la clé dans le navigateur.</small></div></div>
       </aside>
 
       <div class="main-column">
@@ -95,9 +96,9 @@
           <div class="panel-title"><div><span class="eyebrow">API PLAYGROUND</span><h3>Démonstrations disponibles</h3></div><span class="step-icon">02</span></div>
           <p class="subtle">Enregistrez votre configuration API une seule fois. Le portail client, le Playground et les prochaines démonstrations utiliseront automatiquement la même API et la même clé chiffrée côté serveur.</p>
           <div class="demo-grid">
-            <button class="demo-card" data-endpoint="status" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span><b>État du projet</b><small>Vérifier API, projet et Drive</small><span class="demo-run">Tester →</span></button>
-            <button class="demo-card" data-endpoint="files" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v6h5M8 13h8M8 17h8"/></svg></span><b>Mes fichiers</b><small>Afficher les fichiers du projet</small><span class="demo-run">Tester →</span></button>
-            <button class="demo-card" data-endpoint="usage" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19V5M4 19h16"/><path d="M8 16v-5M13 16V7M18 16v-8"/></svg></span><b>Consommation API</b><small>Lire plan, quotas et usage</small><span class="demo-run">Tester →</span></button>
+            <button class="demo-card" data-endpoint="status" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span><b>État du projet</b><small>Vérifier API, projet et Drive</small><span class="demo-run">Tester</span></button>
+            <button class="demo-card" data-endpoint="files" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v6h5M8 13h8M8 17h8"/></svg></span><b>Mes fichiers</b><small>Afficher les fichiers du projet</small><span class="demo-run">Tester</span></button>
+            <button class="demo-card" data-endpoint="usage" type="button"><span class="demo-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19V5M4 19h16"/><path d="M8 16v-5M13 16V7M18 16v-8"/></svg></span><b>Consommation API</b><small>Lire plan, quotas et usage</small><span class="demo-run">Tester</span></button>
           </div>
           <p id="testMessage" class="message hidden" role="status"></p>
           <div id="resultPanel" class="result-panel hidden"><div class="result-head"><b id="resultTitle">Résultat du test</b><span id="resultStatus" class="status-pill"></span></div><pre id="resultBody"></pre></div>
@@ -116,9 +117,9 @@
   <path d="M3 12L13 17L23 12" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg><span>Propulsé par <strong>UDCShare</strong></span></span>
-      <span>Démonstration publique · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source GitHub ↗</a></span></div></footer>
+      <span>Démonstration publique · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source GitHub</a></span><nav class="flinks" aria-label="Aide et informations"><a href="/guide.html">Guide</a><a href="/confidentialite.html">Confidentialité et sécurité</a><a href="/conditions.html">Conditions</a><a href="https://udcshare.com/contact" target="_blank" rel="noopener">Contact</a></nav></div></footer>
 <script src="/config.js"></script>
-<script src="/engagement.js" defer></script>
-<script src="/app.js" defer></script>
+<script src="/engagement.js?v=20261128b" defer></script>
+<script src="/app.js?v=20261128b" defer></script>
 </body>
 </html>

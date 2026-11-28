@@ -35,7 +35,7 @@
       button.hidden = !stats.can_like;
       button.disabled = false;
       button.setAttribute("aria-pressed", String(Boolean(stats.liked)));
-      button.textContent = stats.liked ? "♥ Aimé" : "♡ J'aime";
+      button.textContent = stats.liked ? "Aimé" : "J'aime";
     }
     if (login) login.hidden = Boolean(stats.can_like);
   }

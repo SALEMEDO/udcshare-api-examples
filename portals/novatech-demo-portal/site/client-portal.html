@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f5f8f5">
   <meta name="description" content="NOVATECH — Démonstration d'un portail client construit avec l'API UDCShare.">
   <title>NOVATECH — Démo 1 · Portail client</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css?v=20261128b">
   <style>
     .demo-hero{padding:38px 0 20px}.demo-hero h1{font-size:clamp(32px,4vw,48px);line-height:1.08;letter-spacing:-.05em;margin:10px 0}.demo-hero p{color:var(--muted);max-width:760px}
     .demo-layout{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start;padding:16px 0 60px}.demo-main{display:grid;gap:16px}.demo-side{display:grid;gap:16px}
@@ -50,7 +50,7 @@
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
   </style>
-  <link rel="stylesheet" href="/uix-pro-max.css?v=20261128">
+  <link rel="stylesheet" href="/uix-pro-max.css?v=20261128b">
   <style>
     .brand-mark{background:none!important;padding:0!important;overflow:hidden;width:auto;height:auto;border-radius:0}
     .brand-mark-svg{display:block;border-radius:12px;box-shadow:0 6px 18px rgba(183,139,57,.3)}
@@ -58,6 +58,7 @@
     .powered-by-icon{width:16px;height:16px;flex:none}
     .powered-by strong{color:var(--green);font-weight:700}
   </style>
+  <link rel="icon" href="/novatech-logo.svg" type="image/svg+xml">
 </head>
 <body>
 <header class="topbar">
@@ -82,7 +83,7 @@
   <section id="loginRequired" class="panel hidden">
     <h3>Connectez-vous pour utiliser le portail client</h3>
     <p class="subtle">Les vues sont publiques. Pour gérer vos propres fichiers, vous devez avoir un compte NOVATECH et connecter votre clé API UDCShare.</p>
-    <a class="btn primary" href="/app.html?next=%2Fclient-portal.html">Connexion / Inscription →</a>
+    <a class="btn primary" href="/app.html?next=%2Fclient-portal.html">Connexion / Inscription</a>
   </section>
 
   <section id="clientArea" class="demo-layout hidden">
@@ -99,7 +100,7 @@
       <section class="panel">
         <div class="panel-title"><div><span class="eyebrow">AJOUTER UN FICHIER</span><h3>Envoyer vers votre espace UDCShare</h3></div><span class="step-icon">01</span></div>
         <form id="uploadForm">
-          <div class="upload-row"><input id="fileInput" type="file" required><button id="uploadBtn" class="btn primary" type="submit">Envoyer le fichier →</button></div>
+          <div class="upload-row"><input id="fileInput" type="file" required><button id="uploadBtn" class="btn primary" type="submit">Envoyer le fichier</button></div>
           <p class="subtle">Limite locale de cette démonstration : 50 Mo par fichier. L'API applique aussi les limites de votre offre Developer Console.</p>
         </form>
         <p id="uploadMessage" class="message hidden" role="status"></p>
@@ -114,7 +115,7 @@
         <span class="eyebrow">DÉMONSTRATION RÉELLE</span>
         <h3>Votre propre espace</h3>
         <p class="subtle">Les fichiers restent dans le Drive associé à la ressource API de votre projet. NOVATECH ne copie aucun fichier dans Supabase Storage.</p>
-        <div class="connection-help">Configuration API : <b id="connectionLabel">—</b><br><a href="/app.html#connectionForm">Gérer ma connexion API →</a></div>
+        <div class="connection-help">Configuration API : <b id="connectionLabel">—</b><br><a href="/app.html#connectionForm">Gérer ma connexion API</a></div>
       </section>
       <section class="panel">
         <span class="eyebrow">ENDPOINTS UTILISÉS</span>
@@ -123,7 +124,7 @@
         <p class="subtle"><b>POST /apps/{clientId}/files</b> — envoi multipart (champ file)</p>
         <p class="subtle"><b>DELETE /apps/{clientId}/files/{fileId}</b> — suppression</p>
         <p class="subtle"><b>GET /stats</b> et <b>GET /usage</b> — statistiques privées et quotas</p>
-        <a class="btn small ghost" href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Documentation API Developer ↗</a>
+        <a class="btn small ghost" href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Documentation API Developer</a>
       </section>
     </aside>
   </section>
@@ -149,9 +150,9 @@
   <path d="M3 12L13 17L23 12" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg><span>Propulsé par <strong>UDCShare</strong></span></span>
-        <span><a href="/">Toutes les démonstrations</a> · <a href="/app.html">Playground API</a></span></div></footer>
+        <span><a href="/">Toutes les démonstrations</a> · <a href="/app.html">Playground API</a></span><nav class="flinks" aria-label="Aide et informations"><a href="/guide.html">Guide</a><a href="/confidentialite.html">Confidentialité et sécurité</a><a href="/conditions.html">Conditions</a><a href="https://udcshare.com/contact" target="_blank" rel="noopener">Contact</a></nav></div></footer>
 <script src="/config.js"></script>
-<script src="/engagement.js" defer></script>
-<script src="/client-portal.js" defer></script>
+<script src="/engagement.js?v=20261128b" defer></script>
+<script src="/client-portal.js?v=20261128b" defer></script>
 </body>
 </html>

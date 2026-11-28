@@ -96,7 +96,8 @@
       }
       const blob = await response.blob();
       if (!blob.size) throw new Error("Le fichier récupéré est vide.");
-      activePreviewUrl = URL.createObjectURL(blob);
+      const safeType = /^(image\/(png|jpe?g|gif|webp|avif)|application\/pdf|audio\/[\w.+-]+|video\/[\w.+-]+)$/i.test(blob.type);
+      activePreviewUrl = URL.createObjectURL(safeType ? blob : new Blob([blob], { type: "text/plain;charset=utf-8" }));
       frame.src = activePreviewUrl;
     } catch (error) {
       dialog.close?.();
@@ -118,7 +119,7 @@
         const thumb = document.createElement("button");
         thumb.type = "button";
         thumb.className = "file-preview-thumb";
-        thumb.textContent = "↗";
+        thumb.textContent = "";
         thumb.setAttribute("aria-label", "Prévisualiser " + fileName);
         thumb.title = "Afficher l'aperçu UDCShare";
         thumb.addEventListener("click", () => openFilePreview(file));
@@ -131,7 +132,7 @@
       const actions = document.createElement("div"); actions.className = "file-actions";
       if (previewUrl) {
         const preview = document.createElement("button");
-        preview.className = "file-preview-btn"; preview.type = "button"; preview.textContent = "Aperçu ↗";
+        preview.className = "file-preview-btn"; preview.type = "button"; preview.textContent = "Aperçu";
         preview.addEventListener("click", () => openFilePreview(file));
         actions.append(preview);
       }
@@ -231,7 +232,7 @@
       $("uploadForm").reset();
       await loadOverview();
     } catch (error) { showMessage("uploadMessage", error.message, true); }
-    finally { $("uploadBtn").disabled = false; $("uploadBtn").textContent = "Envoyer le fichier →"; }
+    finally { $("uploadBtn").disabled = false; $("uploadBtn").textContent = "Envoyer le fichier"; }
   });
 
   (async () => {

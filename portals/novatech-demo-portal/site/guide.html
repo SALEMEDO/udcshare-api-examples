@@ -15,10 +15,11 @@ article section{background:linear-gradient(145deg,#122820,#0c1c17);border:1px so
 pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#06110e;border:1px solid #28443a;border-radius:11px;padding:15px;color:#c6f5dc;font:12.5px/1.65 ui-monospace,SFMono-Regular,monospace;overflow-x:auto}code{font-family:ui-monospace,monospace;color:#a8f0c8;background:#07120f;padding:2px 5px;border-radius:5px}.method{display:inline-block;border:1px solid #3d7b61;border-radius:6px;padding:2px 7px;color:#a8f0c8;font:11px ui-monospace,monospace;margin-right:7px}.endpoint{display:block;margin:8px 0;padding:9px 11px;background:#07130f;border:1px solid #29443c;border-radius:8px;font:13px ui-monospace,monospace;color:#b7f3d5;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tile{background:#0a1915;border:1px solid #29443c;border-radius:10px;padding:13px}.tile b{color:#e9f7ef}.small{font-size:12px;color:#91aaa0}footer{border-top:1px solid #ffffff18;padding:22px 0;color:#8da69b;font-size:12px}footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media(max-width:720px){.layout{grid-template-columns:1fr}.toc{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 12px}.toc b{grid-column:1/-1}.grid{grid-template-columns:1fr}main{padding-top:35px}article section{padding:18px}}
 </style>
-  <link rel="stylesheet" href="/uix-pro-max.css?v=20261128">
+  <link rel="stylesheet" href="/uix-pro-max.css?v=20261128b">
+  <link rel="icon" href="/novatech-logo.svg" type="image/svg+xml">
 </head>
 <body>
-<header class="wrap"><a class="brand" href="/">NOVATECH<small>DEVELOPER PLAYGROUND</small></a><a class="btn primary" href="/app.html">Ouvrir NOVATECH →</a></header>
+<header class="wrap"><a class="brand" href="/">NOVATECH<small>DEVELOPER PLAYGROUND</small></a><a class="btn primary" href="/app.html">Ouvrir NOVATECH</a></header>
 <main class="wrap">
 <span class="eyebrow">TUTORIEL PRATIQUE · INTÉGRATION API</span>
 <h1>Construire avec <span>l’API UDCShare.</span></h1>
@@ -139,10 +140,10 @@ cd udcshare-api-examples
 <section id="parcours"><h2>10. Ton parcours de réalisation</h2>
 <ol><li>Crée un projet et sa ressource API dans Developer Console, puis récupère la clé et le <code>api_client_id</code>.</li><li>Lis <code>GET /usage</code> et vérifie <code>GET /apps/{clientId}/status</code>.</li><li>Liste les fichiers avec <code>GET /apps/{clientId}/files</code>.</li><li>Ajoute un fichier avec <code>POST /apps/{clientId}/files</code>.</li><li>Teste la suppression avec <code>DELETE /apps/{clientId}/files/{fileId}</code> sur un fichier de test.</li><li>Consulte <code>GET /stats</code>, puis teste les erreurs, quotas et droits.</li><li>Garde la clé et l'identifiant externe côté backend, jamais dans le navigateur.</li></ol>
 <div class="note">Besoin d'une réponse précise ? Ouvre Swagger, sélectionne une route, regarde ses paramètres et son exemple de réponse, puis reproduis-la dans ton langage. C'est la référence à suivre pour la version actuelle de l'API.</div>
-<p><a class="btn primary" href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Explorer l'API dans Swagger →</a> <a class="btn secondary" href="/app.html">Essayer NOVATECH</a></p>
+<p><a class="btn primary" href="https://udcshare.com/api/docs" target="_blank" rel="noopener">Explorer l'API dans Swagger</a> <a class="btn secondary" href="/app.html">Essayer NOVATECH</a></p>
 </section>
 </article>
 </div>
 </main>
-<footer><div class="wrap"><span>© NOVATECH · Tutoriel d'intégration API UDCShare</span><span><a href="/">Accueil</a> · <a href="/app.html">Espace développeur</a> · <a href="https://udcshare.com/api/docs">Swagger UDCShare</a></span></div></footer>
+<footer><div class="wrap"><span>© NOVATECH · Tutoriel d'intégration API UDCShare</span><span><a href="/">Accueil</a> · <a href="/app.html">Espace développeur</a> · <a href="https://udcshare.com/api/docs">Swagger UDCShare</a> · <a href="/confidentialite.html">Confidentialité et sécurité</a> · <a href="/conditions.html">Conditions</a> · <a href="https://udcshare.com/contact">Contact</a></span></div></footer>
 </body></html>

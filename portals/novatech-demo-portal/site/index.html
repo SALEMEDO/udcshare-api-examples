@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#050b0a" id="theme-color-meta">
-  <script>(function(){try{var saved=localStorage.getItem("novatech-theme");var mode=["auto","light","dark"].includes(saved)?saved:"auto";var dark=mode==="dark"||(mode==="auto"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=dark?"dark":"light";document.documentElement.dataset.themeMode=mode;}catch(e){document.documentElement.dataset.theme=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.themeMode="auto";}})();</script>
+  <script src="/theme.js"></script>
   <meta name="description" content="NOVATECH Developer Playground : découvrez, connectez et testez vos propres API UDCShare dans un espace développeur personnel et sécurisé.">
   <title>NOVATECH — Espace développeur</title>
-  <link rel="stylesheet" href="/home.css?v=20261128">
+  <link rel="stylesheet" href="/home.css?v=20261128b">
   <style>
     .mark{background:none!important;box-shadow:none!important;padding:0!important;overflow:hidden}
     .mark-svg{display:block;border-radius:12px;box-shadow:0 8px 24px rgba(183,139,57,.35)}
@@ -15,6 +15,7 @@
     .powered-by-icon{width:18px;height:18px;flex:none}
     .powered-by strong{color:var(--accent-2);font-weight:700}
   </style>
+  <link rel="icon" href="/novatech-logo.svg" type="image/svg+xml">
 </head>
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -56,12 +57,12 @@
     <div class="term" role="img" aria-label="Exemple de commande : connexion d'un projet à l'API de test et état prêt">
       <div class="term__bar" aria-hidden="true"><i></i><i></i><i></i><span>novatech / developer-console</span></div>
       <pre aria-hidden="true"><span class="c-dim">$</span> novatech connect <span class="c-key">--project</span> <span class="c-str">mon-projet</span>
-<span class="c-ok">✓</span> espace personnel prêt
-<span class="c-ok">✓</span> identifiants protégés
-<span class="c-ok">✓</span> environnement de test actif
+<span class="c-ok">ok</span> espace personnel prêt
+<span class="c-ok">ok</span> identifiants protégés
+<span class="c-ok">ok</span> environnement de test actif
 
 <span class="c-dim">GET</span> /v1/apps/<span class="c-str">{clientId}</span>/status
-<span class="c-dim">→</span> <span class="c-ok">200 OK</span>  { <span class="c-key">"drive"</span>: <span class="c-str">"connected"</span> }</pre>
+ <span class="c-ok">200 OK</span>  { <span class="c-key">"drive"</span>: <span class="c-str">"connected"</span> }</pre>
       <div class="term__status" aria-hidden="true"><span class="pulse">API prête à explorer</span><span>sandbox</span></div>
     </div>
   </section>
@@ -127,6 +128,11 @@
     </div>
   </section>
 
+  <section class="wrap sec sec--tight" id="faq" aria-labelledby="t-faq">
+    <div class="head"><span class="eyebrow">Questions fréquentes</span><h2 id="t-faq">Avant de commencer.</h2></div>
+    <div class="faq"><details><summary>NOVATECH est-il gratuit ?</summary><p>Oui, la création d'un compte de démonstration est gratuite. Les appels faits avec votre clé consomment les quotas de votre propre projet UDCShare.</p></details><details><summary>Où sont stockés mes fichiers ?</summary><p>Dans le Google Drive connecté à votre projet UDCShare. NOVATECH les relaie sans les enregistrer ; un envoi est limité à 50 Mo.</p></details><details><summary>Ma clé API est-elle protégée ?</summary><p>Elle est envoyée en HTTPS, chiffrée en AES-256-GCM avant enregistrement et n'est jamais renvoyée au navigateur.</p></details><details><summary>Puis-je utiliser de vraies données ?</summary><p>Non. C'est un environnement public de test : utilisez des fichiers fictifs et une clé Sandbox.</p></details><details><summary>Que faire si un test échoue ?</summary><p>Vérifiez l'identifiant api_client_id, la clé et la connexion Google Drive de votre projet, puis consultez le guide.</p></details></div>
+  </section>
+
   <section class="wrap cta" aria-labelledby="t-cta">
     <div><h2 id="t-cta">Prêt à commencer ?</h2><p>Créez votre compte NOVATECH et accédez à votre espace développeur personnel.</p></div>
     <a class="btn btn--primary" href="/app.html">Ouvrir mon espace <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -142,20 +148,11 @@
   <path d="M3 17L13 22L23 17" stroke="#FF3366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg><span>Propulsé par <strong>UDCShare</strong></span></span>
     <span>Un environnement public · <a href="https://udcshare.com" target="_blank" rel="noopener">udcshare.com</a> · <a href="https://github.com/SALEMEDO/udcshare-api-examples" target="_blank" rel="noopener">Code source</a></span>
+    <nav class="flinks" aria-label="Aide et informations"><a href="/guide.html">Guide</a><a href="/confidentialite.html">Confidentialité et sécurité</a><a href="/conditions.html">Conditions</a><a href="https://udcshare.com/contact" target="_blank" rel="noopener">Contact</a></nav>
   </div>
 </footer>
 
 <script src="/config.js" defer></script>
-<script src="/engagement.js" defer></script>
-<script>
-(function(){
-  var root=document.documentElement,button=document.querySelector("[data-theme-toggle]"),meta=document.getElementById("theme-color-meta");
-  var modes=["auto","light","dark"],labels={auto:"Auto",light:"Clair",dark:"Sombre"};
-  function apply(mode,save){var dark=mode==="dark"||(mode==="auto"&&window.matchMedia("(prefers-color-scheme: dark)").matches);root.dataset.theme=dark?"dark":"light";root.dataset.themeMode=mode;if(button){button.textContent=labels[mode];button.setAttribute("aria-label","Thème : "+labels[mode]+". Changer le thème");button.title="Thème : "+labels[mode];}if(meta)meta.content=dark?"#050b0a":"#f5faf7";if(save)try{localStorage.setItem("novatech-theme",mode)}catch(e){}}
-  var current=modes.includes(root.dataset.themeMode)?root.dataset.themeMode:"auto";apply(current,false);
-  if(button)button.addEventListener("click",function(){current=modes[(modes.indexOf(current)+1)%modes.length];apply(current,true)});
-  var media=window.matchMedia("(prefers-color-scheme: dark)");if(media.addEventListener)media.addEventListener("change",function(){if(current==="auto")apply("auto",false)});
-})();
-</script>
+<script src="/engagement.js?v=20261128b" defer></script>
 </body>
 </html>
